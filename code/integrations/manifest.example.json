@@ -1,0 +1,43 @@
+{
+  "references": [
+    {
+      "id": "example-paper-2026",
+      "title": "Example Paper",
+      "venue": "Example Venue 2026",
+      "year": 2026,
+      "paper_url": "https://example.org/paper",
+      "repository_url": "https://github.com/example/project",
+      "indicator_ids": ["3.4"],
+      "concepts": ["schema matching"],
+      "integration_status": "planned",
+      "code_license": "待确认",
+      "license_status": "pending",
+      "commit_sha": null,
+      "commit_status": "pending",
+      "notes": "替换为真实论文和仓库信息。"
+    }
+  ],
+  "algorithms": [
+    {
+      "id": "planned.example-schema-matcher",
+      "name": "示例 Schema Matcher",
+      "capability": "schema_matching",
+      "indicator_ids": ["3.4"],
+      "status": "planned",
+      "provider": "外部论文实现",
+      "implementation_kind": "external",
+      "method": "候选生成与语义匹配",
+      "entrypoint": null,
+      "reference_ids": ["example-paper-2026"],
+      "interface_contract": "match(source_schema, target_schema, context)",
+      "license": "待确认",
+      "license_status": "pending",
+      "commit_sha": null,
+      "commit_status": "pending",
+      "metadata": {
+        "model_weights": "待确认",
+        "local_changes": []
+      }
+    }
+  ]
+}

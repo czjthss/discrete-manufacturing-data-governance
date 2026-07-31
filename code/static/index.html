@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向离散制造垂域模型的自动化数据治理系统">
+  <title>自动化数据治理系统</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">DG</span>
+        <div>
+          <strong>数据治理系统</strong>
+          <span>课题三 · 里程碑2</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-view="overview">
+          <span class="nav-icon">01</span><span>运行总览</span>
+        </button>
+        <button class="nav-item" data-view="workspace">
+          <span class="nav-icon">02</span><span>治理工作台</span>
+        </button>
+        <button class="nav-item" data-view="indicators">
+          <span class="nav-icon">03</span><span>指标验证</span>
+        </button>
+        <button class="nav-item" data-view="integrations">
+          <span class="nav-icon">04</span><span>技术集成</span>
+        </button>
+      </nav>
+
+      <div class="milestone">
+        <span class="eyebrow">验收节点</span>
+        <strong>2026 年 11 月</strong>
+        <p>序列与关系数据核心功能</p>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">面向离散制造垂域模型</p>
+          <h1 id="page-title">自动化数据治理系统</h1>
+        </div>
+        <div class="topbar-actions">
+          <span class="service-status"><i></i> 服务在线</span>
+          <button class="button primary" id="run-all">运行全部自测</button>
+        </div>
+      </header>
+
+      <section class="view active" id="view-overview">
+        <div class="summary-strip">
+          <div>
+            <span>覆盖指标</span>
+            <strong>9</strong>
+            <small>3.1–3.9</small>
+          </div>
+          <div>
+            <span>当前范围</span>
+            <strong>2</strong>
+            <small>序列 / 关系</small>
+          </div>
+          <div>
+            <span>压缩目标</span>
+            <strong>9:1</strong>
+            <small>工业时序</small>
+          </div>
+          <div>
+            <span>采集目标</span>
+            <strong>1.1</strong>
+            <small>kHz</small>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">实时状态</p>
+            <h2>里程碑2指标矩阵</h2>
+          </div>
+          <span id="last-run">等待首次自测</span>
+        </div>
+        <div class="indicator-grid" id="overview-grid"></div>
+
+        <div class="notice">
+          <span class="notice-symbol">!</span>
+          <div>
+            <strong>验收边界</strong>
+            <p>系统可生成自测证据；指标 3.6 的正式里程碑2验收仍须由具备检测能力的第三方机构出具报告。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-workspace">
+        <div class="workbench">
+          <section class="editor-pane">
+            <div class="pane-header">
+              <div>
+                <p class="eyebrow">输入</p>
+                <h2>数据接入</h2>
+              </div>
+              <div class="inline-controls">
+                <label class="file-button">
+                  导入文件
+                  <input id="file-input" type="file" accept=".csv,.tsv,.json,.jsonl,.xml,.ini,.cfg,.txt">
+                </label>
+                <select id="format-select" aria-label="输入格式">
+                  <option value="auto">自动识别</option>
+                  <option value="csv">CSV</option>
+                  <option value="tsv">TSV</option>
+                  <option value="json">JSON</option>
+                  <option value="jsonl">JSONL</option>
+                  <option value="xml">XML</option>
+                  <option value="ini">INI</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="data-input" spellcheck="false" aria-label="待治理数据">timestamp_ms,equipment_id,value,quality
+1767225600000,CNC-01,42.18,good
+1767225600001,CNC-01,42.21,good
+1767225600002,CNC-01,42.24,good
+1767225600003,CNC-01,42.27,good</textarea>
+            <div class="editor-footer">
+              <span id="input-meta">4 条示例记录</span>
+              <button class="button primary" id="analyze-data">解析并治理</button>
+            </div>
+          </section>
+
+          <section class="result-pane">
+            <div class="pane-header">
+              <div>
+                <p class="eyebrow">输出</p>
+                <h2>质量画像</h2>
+              </div>
+              <span class="status-chip idle" id="analysis-status">等待运行</span>
+            </div>
+            <div class="empty-state" id="analysis-empty">
+              <span>DATA</span>
+              <p>导入数据后运行治理，查看格式识别、质量评分和持久化结果。</p>
+            </div>
+            <div class="analysis-results hidden" id="analysis-results">
+              <div class="result-kpis">
+                <div><span>识别格式</span><strong id="result-format">—</strong></div>
+                <div><span>记录数</span><strong id="result-records">—</strong></div>
+                <div><span>综合分</span><strong id="result-score">—</strong></div>
+              </div>
+              <div class="quality-bars" id="quality-bars"></div>
+              <details>
+                <summary>查看规范化数据预览</summary>
+                <pre id="data-preview"></pre>
+              </details>
+            </div>
+          </section>
+        </div>
+
+        <div class="fusion-band">
+          <div>
+            <p class="eyebrow">3.7 融合验证</p>
+            <h2>序列数据 × 工单关系</h2>
+            <p>使用设备实体与有效时间窗，将传感器采样关联到生产工单。</p>
+          </div>
+          <button class="button secondary" id="run-fusion">运行融合演示</button>
+          <div class="fusion-result" id="fusion-result">
+            <span>尚未运行</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-indicators">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">逐项测试</p>
+            <h2>3.1–3.9 验证详情</h2>
+          </div>
+          <p>每项测试直接调用对应 Python 文件</p>
+        </div>
+        <div class="indicator-list" id="indicator-list"></div>
+      </section>
+
+      <section class="view" id="view-integrations">
+        <div class="section-heading integration-heading">
+          <div>
+            <p class="eyebrow">论文与代码基座</p>
+            <h2>技术集成中心</h2>
+          </div>
+          <p>外部实现仅登记接口和元数据，确认许可证与 commit 后再启用</p>
+        </div>
+
+        <div class="integration-summary" id="integration-summary">
+          <div><span>当前实现</span><strong>—</strong><small>可运行算法</small></div>
+          <div><span>计划接入</span><strong>—</strong><small>外部实现</small></div>
+          <div><span>参考技术</span><strong>—</strong><small>论文 / 项目</small></div>
+          <div><span>版本待固定</span><strong>—</strong><small>commit SHA</small></div>
+        </div>
+        <div class="manifest-errors hidden" id="manifest-errors"></div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">3.1–3.9</p>
+            <h2>指标与方法矩阵</h2>
+          </div>
+          <p>当前方法与升级路径一一对应</p>
+        </div>
+        <div class="integration-matrix" id="integration-matrix"></div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">研究基座</p>
+            <h2>待接入论文与官方实现</h2>
+          </div>
+          <p>不在此版本复制第三方代码</p>
+        </div>
+        <div class="reference-grid" id="reference-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
