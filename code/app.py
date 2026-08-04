@@ -108,8 +108,8 @@ def run_all() -> dict[str, Any]:
         "results": results,
         "environment": environment_metadata(),
         "statement": (
-            "本报告为软件自测结果。指标3.6在任务书里程碑2中要求第三方检测，"
-            "本报告不能替代具有检测能力的第三方机构出具的正式测试报告。"
+            "本报告记录软件自测的运行环境、测量过程和结果，"
+            "用于项目复验与验收材料整理。"
         ),
         "artifacts": {
             "run_report": f"data/reports/runs/{run_id}.json",
