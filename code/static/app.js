@@ -337,9 +337,14 @@ async function loadReports() {
 async function checkHealth() {
   const status = document.querySelector("#service-status");
   try {
-    await api("/api/health");
-    status.className = "service-status online";
-    status.innerHTML = "<i></i> 服务在线";
+    const health = await api("/api/health");
+    if (health.status === "ok") {
+      status.className = "service-status online";
+      status.innerHTML = "<i></i> 服务在线";
+    } else {
+      status.className = "service-status checking";
+      status.innerHTML = `<i></i> 算法可用 ${health.algorithms.runtime_available}/${health.algorithms.active}`;
+    }
   } catch (_error) {
     status.className = "service-status offline";
     status.innerHTML = "<i></i> 服务不可用";

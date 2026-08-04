@@ -26,6 +26,18 @@ python3 run.py
 - `GET /api/integrations`：算法注册表、运行状态及 3.1–3.9 映射；
 - `GET /api/references`：论文、仓库、许可证与 commit 元数据。
 
+## 产物保留
+
+系统以原子替换写入报告和序列文件，并通过目录级文件锁协调多进程清理。默认分别保留 256 份自测报告、256 份治理报告、128 个 3.1 自测运行目录和 256 份分析序列。报告与分析序列在写入后至少保留 600 秒；3.1 运行目录只有生成原子 `.completed` 标记并超过该保护期后才会成为清理候选。因此数量上限允许在保护期内暂时超出，写入方返回的路径不会立即被其他进程删除。
+
+可通过以下环境变量调整各类别数量，值必须为正整数：
+
+- `DGOV_RETENTION_RUN_REPORTS`
+- `DGOV_RETENTION_GOVERNANCE_REPORTS`
+- `DGOV_RETENTION_STORAGE_RUNS`
+- `DGOV_RETENTION_ANALYSIS_SEQUENCES`
+- `DGOV_RETENTION_GRACE_SECONDS`（默认 `600`，可设为非负秒数）
+
 ## 指标映射
 
 | 指标 | 文件 | 里程碑2实现 |

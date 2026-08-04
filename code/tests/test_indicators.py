@@ -1,26 +1,45 @@
 import json
+import multiprocessing
+import os
 import sqlite3
+import struct
 import sys
 import tempfile
 import unittest
+import zlib
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from pathlib import Path
+from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from governance import INDICATORS
+import governance.common as common
+import governance.indicator_3_3 as parser_module
+from governance.common import (
+    artifact_write_scope,
+    bounded_zlib_decompress,
+    prune_retained_artifacts,
+)
 from governance.integration_registry import (
     AlgorithmSpec,
     IntegrationRegistry,
     ResearchReference,
     build_default_registry,
 )
-from governance.indicator_3_1 import SequenceRelationStore
-from governance.indicator_3_2 import PiecewiseLinearCodec
+from governance.indicator_3_1 import (
+    STORAGE_RUN_COMPLETED_MARKER,
+    SequenceRelationStore,
+    mark_storage_run_completed,
+    prune_storage_runs,
+)
+from governance.indicator_3_2 import PiecewiseLinearCodec, evaluate_adapter_round_trip
 from governance.indicator_3_3 import parse_records
 from governance.indicator_3_4 import align_records
+from governance.indicator_3_5 import HighFrequencyBuffer
 from governance.indicator_3_6 import evaluate_quality
 from governance.indicator_3_8 import NormalizationRegistry
 from governance.indicator_3_9 import assess
@@ -37,8 +56,60 @@ from app import (
     indicator_catalog,
     integration_catalog,
     reference_catalog,
+    recent_report_paths,
     run_all,
 )
+
+
+def _multiprocess_retention_worker(
+    report_root: str,
+    storage_root: str,
+    barrier,
+    results,
+    worker_id: int,
+) -> None:
+    try:
+        common.REPORT_DIR = Path(report_root)
+        report_path = common.write_json_report(
+            f"runs/process-{worker_id}.json", {"worker": worker_id}
+        )
+        shared_storage = Path(storage_root)
+        analysis_store = SequenceRelationStore(shared_storage)
+        analysis = analysis_store.store_sequence(
+            f"analysis-process-{worker_id}", [{"worker": worker_id}]
+        )
+        run_directory = shared_storage / "runs" / f"process-{worker_id}"
+        run_store = SequenceRelationStore(run_directory)
+        run_store.store_sequence("benchmark", [{"worker": worker_id}])
+
+        barrier.wait(timeout=20)
+        if worker_id == 0:
+            prune_storage_runs(shared_storage / "runs")
+        barrier.wait(timeout=20)
+
+        readable_before_completion = run_store.read_sequence("benchmark") == [
+            {"worker": worker_id}
+        ]
+        mark_storage_run_completed(run_directory)
+        barrier.wait(timeout=20)
+
+        prune_storage_runs(shared_storage / "runs")
+        barrier.wait(timeout=20)
+        report_payload = json.loads(report_path.read_text(encoding="utf-8"))
+        analysis_payload = analysis_store.read_sequence(f"analysis-process-{worker_id}")
+        run_payload = run_store.read_sequence("benchmark")
+        results.put(
+            {
+                "worker": worker_id,
+                "readable_before_completion": readable_before_completion,
+                "report_ok": report_payload == {"worker": worker_id},
+                "analysis_ok": analysis_payload == [{"worker": worker_id}],
+                "run_ok": run_payload == [{"worker": worker_id}],
+                "analysis_path": analysis["path"],
+            }
+        )
+    except BaseException as exc:
+        results.put({"worker": worker_id, "error": repr(exc)})
 
 
 class IndicatorTests(unittest.TestCase):
@@ -74,6 +145,89 @@ class IndicatorTests(unittest.TestCase):
         self.assertEqual(parse_records("id,value\n1,42")["format"], "csv")
         with self.assertRaises(ValueError):
             parse_records("id,id\n1,2", "csv")
+        with self.assertRaises(ValueError):
+            parse_records("Sensor,sensor\n1,2", "csv")
+        with self.assertRaises(ValueError):
+            parse_records('{"records":[{"id":1},2]}', "json")
+        with self.assertRaises(ValueError):
+            parse_records('{"metadata":[,],"records":[{"id":1}]}', "json")
+
+    def test_json_wrapper_priority_and_duplicate_keys_match_json_loads(self):
+        preferred = parse_records(
+            '{"records":[{"id":1}],"data":[2]}',
+            "json",
+        )
+        self.assertEqual(preferred["records"], [{"id": 1}])
+
+        duplicate = parse_records(
+            '{"records":[{"id":1}],"records":[{"id":2}]}',
+            "json",
+        )
+        self.assertEqual(duplicate["records"], [{"id": 2}])
+
+        fallback = parse_records(
+            '{"data":[{"id":3}],"records":[{"id":1}],"records":null}',
+            "json",
+        )
+        self.assertEqual(fallback["records"], [{"id": 3}])
+
+    def test_parser_rejects_columns_incrementally(self):
+        payloads = {
+            "json": ('[{"a":1},{"b":2},{"c":3}]', "json"),
+            "jsonl": ('{"a":1}\n{"b":2}\n{"c":3}', "jsonl"),
+            "csv": ("a,b,c\n", "csv"),
+        }
+        with patch.object(parser_module, "MAX_COLUMNS", 2):
+            for name, (payload, declared_format) in payloads.items():
+                with self.subTest(data_format=name), self.assertRaisesRegex(
+                    ValueError, "字段数超过上限 2"
+                ):
+                    parse_records(payload, declared_format)
+
+    def test_parser_handles_one_leading_bom_and_rejects_middle_bom(self):
+        jsonl = parse_records('\ufeff{"id":1}\n{"id":2}')
+        self.assertEqual(jsonl["format"], "jsonl")
+        self.assertEqual(jsonl["records"], [{"id": 1}, {"id": 2}])
+
+        csv_result = parse_records("\ufeffid,value\n1,42")
+        self.assertEqual(csv_result["format"], "csv")
+        self.assertEqual(csv_result["columns"], ["id", "value"])
+        with self.assertRaisesRegex(ValueError, "BOM 只能出现在输入开头"):
+            parse_records('{"id":1}\n\ufeff{"id":2}', "jsonl")
+        with self.assertRaisesRegex(ValueError, "BOM 只能出现在输入开头"):
+            parse_records("\ufeff\ufeffid,value\n1,42", "csv")
+
+    def test_parser_rejects_each_format_at_max_records_plus_one(self):
+        table_formats = {
+            "csv": ",",
+            "tsv": "\t",
+            "semicolon": ";",
+            "pipe": "|",
+        }
+        payloads = {
+            data_format: "id{0}value\n".format(delimiter)
+            + "\n".join(f"{index}{delimiter}{index}" for index in range(4))
+            for data_format, delimiter in table_formats.items()
+        }
+        payloads.update(
+            {
+                "jsonl": "\n".join(json.dumps({"id": index}) for index in range(4)),
+                "json": json.dumps([{"id": index} for index in range(4)]),
+                "json-wrapper": json.dumps(
+                    {
+                        "metadata": "bounded",
+                        "records": [{"id": index} for index in range(4)],
+                    }
+                ),
+            }
+        )
+        with patch.object(parser_module, "MAX_RECORDS", 3):
+            for name, payload in payloads.items():
+                declared = "json" if name == "json-wrapper" else name
+                with self.subTest(data_format=name), self.assertRaisesRegex(
+                    ValueError, "记录数超过上限 3"
+                ):
+                    parse_records(payload, declared)
 
     def test_piecewise_codec_handles_edge_cases(self):
         codec = PiecewiseLinearCodec()
@@ -96,6 +250,13 @@ class IndicatorTests(unittest.TestCase):
                 codec.compress(values, tolerance)
         with self.assertRaises(ValueError):
             codec.decompress(b"not-zlib")
+        with self.assertRaises(ValueError):
+            bounded_zlib_decompress(zlib.compress(b"x" * 65), 64)
+
+    def test_reger_decoder_rejects_oversized_declared_count(self):
+        payload = struct.pack("<6sIHHHI", b"REGER3", 2_000_001, 1, 1, 1, 0)
+        with self.assertRaises(ValueError):
+            RegerIntCodec.decompress(payload)
 
     def test_group_compression_adapters_round_trip(self):
         integers = [index * index - 20 * index for index in range(800)]
@@ -114,10 +275,33 @@ class IndicatorTests(unittest.TestCase):
             0.0000005,
         )
 
+    def test_float_adapter_rejects_correct_prefix_with_short_output(self):
+        class PrefixOnlyFloatCodec:
+            @staticmethod
+            def compress(source):
+                return json.dumps(source).encode("utf-8")
+
+            @staticmethod
+            def decompress(payload):
+                return json.loads(payload.decode("utf-8"))[:-1]
+
+        result = evaluate_adapter_round_trip(PrefixOnlyFloatCodec, [1.0, 2.0, 3.0])
+        self.assertFalse(result["sample_count_matches"])
+        self.assertFalse(result["round_trip_ok"])
+        self.assertIsNone(result["max_absolute_error"])
+
     def test_registry_is_extensible(self):
         registry = NormalizationRegistry()
         self.assertGreaterEqual(len(registry.adapters), 8)
         self.assertEqual(registry.normalize("id,value\n1,42", "csv")["records"][0]["id"], "1")
+
+    def test_high_frequency_buffer_limits_batch_resources(self):
+        buffer = HighFrequencyBuffer(capacity=10, max_batch_size=2)
+        self.assertEqual(buffer.ingest_batch([{"id": 1}, {"id": 2}]), 2)
+        with self.assertRaises(ValueError):
+            buffer.ingest_batch([{"id": 1}, {"id": 2}, {"id": 3}])
+        with self.assertRaises(ValueError):
+            buffer.snapshot(1.5)
 
     def test_quality_has_more_than_five_dimensions(self):
         result = assess(
@@ -155,7 +339,13 @@ class IndicatorTests(unittest.TestCase):
             self.assertTrue(item["paper_url"].startswith("https://"))
 
     def test_indicator_api_includes_current_and_planned_methods(self):
-        items = indicator_catalog()
+        with patch.object(
+            sys.modules["app"].INTEGRATION_REGISTRY,
+            "integrations_payload",
+            wraps=sys.modules["app"].INTEGRATION_REGISTRY.integrations_payload,
+        ) as payload_builder:
+            items = indicator_catalog()
+        self.assertEqual(payload_builder.call_count, 1)
         self.assertEqual([item["id"] for item in items], list(INDICATORS))
         for item in items:
             self.assertTrue(item["current_methods"])
@@ -368,7 +558,7 @@ class IndicatorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             store = SequenceRelationStore(Path(directory))
             result = store.store_relations("empty_records", [])
-            with sqlite3.connect(store.database_path) as connection:
+            with closing(sqlite3.connect(store.database_path)) as connection:
                 columns = connection.execute(
                     'PRAGMA table_info("empty_records")'
                 ).fetchall()
@@ -381,6 +571,148 @@ class IndicatorTests(unittest.TestCase):
         self.assertEqual(result["storage_columns"], ["_empty"])
         self.assertEqual([column[1] for column in columns], ["_empty"])
         self.assertEqual(count, 0)
+
+    def test_report_and_sequence_retention_in_temporary_directories(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(
+            common, "REPORT_DIR", Path(directory) / "reports"
+        ), patch.dict(
+            os.environ,
+            {
+                "DGOV_RETENTION_RUN_REPORTS": "2",
+                "DGOV_RETENTION_GOVERNANCE_REPORTS": "3",
+                "DGOV_RETENTION_ANALYSIS_SEQUENCES": "2",
+                "DGOV_RETENTION_STORAGE_RUNS": "2",
+                "DGOV_RETENTION_GRACE_SECONDS": "0",
+            },
+        ):
+            for index in range(5):
+                common.write_json_report(f"runs/run-{index}.json", {"index": index})
+                common.write_json_report(
+                    f"governance/governance-{index}.json", {"index": index}
+                )
+            self.assertEqual(
+                len(list((common.REPORT_DIR / "runs").glob("*.json"))), 2
+            )
+            self.assertEqual(
+                len(list((common.REPORT_DIR / "governance").glob("*.json"))), 3
+            )
+
+            storage_root = Path(directory) / "storage"
+            store = SequenceRelationStore(storage_root)
+            for index in range(5):
+                store.store_sequence(f"analysis-{index}", [{"id": index}])
+            self.assertEqual(
+                len(list(storage_root.glob("analysis-*.sequence.json.gz"))), 2
+            )
+
+            runs_root = storage_root / "runs"
+            for index in range(5):
+                run_directory = runs_root / f"storage-{index}"
+                run_directory.mkdir(parents=True)
+                mark_storage_run_completed(run_directory)
+            prune_storage_runs(runs_root)
+            self.assertEqual(len([path for path in runs_root.iterdir() if path.is_dir()]), 2)
+
+    def test_retention_protects_active_artifact_and_recent_report_selection_is_bounded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            active = root / "active"
+            active.mkdir()
+            for index in range(4):
+                path = root / f"old-{index}"
+                path.mkdir()
+            with artifact_write_scope(active):
+                prune_retained_artifacts(root, limit=1, directories=True)
+                self.assertTrue(active.exists())
+
+            report_root = root / "reports"
+            report_root.mkdir()
+            for index in range(5):
+                (report_root / f"report-{index}.json").write_text(
+                    json.dumps({"index": index}), encoding="utf-8"
+                )
+            self.assertEqual(len(recent_report_paths(report_root, limit=2)), 2)
+
+    def test_retention_is_safe_across_processes(self):
+        if "fork" not in multiprocessing.get_all_start_methods():
+            self.skipTest("跨进程保留测试需要 fork")
+        context = multiprocessing.get_context("fork")
+        with tempfile.TemporaryDirectory() as directory, patch.dict(
+            os.environ,
+            {
+                "DGOV_RETENTION_RUN_REPORTS": "1",
+                "DGOV_RETENTION_ANALYSIS_SEQUENCES": "1",
+                "DGOV_RETENTION_STORAGE_RUNS": "1",
+                "DGOV_RETENTION_GRACE_SECONDS": "60",
+            },
+        ):
+            root = Path(directory)
+            report_root = root / "reports"
+            report_runs = report_root / "runs"
+            storage_root = root / "storage"
+            storage_runs = storage_root / "runs"
+            report_runs.mkdir(parents=True)
+            storage_runs.mkdir(parents=True)
+            incomplete_old_run = storage_runs / "incomplete-old"
+            incomplete_old_run.mkdir()
+            os.utime(incomplete_old_run, (1, 1))
+
+            for index in range(4):
+                old_report = report_runs / f"old-{index}.json"
+                old_report.write_text("{}", encoding="utf-8")
+                os.utime(old_report, (1, 1))
+                old_analysis = storage_root / f"analysis-old-{index}.sequence.json.gz"
+                old_analysis.write_bytes(b"old")
+                os.utime(old_analysis, (1, 1))
+                old_run = storage_runs / f"old-{index}"
+                old_run.mkdir()
+                marker = old_run / STORAGE_RUN_COMPLETED_MARKER
+                marker.write_text("completed", encoding="utf-8")
+                os.utime(marker, (1, 1))
+
+            barrier = context.Barrier(3)
+            results = context.Queue()
+            processes = [
+                context.Process(
+                    target=_multiprocess_retention_worker,
+                    args=(
+                        str(report_root),
+                        str(storage_root),
+                        barrier,
+                        results,
+                        worker_id,
+                    ),
+                )
+                for worker_id in range(3)
+            ]
+            for process in processes:
+                process.start()
+            for process in processes:
+                process.join(timeout=30)
+                if process.is_alive():
+                    process.terminate()
+                    process.join(timeout=5)
+                    self.fail("跨进程保留测试超时")
+                self.assertEqual(process.exitcode, 0)
+
+            payloads = [results.get(timeout=5) for _ in processes]
+            results.close()
+            results.join_thread()
+            self.assertFalse([item for item in payloads if "error" in item], payloads)
+            for payload in payloads:
+                self.assertTrue(payload["readable_before_completion"])
+                self.assertTrue(payload["report_ok"])
+                self.assertTrue(payload["analysis_ok"])
+                self.assertTrue(payload["run_ok"])
+                self.assertTrue(Path(payload["analysis_path"]).is_file())
+            self.assertLessEqual(len(list(report_runs.glob("old-*.json"))), 1)
+            self.assertLessEqual(
+                len(list(storage_root.glob("analysis-old-*.sequence.json.gz"))), 1
+            )
+            self.assertLessEqual(
+                len([path for path in storage_runs.glob("old-*") if path.is_dir()]), 1
+            )
+            self.assertTrue(incomplete_old_run.is_dir())
 
     def test_analyze_invalid_timestamp_returns_quality_failure_not_error(self):
         result = GovernanceHandler._analyze(

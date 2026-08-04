@@ -16,15 +16,24 @@ MILESTONE_TARGET = "时序数据采集频率达到 1.1kHz"
 
 
 class HighFrequencyBuffer:
-    def __init__(self, capacity: int = 250_000) -> None:
+    def __init__(self, capacity: int = 250_000, max_batch_size: int = 20_000) -> None:
         if not isinstance(capacity, int) or isinstance(capacity, bool) or capacity <= 0:
             raise ValueError("缓冲区容量必须是正整数")
+        if (
+            not isinstance(max_batch_size, int)
+            or isinstance(max_batch_size, bool)
+            or max_batch_size <= 0
+        ):
+            raise ValueError("最大批次必须是正整数")
         self._samples: deque[dict[str, Any]] = deque(maxlen=capacity)
         self._lock = Lock()
+        self.max_batch_size = max_batch_size
         self.total_ingested = 0
 
     def ingest_batch(self, samples: Iterable[dict[str, Any]]) -> int:
-        batch = list(samples)
+        batch = list(islice(samples, self.max_batch_size + 1))
+        if len(batch) > self.max_batch_size:
+            raise ValueError(f"采集批次超过上限 {self.max_batch_size}")
         if not all(isinstance(sample, dict) for sample in batch):
             raise ValueError("采集批次只能包含对象记录")
         with self._lock:
@@ -33,6 +42,8 @@ class HighFrequencyBuffer:
         return len(batch)
 
     def snapshot(self, limit: int = 1000) -> list[dict[str, Any]]:
+        if not isinstance(limit, int) or isinstance(limit, bool):
+            raise ValueError("快照条数必须是整数")
         with self._lock:
             if limit <= 0:
                 return []

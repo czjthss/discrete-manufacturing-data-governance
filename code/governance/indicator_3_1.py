@@ -11,11 +11,17 @@ from typing import Any
 
 from .common import (
     STORAGE_DIR,
+    artifact_write_scope,
     atomic_write_bytes,
+    atomic_write_text,
     ensure_directories,
     json_bytes,
     new_run_id,
+    now_iso,
     path_lock,
+    prune_retained_artifacts,
+    retention_grace_seconds,
+    retention_limit,
     synthetic_relations,
     synthetic_sequence,
 )
@@ -24,6 +30,24 @@ from .common import (
 ID = "3.1"
 TITLE = "序列、关系数据存储与压缩"
 MILESTONE_TARGET = "支持序列数据和关系数据的存储与压缩"
+STORAGE_RUN_COMPLETED_MARKER = ".completed"
+
+
+def mark_storage_run_completed(run_directory: Path) -> Path:
+    marker = run_directory / STORAGE_RUN_COMPLETED_MARKER
+    atomic_write_text(marker, now_iso())
+    return marker
+
+
+def prune_storage_runs(root: Path, protected: tuple[Path, ...] = ()) -> list[Path]:
+    return prune_retained_artifacts(
+        root,
+        limit=retention_limit("storage_runs"),
+        directories=True,
+        protected=protected,
+        minimum_age_seconds=retention_grace_seconds(),
+        completion_marker=STORAGE_RUN_COMPLETED_MARKER,
+    )
 
 
 class SequenceRelationStore:
@@ -46,8 +70,17 @@ class SequenceRelationStore:
         raw = json_bytes(records)
         safe_name = self._safe_component(name, "sequence")
         target = self.root / f"{safe_name}.sequence.json.gz"
-        atomic_write_bytes(target, gzip.compress(raw, compresslevel=9, mtime=0))
-        stored_bytes = target.stat().st_size
+        with artifact_write_scope(target):
+            atomic_write_bytes(target, gzip.compress(raw, compresslevel=9, mtime=0))
+            if safe_name.startswith("analysis-"):
+                prune_retained_artifacts(
+                    self.root,
+                    limit=retention_limit("analysis_sequences"),
+                    pattern="analysis-*.sequence.json.gz",
+                    protected=(target,),
+                    minimum_age_seconds=retention_grace_seconds(),
+                )
+            stored_bytes = target.stat().st_size
         return {
             "kind": "sequence",
             "path": str(target),
@@ -140,16 +173,19 @@ def benchmark() -> dict[str, Any]:
     store = SequenceRelationStore(STORAGE_DIR / "runs" / run_id)
     sequence = synthetic_sequence(2000)
     relations = synthetic_relations()
-    sequence_result = store.store_sequence("benchmark", sequence)
-    relation_result = store.store_relations("work_orders", relations)
-    round_trip_ok = store.read_sequence("benchmark") == sequence
-    relation_rows = store.read_relations("work_orders")
-    relation_round_trip_ok = relation_rows == [
-        {key: str(value) for key, value in row.items()} for row in relations
-    ]
-    backup_round_trip_ok = gzip.decompress(
-        Path(relation_result["compressed_backup"]).read_bytes()
-    ) == store.database_path.read_bytes()
+    with artifact_write_scope(store.root):
+        sequence_result = store.store_sequence("benchmark", sequence)
+        relation_result = store.store_relations("work_orders", relations)
+        round_trip_ok = store.read_sequence("benchmark") == sequence
+        relation_rows = store.read_relations("work_orders")
+        relation_round_trip_ok = relation_rows == [
+            {key: str(value) for key, value in row.items()} for row in relations
+        ]
+        backup_round_trip_ok = gzip.decompress(
+            Path(relation_result["compressed_backup"]).read_bytes()
+        ) == store.database_path.read_bytes()
+        mark_storage_run_completed(store.root)
+    prune_storage_runs(store.root.parent, protected=(store.root,))
     passed = round_trip_ok and relation_round_trip_ok and backup_round_trip_ok
     return {
         "indicator": ID,

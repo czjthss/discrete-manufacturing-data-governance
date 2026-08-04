@@ -10,6 +10,8 @@ from decimal import ROUND_HALF_EVEN, Decimal
 from pathlib import Path
 from typing import Sequence
 
+from governance.common import bounded_zlib_decompress
+
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -20,7 +22,22 @@ from reger_bos_code_paths.backend.myapp import reger_codec
 I64_MIN = -(1 << 63)
 I64_MAX = (1 << 63) - 1
 U64_MASK = (1 << 64) - 1
-MAX_SAMPLES = 10_000_000
+MAX_SAMPLES = 2_000_000
+REGER_HEADER = struct.Struct("<6sIHHHI")
+
+
+def _validate_reger_payload(payload: bytes) -> None:
+    if not isinstance(payload, bytes) or len(payload) < REGER_HEADER.size:
+        raise ValueError("REGER 载荷缺少头部")
+    if len(payload) > 64 * 1024 * 1024:
+        raise ValueError("REGER 载荷超过资源上限")
+    magic, row_count, column_count, block_size, segment_size, _ = (
+        REGER_HEADER.unpack_from(payload)
+    )
+    if magic != b"REGER3" or column_count != 1:
+        raise ValueError("REGER 载荷头部无效")
+    if row_count > MAX_SAMPLES or block_size <= 0 or segment_size <= 0:
+        raise ValueError("REGER 载荷声明的规模无效")
 
 
 def _validate_ints(values: Sequence[int]) -> list[int]:
@@ -87,6 +104,7 @@ class RegerIntCodec:
 
     @staticmethod
     def decompress(payload: bytes) -> list[int]:
+        _validate_reger_payload(payload)
         try:
             values = reger_codec.decode_int_column(payload)
         except Exception as exc:
@@ -103,6 +121,7 @@ class RegerFloatCodec:
 
     @staticmethod
     def decompress(payload: bytes) -> list[float]:
+        _validate_reger_payload(payload)
         try:
             values = reger_codec.decode_float_column(payload)
         except Exception as exc:
@@ -140,10 +159,10 @@ class BosIntCodec:
 
     @classmethod
     def decompress(cls, payload: bytes) -> list[int]:
-        try:
-            raw = zlib.decompress(payload)
-        except (TypeError, zlib.error) as exc:
-            raise ValueError("BOS 载荷不是有效的 zlib 数据") from exc
+        raw = bounded_zlib_decompress(
+            payload,
+            cls.HEADER.size + MAX_SAMPLES * 12,
+        )
         if len(raw) < cls.HEADER.size:
             raise ValueError("BOS 载荷缺少头部")
         magic, count, block_size = cls.HEADER.unpack_from(raw)
@@ -217,10 +236,7 @@ class Ts2DiffBosIntCodec:
 
     @staticmethod
     def _decompress_second_diff(payload: bytes) -> list[int]:
-        try:
-            raw = zlib.decompress(payload)
-        except (TypeError, zlib.error) as exc:
-            raise ValueError("TS_2DIFF 载荷不是有效的 zlib 数据") from exc
+        raw = bounded_zlib_decompress(payload, 20 + MAX_SAMPLES * 10)
         if len(raw) < 4:
             raise ValueError("TS_2DIFF 载荷缺少头部")
         count = struct.unpack_from(">I", raw)[0]

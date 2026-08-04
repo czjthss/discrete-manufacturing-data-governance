@@ -9,7 +9,7 @@ import zlib
 from dataclasses import dataclass
 from typing import Any
 
-from .common import synthetic_sequence
+from .common import bounded_zlib_decompress, synthetic_sequence
 
 
 ID = "3.2"
@@ -30,7 +30,7 @@ class PiecewiseLinearCodec:
 
     HEADER = struct.Struct("<Id")
     SEGMENT = struct.Struct("<IIdd")
-    MAX_SAMPLES = 10_000_000
+    MAX_SAMPLES = 2_000_000
 
     def compress(self, values: list[float], tolerance: float = 0.08) -> bytes:
         if not isinstance(tolerance, (int, float)) or isinstance(tolerance, bool):
@@ -99,10 +99,10 @@ class PiecewiseLinearCodec:
         return zlib.compress(bytes(payload), level=9)
 
     def decompress(self, payload: bytes) -> tuple[list[float], float]:
-        try:
-            raw = zlib.decompress(payload)
-        except (TypeError, zlib.error) as exc:
-            raise ValueError("压缩载荷不是有效的 zlib 数据") from exc
+        raw = bounded_zlib_decompress(
+            payload,
+            self.HEADER.size + self.MAX_SAMPLES * self.SEGMENT.size,
+        )
         if len(raw) < self.HEADER.size:
             raise ValueError("压缩载荷缺少头部")
         count, tolerance = self.HEADER.unpack_from(raw, 0)
@@ -142,6 +142,44 @@ class PiecewiseLinearCodec:
         if previous_end != count - 1:
             raise ValueError("压缩载荷未覆盖全部样本")
         return values, tolerance
+
+
+def evaluate_adapter_round_trip(
+    implementation: Any,
+    source: list[int] | list[float],
+) -> dict[str, Any]:
+    payload = implementation.compress(source)
+    reconstructed = implementation.decompress(payload)
+    sample_count_matches = len(reconstructed) == len(source)
+    is_float_source = bool(source) and isinstance(source[0], float)
+    if is_float_source and sample_count_matches:
+        reconstruction_error: float | None = max(
+            (
+                abs(float(left) - float(right))
+                for left, right in zip(source, reconstructed)
+            ),
+            default=0.0,
+        )
+        round_trip_ok = reconstruction_error <= 0.0000005
+    elif is_float_source:
+        reconstruction_error = None
+        round_trip_ok = False
+    else:
+        reconstruction_error = 0.0 if sample_count_matches else None
+        round_trip_ok = sample_count_matches and reconstructed == source
+    return {
+        "samples": len(source),
+        "reconstructed_samples": len(reconstructed),
+        "sample_count_matches": sample_count_matches,
+        "compressed_bytes": len(payload),
+        "compression_ratio": round(len(source) * 8 / max(len(payload), 1), 2),
+        "round_trip_ok": round_trip_ok,
+        "max_absolute_error": (
+            round(reconstruction_error, 9)
+            if reconstruction_error is not None
+            else None
+        ),
+    }
 
 
 def benchmark() -> dict[str, Any]:
@@ -188,24 +226,9 @@ def benchmark() -> dict[str, Any]:
         ("TS_2DIFF+BOS-Int64", Ts2DiffBosIntCodec, group_int_source),
         ("TS_2DIFF+BOS-Float", Ts2DiffBosFloatCodec, group_source),
     ):
-        payload = implementation.compress(source)
-        reconstructed = implementation.decompress(payload)
-        if source and isinstance(source[0], float):
-            reconstruction_error = max(
-                abs(float(left) - float(right))
-                for left, right in zip(source, reconstructed)
-            )
-            round_trip_ok = reconstruction_error <= 0.0000005
-        else:
-            reconstruction_error = 0.0
-            round_trip_ok = reconstructed == source
         group_results[name] = {
             "provider": "课题组最新成果",
-            "samples": len(source),
-            "compressed_bytes": len(payload),
-            "compression_ratio": round(len(source) * 8 / max(len(payload), 1), 2),
-            "round_trip_ok": round_trip_ok,
-            "max_absolute_error": round(reconstruction_error, 9),
+            **evaluate_adapter_round_trip(implementation, source),
         }
     passed = (
         minimum_ratio >= 9.0

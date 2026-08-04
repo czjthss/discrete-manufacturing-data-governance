@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import heapq
 import json
 import mimetypes
 import re
@@ -30,9 +31,13 @@ MAX_REQUEST_BYTES = 12 * 1024 * 1024
 
 
 def indicator_catalog() -> list[dict[str, Any]]:
+    matrix = {
+        item["indicator"]: item
+        for item in INTEGRATION_REGISTRY.integrations_payload()["indicator_matrix"]
+    }
     items = []
     for indicator_id, module in INDICATORS.items():
-        profile = INTEGRATION_REGISTRY.indicator_profile(indicator_id)
+        profile = matrix[indicator_id]
         items.append(
             {
                 "id": indicator_id,
@@ -61,6 +66,21 @@ def reference_catalog() -> dict[str, Any]:
 
 def integration_catalog() -> dict[str, Any]:
     return INTEGRATION_REGISTRY.integrations_payload()
+
+
+def recent_report_paths(report_root: Path, limit: int = 100) -> list[Path]:
+    if limit < 1 or not report_root.exists():
+        return []
+
+    def candidates():
+        for report in report_root.rglob("*.json"):
+            try:
+                stat = report.stat()
+            except (FileNotFoundError, OSError):
+                continue
+            yield stat.st_mtime_ns, report.as_posix(), report
+
+    return [item[2] for item in heapq.nlargest(limit, candidates())]
 
 
 def run_indicator(indicator_id: str) -> dict[str, Any]:
@@ -154,11 +174,22 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             self._send_file(STATIC_DIR / "index.html")
             return
         if path == "/api/health":
+            integration_summary = integration_catalog()["summary"]
+            healthy = (
+                integration_summary["active"]
+                == integration_summary["runtime_available"]
+            )
             self._send_json(
                 {
-                    "status": "ok",
+                    "status": "ok" if healthy else "degraded",
                     "service": "discrete-manufacturing-data-governance",
                     "time": now_iso(),
+                    "algorithms": {
+                        "active": integration_summary["active"],
+                        "runtime_available": integration_summary[
+                            "runtime_available"
+                        ],
+                    },
                 }
             )
             return
@@ -182,34 +213,40 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             report_root = ROOT / "data" / "reports"
             items = []
             if report_root.exists():
-                for report in sorted(
-                    report_root.rglob("*.json"),
-                    key=lambda item: item.stat().st_mtime,
-                    reverse=True,
-                )[:100]:
+                for report in recent_report_paths(report_root):
+                    try:
+                        size_bytes = report.stat().st_size
+                    except (FileNotFoundError, OSError):
+                        continue
+                    relative = report.relative_to(report_root).as_posix()
                     items.append(
                         {
                             "name": report.name,
                             "category": report.parent.name,
-                            "size_bytes": report.stat().st_size,
-                            "download_url": f"/api/reports/download/{report.name}",
+                            "relative_path": relative,
+                            "size_bytes": size_bytes,
+                            "download_url": f"/api/reports/download/{relative}",
                         }
                     )
             self._send_json({"items": items})
             return
         if path.startswith("/api/reports/download/"):
-            filename = path.removeprefix("/api/reports/download/")
+            relative_name = path.removeprefix("/api/reports/download/")
             if (
-                not re.fullmatch(r"[A-Za-z0-9._-]{1,180}\.json", filename)
-                or filename != Path(filename).name
+                not re.fullmatch(
+                    r"(?:[A-Za-z0-9._-]+/)*[A-Za-z0-9._-]{1,180}\.json",
+                    relative_name,
+                )
+                or ".." in Path(relative_name).parts
             ):
                 self.send_error(HTTPStatus.BAD_REQUEST)
                 return
-            matches = list((ROOT / "data" / "reports").rglob(filename))
-            if len(matches) != 1:
+            report_root = (ROOT / "data" / "reports").resolve()
+            report = (report_root / relative_name).resolve()
+            if report_root not in report.parents or not report.is_file():
                 self.send_error(HTTPStatus.NOT_FOUND)
                 return
-            self._send_file(matches[0], download_name=filename)
+            self._send_file(report, download_name=report.name)
             return
         if path.startswith("/static/"):
             relative = Path(path.removeprefix("/static/"))
@@ -301,7 +338,10 @@ class GovernanceHandler(BaseHTTPRequestHandler):
             "rules": governed["rules"],
             "storage": storage,
             "report_path": governed["report_path"],
-            "report_download_url": f"/api/reports/download/{Path(governed['report_path']).name}",
+            "report_download_url": (
+                "/api/reports/download/governance/"
+                f"{Path(governed['report_path']).name}"
+            ),
             "preview": governed["records"][:8],
             "quarantine_preview": governed["quarantine"][:8],
             "lineage_preview": governed["lineage"][:20],
