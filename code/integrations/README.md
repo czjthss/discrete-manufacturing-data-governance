@@ -1,6 +1,6 @@
 # 论文与开源代码集成区
 
-本目录是外部论文实现和 GitHub 代码的唯一接入区。核心注册表位于
+本目录承载项目自有论文方法适配器及经审核的外部论文实现。核心注册表位于
 `governance/integration_registry.py`，网页通过 `/api/integrations` 和
 `/api/references` 展示集成状态。
 
@@ -17,6 +17,13 @@
 注册表启动时会自动发现 `integrations/*/manifest.json`。只有状态为 `active`
 且配置了有效 `entrypoint` 的算法才能通过 `IntegrationRegistry.resolve()` 加载；
 计划项不会导入可选依赖，因此不会破坏当前零第三方依赖运行能力。
+
+## 已启用适配器
+
+- `group_research/adapter.py`：课题组最新 REGER、BOS 与 TS_2DIFF+BOS 成果的统一接口。
+- `research_methods/adapter.py`：压缩态查询、Schema Matching 和窗口质量计算的项目自有实现。
+
+注册表会解析每个 active 入口，并在适配器提供 `healthcheck()` 时执行功能检查。配置可运行与运行时可用是两个独立状态。
 
 ## 稳定接口
 

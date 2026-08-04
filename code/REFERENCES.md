@@ -1,6 +1,6 @@
 # 技术依据与后续集成清单
 
-首版优先保证零外部依赖、可运行和里程碑2逐项可测。当前没有直接复制第三方仓库代码；实现采用公开论文中的通用方法，并预留替换接口。后续引入用户提供的论文与 GitHub 代码时，应固定提交版本并复测全部指标。
+系统默认运行路径保持零外部依赖，并支持里程碑2逐项测量。当前没有直接复制许可证或版本尚未确认的第三方仓库代码；项目自有适配器采用公开论文中的方法，并保留官方实现替换接口。引入论文附属代码时，应固定提交版本并复测全部指标。
 
 ## 当前采用的技术思路
 
@@ -13,15 +13,15 @@
   代码：https://github.com/szcompressor/SZ3  
   参考点：误差界、预测器和编码器分层。首版 `PiecewiseLinearCodec` 使用有界误差分段线性表示，并在报告中同时披露误差界和压缩比。
 
-## 本轮新增的待接入技术基座
+## 论文方法与官方实现状态
 
 ### CompressIoTDB（3.1、3.2、3.7）
 
 - *Improving Time Series Data Compression in Apache IoTDB*, PVLDB 2025  
   论文：https://www.vldb.org/pvldb/vol18/p3406-tang.pdf  
   代码：https://github.com/yuxin370/CompressIoTDB  
-  计划接入：CompColumn、压缩态过滤/聚合/窗口计算、late decompression 和动态辅助结构。
-  当前仅登记元数据和接口，代码许可证及 commit SHA 待接入时确认。
+  已适配方法：块级最值裁剪、压缩态范围过滤和 late decompression。
+  官方仓库代码的许可证及 commit SHA 待接入时确认。
 
 ### Apache TsFile / IoTDB（3.1、3.2、3.5）
 
@@ -35,16 +35,16 @@
 - *TsQuality: Measuring Time Series Data Quality in Apache IoTDB*, VLDB 2023  
   论文：https://www.vldb.org/pvldb/vol16/p3982-song.pdf  
   项目：https://thssdb.github.io/TsQuality/  
-  计划接入：基于窗口或 IoTDB UDF 的 completeness、consistency、timeliness、
-  validity 四维计算。当前内置实现已采用相同维度名称，但没有复制其代码。
+  已适配方法：基于事件时间窗口的 completeness、consistency、timeliness、
+  validity 四维计算。当前实现没有复制论文附属代码。
 
 ### Matchmaker（3.4、3.8）
 
 - *Bootstrapping Self-Improvement of Language Model Programs for Zero-Shot Schema Matching*,
   ICML 2025  
   论文：https://openreview.net/forum?id=clLERWKNja  
-  计划接入：候选生成、匹配精炼、置信度评分和零样本自改进。尚未确认可接入的
-  官方代码仓库、许可证和 commit，等待用户提供代码或进一步核实。
+  已适配方法：候选生成、别名精炼、置信度评分和拒绝阈值。尚未确认可接入的
+  官方代码仓库、许可证和 commit。
 
 ### 语义对齐（3.4）
 

@@ -20,16 +20,19 @@
 
       <nav class="nav" aria-label="主导航">
         <button class="nav-item active" data-view="overview">
-          <span class="nav-icon">01</span><span>运行总览</span>
+          <span class="nav-icon">01</span><span class="nav-label">运行总览</span><span class="nav-short">总览</span>
         </button>
         <button class="nav-item" data-view="workspace">
-          <span class="nav-icon">02</span><span>治理工作台</span>
+          <span class="nav-icon">02</span><span class="nav-label">治理工作台</span><span class="nav-short">治理</span>
         </button>
         <button class="nav-item" data-view="indicators">
-          <span class="nav-icon">03</span><span>指标验证</span>
+          <span class="nav-icon">03</span><span class="nav-label">指标验证</span><span class="nav-short">指标</span>
         </button>
         <button class="nav-item" data-view="integrations">
-          <span class="nav-icon">04</span><span>技术集成</span>
+          <span class="nav-icon">04</span><span class="nav-label">技术集成</span><span class="nav-short">技术</span>
+        </button>
+        <button class="nav-item" data-view="evidence">
+          <span class="nav-icon">05</span><span class="nav-label">证据管理</span><span class="nav-short">证据</span>
         </button>
       </nav>
 
@@ -47,7 +50,7 @@
           <h1 id="page-title">自动化数据治理系统</h1>
         </div>
         <div class="topbar-actions">
-          <span class="service-status"><i></i> 服务在线</span>
+          <span class="service-status checking" id="service-status"><i></i> 状态检查中</span>
           <button class="button primary" id="run-all">运行全部自测</button>
         </div>
       </header>
@@ -79,7 +82,7 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">实时状态</p>
-            <h2>里程碑2指标矩阵</h2>
+            <h2>能力指标矩阵</h2>
           </div>
           <span id="last-run">等待首次自测</span>
         </div>
@@ -89,7 +92,7 @@
           <span class="notice-symbol">!</span>
           <div>
             <strong>验收边界</strong>
-            <p>系统可生成自测证据；指标 3.6 的正式里程碑2验收仍须由具备检测能力的第三方机构出具报告。</p>
+            <p>3.1–3.7 为里程碑2核心能力，3.8–3.9 为后续阶段预研能力。系统自测证据不能替代任务书要求的第三方检测报告。</p>
           </div>
         </div>
       </section>
@@ -123,6 +126,14 @@
 1767225600001,CNC-01,42.21,good
 1767225600002,CNC-01,42.24,good
 1767225600003,CNC-01,42.27,good</textarea>
+            <fieldset class="rule-controls">
+              <legend>治理规则</legend>
+              <label><input type="checkbox" data-rule="trim_strings" checked> 清理首尾空白</label>
+              <label><input type="checkbox" data-rule="normalize_equipment_id" checked> 统一设备标识</label>
+              <label><input type="checkbox" data-rule="coerce_numeric_fields" checked> 转换数值字段</label>
+              <label><input type="checkbox" data-rule="remove_duplicates" checked> 隔离重复记录</label>
+              <label><input type="checkbox" data-rule="enforce_equipment_master"> 校验设备主数据</label>
+            </fieldset>
             <div class="editor-footer">
               <span id="input-meta">4 条示例记录</span>
               <button class="button primary" id="analyze-data">解析并治理</button>
@@ -144,13 +155,21 @@
             <div class="analysis-results hidden" id="analysis-results">
               <div class="result-kpis">
                 <div><span>识别格式</span><strong id="result-format">—</strong></div>
-                <div><span>记录数</span><strong id="result-records">—</strong></div>
-                <div><span>综合分</span><strong id="result-score">—</strong></div>
+                <div><span>接收 / 隔离</span><strong id="result-records">—</strong></div>
+                <div><span>治理后综合分</span><strong id="result-score">—</strong></div>
               </div>
+              <div class="quality-compare" id="quality-compare"></div>
               <div class="quality-bars" id="quality-bars"></div>
+              <div class="result-actions">
+                <a class="button secondary" id="download-report" href="#" download>下载治理报告</a>
+              </div>
               <details>
                 <summary>查看规范化数据预览</summary>
                 <pre id="data-preview"></pre>
+              </details>
+              <details>
+                <summary>查看修复与隔离血缘</summary>
+                <pre id="lineage-preview"></pre>
               </details>
             </div>
           </section>
@@ -186,7 +205,7 @@
             <p class="eyebrow">论文与代码基座</p>
             <h2>技术集成中心</h2>
           </div>
-          <p>外部实现仅登记接口和元数据，确认许可证与 commit 后再启用</p>
+          <p>项目适配器可运行；外部官方代码须在许可证与 commit 固定后启用</p>
         </div>
 
         <div class="integration-summary" id="integration-summary">
@@ -209,11 +228,24 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">研究基座</p>
-            <h2>待接入论文与官方实现</h2>
+            <h2>研究依据与官方实现状态</h2>
           </div>
-          <p>不在此版本复制第三方代码</p>
+          <p>项目自有适配器与外部官方代码分别标注</p>
         </div>
         <div class="reference-grid" id="reference-grid"></div>
+      </section>
+
+      <section class="view" id="view-evidence">
+        <div class="section-heading integration-heading">
+          <div>
+            <p class="eyebrow">可审计产物</p>
+            <h2>报告与运行证据</h2>
+          </div>
+          <button class="button secondary" id="refresh-reports">刷新列表</button>
+        </div>
+        <div class="evidence-list" id="evidence-list">
+          <div class="empty-evidence">正在读取报告目录</div>
+        </div>
       </section>
     </main>
   </div>
