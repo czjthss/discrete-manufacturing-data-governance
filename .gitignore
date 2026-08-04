@@ -13,8 +13,7 @@ env/
 .mypy_cache/
 .ruff_cache/
 
-code/data/reports/*.json
-code/data/storage/
+code/data/
 *.sqlite3
 *.sqlite3.gz
 *.sequence.json.gz

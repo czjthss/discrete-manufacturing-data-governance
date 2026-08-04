@@ -11,7 +11,7 @@ const labels = {
   timeliness: "时效性",
   validity: "有效性",
   uniqueness: "唯一性",
-  integrity: "参照完整性",
+  referential_integrity: "参照完整性",
   stability: "稳定性",
 };
 
@@ -89,7 +89,7 @@ function renderOverview() {
       <article class="metric-card" data-indicator="${item.id}">
         <div class="metric-top">
           <span class="metric-id">${item.id}</span>
-          <span class="metric-state ${klass}">${statusText(result)}</span>
+          <span class="metric-state ${klass}">${escapeHtml(item.scope_label)} · ${statusText(result)}</span>
         </div>
         <h3>${item.title}</h3>
         <p>${result ? conciseMetric(result) : item.target}</p>
@@ -108,7 +108,7 @@ function renderIndicatorList() {
         <span class="code">${item.id}</span>
         <div>
           <h3>${item.title}</h3>
-          <p>governance/indicator_${item.id.replace(".", "_")}.py</p>
+          <p>${escapeHtml(item.scope_label)} · governance/indicator_${item.id.replace(".", "_")}.py</p>
         </div>
         <p>${item.target}</p>
         <div>
@@ -150,7 +150,9 @@ function renderIntegrations() {
   const indicatorById = Object.fromEntries(state.indicators.map((item) => [item.id, item]));
   document.querySelector("#integration-matrix").innerHTML =
     state.integrations.indicator_matrix.map((row) => {
-      const current = row.current_methods.map((item) => item.method).join("；") || "尚未登记";
+      const current = row.current_methods
+        .map((item) => `${item.provider} / ${item.name}：${item.method}`)
+        .join("；") || "尚未登记";
       const planned = row.planned_integrations.map((item) => item.name).join("；") || "暂无外部实现";
       return `
         <article class="integration-row">
@@ -178,11 +180,12 @@ function renderIntegrations() {
     state.references.items.map((item) => {
       const licenseClass = item.license_status === "confirmed" ? "confirmed" : "pending";
       const commitText = item.commit_sha ? item.commit_sha.slice(0, 8) : "commit 待固定";
+      const adopted = item.integration_status === "adopted";
       return `
         <article class="reference-card">
           <div class="reference-topline">
             <span>${escapeHtml(item.venue)}</span>
-            <span class="integration-status planned">待接入</span>
+            <span class="integration-status ${adopted ? "stable" : "planned"}">${adopted ? "方法已适配" : "待接入"}</span>
           </div>
           <h3>${escapeHtml(item.title)}</h3>
           <p>${escapeHtml(item.notes)}</p>
@@ -237,6 +240,7 @@ async function runAll() {
     renderIndicatorList();
     document.querySelector("#last-run").textContent =
       `${report.generated_at} · ${report.summary.passed}/${report.summary.total} 通过`;
+    loadReports();
     toast(report.passed ? "全部指标自测通过，报告已生成" : "自测完成，存在未通过指标");
   } catch (error) {
     toast(error.message);
@@ -259,15 +263,33 @@ async function analyzeData() {
       body: JSON.stringify({
         content: document.querySelector("#data-input").value,
         format: document.querySelector("#format-select").value,
+        rules: Object.fromEntries(
+          [...document.querySelectorAll("[data-rule]")]
+            .map((input) => [input.dataset.rule, input.checked]),
+        ),
       }),
     });
     document.querySelector("#analysis-empty").classList.add("hidden");
     document.querySelector("#analysis-results").classList.remove("hidden");
     document.querySelector("#result-format").textContent = result.source.format.toUpperCase();
-    document.querySelector("#result-records").textContent = result.source.records;
+    document.querySelector("#result-records").textContent =
+      `${result.governance.accepted_records} / ${result.governance.quarantined_records}`;
     document.querySelector("#result-score").textContent = `${result.quality.overall}%`;
     document.querySelector("#data-preview").textContent =
       JSON.stringify(result.preview, null, 2);
+    document.querySelector("#lineage-preview").textContent = JSON.stringify({
+      summary: result.governance,
+      quarantine: result.quarantine_preview,
+      lineage: result.lineage_preview,
+    }, null, 2);
+    const reportLink = document.querySelector("#download-report");
+    reportLink.href = result.report_download_url;
+    document.querySelector("#quality-compare").innerHTML = `
+      <div><span>治理前</span><strong>${result.quality_before.overall}%</strong></div>
+      <div><span>治理后</span><strong>${result.quality.overall}%</strong></div>
+      <div><span>已修复</span><strong>${result.governance.repaired_records}</strong></div>
+      <div><span>已隔离</span><strong>${result.governance.quarantined_records}</strong></div>
+    `;
     const bars = document.querySelector("#quality-bars");
     bars.innerHTML = Object.entries(result.quality.dimensions).map(([key, value]) => `
       <div class="quality-row">
@@ -278,7 +300,7 @@ async function analyzeData() {
     `).join("");
     status.className = `status-chip ${result.quality.minimum >= 95 ? "pass" : "fail"}`;
     status.textContent = result.quality.minimum >= 95 ? "质量达标" : "需治理";
-    toast(`已解析 ${result.source.records} 条记录并完成质量测评`);
+    toast(`已治理 ${result.source.records} 条记录，隔离 ${result.governance.quarantined_records} 条`);
   } catch (error) {
     status.className = "status-chip fail";
     status.textContent = "处理失败";
@@ -286,6 +308,41 @@ async function analyzeData() {
   } finally {
     button.disabled = false;
     button.textContent = "解析并治理";
+  }
+}
+
+async function loadReports() {
+  const list = document.querySelector("#evidence-list");
+  try {
+    const payload = await api("/api/reports");
+    if (!payload.items.length) {
+      list.innerHTML = '<div class="empty-evidence">尚未生成报告</div>';
+      return;
+    }
+    list.innerHTML = payload.items.map((item) => `
+      <article class="evidence-row">
+        <div>
+          <span>${escapeHtml(item.category)}</span>
+          <strong>${escapeHtml(item.name)}</strong>
+        </div>
+        <small>${(item.size_bytes / 1024).toFixed(1)} KB</small>
+        <a class="button secondary" href="${escapeHtml(item.download_url)}" download>下载</a>
+      </article>
+    `).join("");
+  } catch (error) {
+    list.innerHTML = `<div class="empty-evidence">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+async function checkHealth() {
+  const status = document.querySelector("#service-status");
+  try {
+    await api("/api/health");
+    status.className = "service-status online";
+    status.innerHTML = "<i></i> 服务在线";
+  } catch (_error) {
+    status.className = "service-status offline";
+    status.innerHTML = "<i></i> 服务不可用";
   }
 }
 
@@ -332,12 +389,28 @@ function setupFileInput() {
   });
 }
 
+function setupDefaultData() {
+  const input = document.querySelector("#data-input");
+  const now = Date.now();
+  input.value = [
+    "timestamp_ms,equipment_id,value,quality",
+    `${now - 3},CNC-01,42.18,good`,
+    `${now - 2},CNC-01,42.21,good`,
+    `${now - 1},CNC-01,42.24,good`,
+    `${now},CNC-01,42.27,good`,
+  ].join("\n");
+}
+
 async function init() {
   setupNavigation();
+  setupDefaultData();
   setupFileInput();
   document.querySelector("#run-all").addEventListener("click", runAll);
   document.querySelector("#analyze-data").addEventListener("click", analyzeData);
   document.querySelector("#run-fusion").addEventListener("click", runFusion);
+  document.querySelector("#refresh-reports").addEventListener("click", loadReports);
+  checkHealth();
+  loadReports();
   try {
     const [catalog, integrations, references] = await Promise.all([
       api("/api/indicators"),
@@ -350,6 +423,18 @@ async function init() {
     renderOverview();
     renderIndicatorList();
     renderIntegrations();
+    try {
+      const report = await api("/api/report/latest");
+      (report.results || []).forEach((result) => { state.results[result.indicator] = result; });
+      if (report.results) {
+        document.querySelector("#last-run").textContent =
+          `${report.generated_at} · ${report.summary.passed}/${report.summary.total} 通过`;
+        renderOverview();
+        renderIndicatorList();
+      }
+    } catch (_error) {
+      // A new deployment may not have generated evidence yet.
+    }
   } catch (error) {
     toast(`无法加载系统元数据：${error.message}`);
   }

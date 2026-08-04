@@ -70,6 +70,9 @@ class AlgorithmSpec:
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
         payload["runnable"] = is_algorithm_runnable(self)
+        runtime_available, runtime_error = probe_algorithm_runtime(self)
+        payload["runtime_available"] = runtime_available
+        payload["runtime_error"] = runtime_error
         return payload
 
 
@@ -88,6 +91,22 @@ def is_algorithm_runnable(algorithm: AlgorithmSpec) -> bool:
             and GIT_SHA_PATTERN.fullmatch(algorithm.commit_sha)
         )
     return algorithm.implementation_kind == "builtin"
+
+
+def probe_algorithm_runtime(algorithm: AlgorithmSpec) -> tuple[bool, str | None]:
+    if not is_algorithm_runnable(algorithm):
+        return False, "算法未启用或发布条件未满足"
+    try:
+        module_name, _, attribute_name = algorithm.entrypoint.partition(":")
+        resolved = getattr(importlib.import_module(module_name), attribute_name)
+        if not callable(resolved):
+            return False, "入口对象不可调用"
+        healthcheck = getattr(resolved, "healthcheck", None)
+        if callable(healthcheck) and healthcheck() is not True:
+            return False, "入口自检未通过"
+    except Exception as exc:
+        return False, f"{type(exc).__name__}: {exc}"
+    return True, None
 
 
 class IntegrationRegistry:
@@ -268,6 +287,9 @@ class IntegrationRegistry:
                 "active": sum(item["status"] == "active" for item in algorithms),
                 "planned": sum(item["status"] == "planned" for item in algorithms),
                 "runnable": sum(item["runnable"] for item in algorithms),
+                "runtime_available": sum(
+                    item["runtime_available"] for item in algorithms
+                ),
                 "manifest_errors": len(self.load_errors),
             },
             "algorithms": algorithms,
@@ -446,7 +468,8 @@ def _reference_catalog() -> tuple[ResearchReference, ...]:
                 "动态辅助结构",
             ),
             code_license="待仓库接入时确认",
-            notes="计划用于压缩态过滤、聚合和窗口计算，不复制第三方源代码。",
+            integration_status="adopted",
+            notes="已实现项目自有压缩态过滤适配器；官方仓库代码仍待许可证和 commit 确认。",
         ),
         ResearchReference(
             id="apache-tsfile",
@@ -471,7 +494,8 @@ def _reference_catalog() -> tuple[ResearchReference, ...]:
             indicator_ids=("3.6", "3.9"),
             concepts=("completeness", "consistency", "timeliness", "validity"),
             code_license="待源码接入时确认",
-            notes="当前四维口径与其一致，后续接入 IoTDB UDF/窗口化质量计算。",
+            integration_status="adopted",
+            notes="已实现项目自有窗口化四维质量适配器；未复制论文附属源码。",
         ),
         ResearchReference(
             id="matchmaker-icml-2025",
@@ -486,7 +510,8 @@ def _reference_catalog() -> tuple[ResearchReference, ...]:
             indicator_ids=("3.4", "3.8"),
             concepts=("候选生成", "匹配精炼", "置信度评分", "零样本自改进"),
             code_license="未发现已确认的官方代码许可证",
-            notes="待用户提供论文代码或确认官方仓库后，通过 schema matcher 接口接入。",
+            integration_status="adopted",
+            notes="已实现项目自有候选生成、精炼和置信度适配器；官方代码仍待确认。",
         ),
     )
 
@@ -520,6 +545,71 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             interface_contract="compress(values, tolerance)/decompress(payload)",
         ),
         AlgorithmSpec(
+            id="group.reger-int64",
+            name="REGER Int64 时序压缩",
+            capability="compression",
+            indicator_ids=("3.2",),
+            status="active",
+            provider="课题组最新成果",
+            implementation_kind="builtin",
+            method="分块重排、残差建模、分段位宽编码与原始顺序恢复",
+            entrypoint="integrations.group_research.adapter:RegerIntCodec",
+            interface_contract="compress(values)/decompress(payload)",
+            metadata={"source": "reger_bos_code_paths", "numeric_type": "int64"},
+        ),
+        AlgorithmSpec(
+            id="group.reger-float64",
+            name="REGER Float64 时序压缩",
+            capability="compression",
+            indicator_ids=("3.2",),
+            status="active",
+            provider="课题组最新成果",
+            implementation_kind="builtin",
+            method="浮点位模式映射、分块重排和残差编码",
+            entrypoint="integrations.group_research.adapter:RegerFloatCodec",
+            interface_contract="compress(values)/decompress(payload)",
+            metadata={"source": "reger_bos_code_paths", "numeric_type": "float64"},
+        ),
+        AlgorithmSpec(
+            id="group.bos-int64",
+            name="BOS Int64 时序压缩",
+            capability="compression",
+            indicator_ids=("3.2",),
+            status="active",
+            provider="课题组最新成果",
+            implementation_kind="builtin",
+            method="分块差分、ZigZag 变换、变长整数编码和块级压缩",
+            entrypoint="integrations.group_research.adapter:BosIntCodec",
+            interface_contract="compress(values, block_size)/decompress(payload)",
+            metadata={"source": "reger_bos_code_paths", "numeric_type": "int64"},
+        ),
+        AlgorithmSpec(
+            id="group.ts2diff-bos-int64",
+            name="TS_2DIFF+BOS 自适应压缩",
+            capability="compression",
+            indicator_ids=("3.2",),
+            status="active",
+            provider="课题组最新成果",
+            implementation_kind="builtin",
+            method="在二阶差分与 BOS 候选编码间按载荷大小自适应选择",
+            entrypoint="integrations.group_research.adapter:Ts2DiffBosIntCodec",
+            interface_contract="compress(values)/decompress(payload)",
+            metadata={"source": "reger_bos_code_paths", "numeric_type": "int64"},
+        ),
+        AlgorithmSpec(
+            id="group.ts2diff-bos-float",
+            name="TS_2DIFF+BOS 浮点时序压缩",
+            capability="compression",
+            indicator_ids=("3.2",),
+            status="active",
+            provider="课题组最新成果",
+            implementation_kind="builtin",
+            method="十进制定点映射与 TS_2DIFF/BOS 自适应编码",
+            entrypoint="integrations.group_research.adapter:Ts2DiffBosFloatCodec",
+            interface_contract="compress(values, decimal_places)/decompress(payload)",
+            metadata={"source": "reger_bos_code_paths", "numeric_type": "float"},
+        ),
+        AlgorithmSpec(
             id="builtin.structure-parser",
             name="异构结构解析器",
             capability="parsing",
@@ -543,6 +633,20 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             entrypoint="governance.indicator_3_4:align_records",
             reference_ids=("matchmaker-icml-2025",),
             interface_contract="align_records(sequence, relations, tolerance_ms)",
+        ),
+        AlgorithmSpec(
+            id="builtin.matchmaker-method-adapter",
+            name="Schema Matching 方法适配器",
+            capability="schema_matching",
+            indicator_ids=("3.4", "3.8"),
+            status="active",
+            provider="本项目",
+            implementation_kind="builtin",
+            method="候选生成、别名精炼、置信度评分与拒绝阈值",
+            entrypoint="integrations.research_methods.adapter:SchemaMatcherAdapter",
+            reference_ids=("matchmaker-icml-2025",),
+            interface_contract="match(source_schema, target_schema)",
+            metadata={"implementation_scope": "项目自有实现，未复制官方代码"},
         ),
         AlgorithmSpec(
             id="builtin.high-frequency-buffer",
@@ -571,6 +675,20 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             interface_contract="evaluate_quality(records)",
         ),
         AlgorithmSpec(
+            id="builtin.tsquality-window-adapter",
+            name="窗口化四维质量适配器",
+            capability="quality_window",
+            indicator_ids=("3.6", "3.9"),
+            status="active",
+            provider="本项目",
+            implementation_kind="builtin",
+            method="按事件时间窗口测量完整性、一致性、时效性和有效性",
+            entrypoint="integrations.research_methods.adapter:WindowQualityAdapter",
+            reference_ids=("tsquality-vldb-2023",),
+            interface_contract="evaluate_windows(records, window_ms)",
+            metadata={"implementation_scope": "项目自有实现，未复制论文附属源码"},
+        ),
+        AlgorithmSpec(
             id="builtin.temporal-fusion",
             name="序列/关系按需融合",
             capability="fusion",
@@ -582,6 +700,20 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             entrypoint="governance.indicator_3_7:fuse",
             reference_ids=("compress-iotdb-pvldb-2025",),
             interface_contract="fuse(sequence, relations, tolerance_ms)",
+        ),
+        AlgorithmSpec(
+            id="builtin.compressed-query-adapter",
+            name="压缩态范围查询适配器",
+            capability="compressed_query",
+            indicator_ids=("3.1", "3.2", "3.7"),
+            status="active",
+            provider="本项目",
+            implementation_kind="builtin",
+            method="块级最值裁剪、候选块延迟解压和范围过滤",
+            entrypoint="integrations.research_methods.adapter:CompressedQueryAdapter",
+            reference_ids=("compress-iotdb-pvldb-2025",),
+            interface_contract="compress(values, block_size, tolerance)/range_filter(data, lower, upper)",
+            metadata={"implementation_scope": "项目自有实现，未复制外部仓库代码"},
         ),
         AlgorithmSpec(
             id="builtin.normalization-registry",
