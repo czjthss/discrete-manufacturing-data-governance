@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import math
 import re
+import hashlib
+import json
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any
 
 from .common import pct, wilson_interval
@@ -26,6 +29,8 @@ ALIAS_TO_CANONICAL = {
     for canonical, aliases in ALIASES.items()
     for alias in aliases
 }
+BENCHMARK_DATA_PATH = Path(__file__).with_name("benchmark_data") / "indicator_3_4_labeled.json"
+BENCHMARK_DATA_SHA256 = "e5f7719a2a0c1ae01a0dc549b793e05aaa764f0bf6eaa8236f81b9a6f9587b6d"
 
 
 def canonical_key(key: str) -> str:
@@ -182,52 +187,16 @@ def align_records(
 
 
 def benchmark() -> dict[str, Any]:
-    base = 1_767_225_600_000
-    sequence: list[dict[str, Any]] = []
-    relations: list[dict[str, Any]] = []
-    expected: list[str | None] = []
-    for index in range(150):
-        equipment = f"CNC-{index % 10 + 1:02d}"
-        timestamp = base + index * 100
-        sample_equipment = equipment
-        if index % 17 == 0:
-            sample_equipment = equipment.replace("CNC", "CN")
-        sequence.append(
-            {
-                "机床编号" if index % 2 else "machine_id": sample_equipment,
-                "采集时间" if index % 3 else "ts": timestamp,
-                "测量值": 40 + index / 100,
-            }
-        )
-        relations.extend(
-            [
-                {
-                    "equipment_id": equipment,
-                    "start_ms": timestamp - 2000,
-                    "end_ms": timestamp + 2000,
-                    "work_order": f"BROAD-{index:03d}",
-                },
-                {
-                    "device_id": equipment,
-                    "开始时间": timestamp - 5,
-                    "结束时间": timestamp + 5,
-                    "work_order": f"WO-{index:03d}",
-                },
-            ]
-        )
-        expected.append(f"WO-{index:03d}")
-    sequence.extend(
-        [
-            {"equipment_id": "CNC-01", "timestamp_ms": "invalid", "value": 1},
-            {"equipment_id": "UNKNOWN", "timestamp_ms": base, "value": 2},
-            {"timestamp_ms": base, "value": 3},
-        ]
-    )
-    expected.extend([None, None, None])
-    relations.append(
-        {"equipment_id": "CNC-01", "start_ms": "bad", "work_order": "INVALID"}
-    )
-    results = align_records(sequence, relations, tolerance_ms=50)
+    dataset_bytes = BENCHMARK_DATA_PATH.read_bytes()
+    dataset_sha256 = hashlib.sha256(dataset_bytes).hexdigest()
+    if dataset_sha256 != BENCHMARK_DATA_SHA256:
+        raise ValueError("3.4 标注数据与固定版本哈希不一致")
+    dataset = json.loads(dataset_bytes)
+    sequence = dataset["sequence"]
+    relations = dataset["relations"]
+    expected = dataset["expected_work_orders"]
+    tolerance_ms = dataset["tolerance_ms"]
+    results = align_records(sequence, relations, tolerance_ms=tolerance_ms)
     predicted = [
         result["relation"].get("work_order") if result["relation"] else None
         for result in results
@@ -245,9 +214,15 @@ def benchmark() -> dict[str, Any]:
             "correct_alignments": correct,
             "alignment_accuracy_percent": accuracy,
             "accuracy_wilson_95_percent": [ci_low, ci_high],
-            "negative_samples": 3,
+            "accuracy_interval_scope": (
+                "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率"
+            ),
+            "negative_samples": dataset["negative_samples"],
             "fuzzy_entity_samples": sum(row["entity_match"] == "fuzzy" for row in results),
-            "time_tolerance_ms": 50,
+            "time_tolerance_ms": tolerance_ms,
+            "labeled_dataset_id": dataset["dataset_id"],
+            "labeled_dataset_version": dataset["version"],
+            "labeled_dataset_sha256": dataset_sha256,
         },
         "method": "字段别名归一、设备实体约束、受控模糊匹配，并按距离、时间窗宽度和中心距离排序。",
     }

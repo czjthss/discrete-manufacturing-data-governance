@@ -55,9 +55,11 @@ def benchmark() -> dict[str, Any]:
     count = 120_000
     batch_size = 1000
     repeats = 7
+    warmup_runs = 1
     throughputs: list[float] = []
     elapsed_runs: list[float] = []
-    for run_index in range(repeats):
+
+    def ingest_once(run_index: int) -> tuple[float, int]:
         buffer = HighFrequencyBuffer(capacity=count)
         start = time.perf_counter_ns()
         for offset in range(0, count, batch_size):
@@ -70,13 +72,25 @@ def benchmark() -> dict[str, Any]:
                 for index in range(batch_size)
             )
         elapsed = max((time.perf_counter_ns() - start) / 1_000_000_000, 1e-9)
-        elapsed_runs.append(elapsed)
-        throughputs.append(count / elapsed)
         if buffer.total_ingested != count or len(buffer.snapshot(count)) != count:
             raise AssertionError("采集缓冲区发生记录丢失")
-    sorted_rates = sorted(throughputs)
+        return elapsed, count / elapsed
+
+    for warmup_index in range(warmup_runs):
+        ingest_once(-(warmup_index + 1))
+    for run_index in range(repeats):
+        elapsed, throughput = ingest_once(run_index)
+        elapsed_runs.append(elapsed)
+        throughputs.append(throughput)
+
     median_throughput = statistics.median(throughputs)
     minimum_throughput = min(throughputs)
+    maximum_throughput = max(throughputs)
+    throughput_cv = (
+        statistics.stdev(throughputs) / statistics.mean(throughputs)
+        if len(throughputs) > 1
+        else 0.0
+    )
     return {
         "indicator": ID,
         "title": TITLE,
@@ -85,13 +99,18 @@ def benchmark() -> dict[str, Any]:
         "metrics": {
             "samples": count,
             "repeats": repeats,
+            "warmup_runs": warmup_runs,
+            "batch_size": batch_size,
+            "clock": "time.perf_counter_ns",
             "median_elapsed_seconds": round(statistics.median(elapsed_runs), 6),
             "ingestion_samples_per_second": round(median_throughput, 2),
             "minimum_samples_per_second": round(minimum_throughput, 2),
-            "p95_samples_per_second": round(sorted_rates[int(0.95 * (repeats - 1))], 2),
+            "maximum_samples_per_second": round(maximum_throughput, 2),
+            "throughput_coefficient_of_variation": round(throughput_cv, 6),
+            "run_samples_per_second": [round(rate, 2) for rate in throughputs],
             "equivalent_frequency_khz": round(median_throughput / 1000.0, 2),
             "target_samples_per_second": 1100,
             "lost_samples": 0,
         },
-        "method": "锁保护批量写入环形缓冲区，重复测量并报告最低与中位吞吐；该结果衡量软件接收能力，不替代现场采集卡端到端测试。",
+        "method": "锁保护批量写入环形缓冲区；预热后在同一进程重复测量并披露每次、最低、中位、最高吞吐和变异系数。该结果衡量软件接收能力，不替代现场采集卡端到端测试。",
     }

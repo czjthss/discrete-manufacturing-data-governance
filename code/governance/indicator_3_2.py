@@ -147,6 +147,8 @@ class PiecewiseLinearCodec:
 def evaluate_adapter_round_trip(
     implementation: Any,
     source: list[int] | list[float],
+    *,
+    float_tolerance: float | None = 0.0000005,
 ) -> dict[str, Any]:
     payload = implementation.compress(source)
     reconstructed = implementation.decompress(payload)
@@ -160,7 +162,11 @@ def evaluate_adapter_round_trip(
             ),
             default=0.0,
         )
-        round_trip_ok = reconstruction_error <= 0.0000005
+        round_trip_ok = (
+            reconstructed == source
+            if float_tolerance is None
+            else reconstruction_error <= float_tolerance
+        )
     elif is_float_source:
         reconstruction_error = None
         round_trip_ok = False
@@ -174,6 +180,14 @@ def evaluate_adapter_round_trip(
         "compressed_bytes": len(payload),
         "compression_ratio": round(len(source) * 8 / max(len(payload), 1), 2),
         "round_trip_ok": round_trip_ok,
+        "precision_mode": (
+            "exact_float64"
+            if is_float_source and float_tolerance is None
+            else "absolute_error_bound"
+            if is_float_source
+            else "exact_int64"
+        ),
+        "allowed_absolute_error": float_tolerance if is_float_source else 0.0,
         "max_absolute_error": (
             round(reconstruction_error, 9)
             if reconstruction_error is not None
@@ -219,16 +233,20 @@ def benchmark() -> dict[str, Any]:
     group_source = datasets[0][:2000]
     group_int_source = [round(value * 1_000_000) for value in group_source]
     group_results: dict[str, dict[str, Any]] = {}
-    for name, implementation, source in (
-        ("REGER-Int64", RegerIntCodec, group_int_source),
-        ("REGER-Float64", RegerFloatCodec, group_source),
-        ("BOS-Int64", BosIntCodec, group_int_source),
-        ("TS_2DIFF+BOS-Int64", Ts2DiffBosIntCodec, group_int_source),
-        ("TS_2DIFF+BOS-Float", Ts2DiffBosFloatCodec, group_source),
+    for name, implementation, source, float_tolerance in (
+        ("REGER-Int64", RegerIntCodec, group_int_source, 0.0),
+        ("REGER-Float64", RegerFloatCodec, group_source, None),
+        ("BOS-Int64", BosIntCodec, group_int_source, 0.0),
+        ("TS_2DIFF+BOS-Int64", Ts2DiffBosIntCodec, group_int_source, 0.0),
+        ("TS_2DIFF+BOS-Float", Ts2DiffBosFloatCodec, group_source, 0.0000005),
     ):
         group_results[name] = {
             "provider": "课题组最新成果",
-            **evaluate_adapter_round_trip(implementation, source),
+            **evaluate_adapter_round_trip(
+                implementation,
+                source,
+                float_tolerance=float_tolerance,
+            ),
         }
     passed = (
         minimum_ratio >= 9.0

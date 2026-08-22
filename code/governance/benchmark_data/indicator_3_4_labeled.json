@@ -1,0 +1,2734 @@
+{
+  "dataset_id": "indicator-3.4-labeled-v1",
+  "expected_work_orders": [
+    "WO-000",
+    "WO-001",
+    "WO-002",
+    "WO-003",
+    "WO-004",
+    "WO-005",
+    "WO-006",
+    "WO-007",
+    "WO-008",
+    "WO-009",
+    "WO-010",
+    "WO-011",
+    "WO-012",
+    "WO-013",
+    "WO-014",
+    "WO-015",
+    "WO-016",
+    "WO-017",
+    "WO-018",
+    "WO-019",
+    "WO-020",
+    "WO-021",
+    "WO-022",
+    "WO-023",
+    "WO-024",
+    "WO-025",
+    "WO-026",
+    "WO-027",
+    "WO-028",
+    "WO-029",
+    "WO-030",
+    "WO-031",
+    "WO-032",
+    "WO-033",
+    "WO-034",
+    "WO-035",
+    "WO-036",
+    "WO-037",
+    "WO-038",
+    "WO-039",
+    "WO-040",
+    "WO-041",
+    "WO-042",
+    "WO-043",
+    "WO-044",
+    "WO-045",
+    "WO-046",
+    "WO-047",
+    "WO-048",
+    "WO-049",
+    "WO-050",
+    "WO-051",
+    "WO-052",
+    "WO-053",
+    "WO-054",
+    "WO-055",
+    "WO-056",
+    "WO-057",
+    "WO-058",
+    "WO-059",
+    "WO-060",
+    "WO-061",
+    "WO-062",
+    "WO-063",
+    "WO-064",
+    "WO-065",
+    "WO-066",
+    "WO-067",
+    "WO-068",
+    "WO-069",
+    "WO-070",
+    "WO-071",
+    "WO-072",
+    "WO-073",
+    "WO-074",
+    "WO-075",
+    "WO-076",
+    "WO-077",
+    "WO-078",
+    "WO-079",
+    "WO-080",
+    "WO-081",
+    "WO-082",
+    "WO-083",
+    "WO-084",
+    "WO-085",
+    "WO-086",
+    "WO-087",
+    "WO-088",
+    "WO-089",
+    "WO-090",
+    "WO-091",
+    "WO-092",
+    "WO-093",
+    "WO-094",
+    "WO-095",
+    "WO-096",
+    "WO-097",
+    "WO-098",
+    "WO-099",
+    "WO-100",
+    "WO-101",
+    "WO-102",
+    "WO-103",
+    "WO-104",
+    "WO-105",
+    "WO-106",
+    "WO-107",
+    "WO-108",
+    "WO-109",
+    "WO-110",
+    "WO-111",
+    "WO-112",
+    "WO-113",
+    "WO-114",
+    "WO-115",
+    "WO-116",
+    "WO-117",
+    "WO-118",
+    "WO-119",
+    "WO-120",
+    "WO-121",
+    "WO-122",
+    "WO-123",
+    "WO-124",
+    "WO-125",
+    "WO-126",
+    "WO-127",
+    "WO-128",
+    "WO-129",
+    "WO-130",
+    "WO-131",
+    "WO-132",
+    "WO-133",
+    "WO-134",
+    "WO-135",
+    "WO-136",
+    "WO-137",
+    "WO-138",
+    "WO-139",
+    "WO-140",
+    "WO-141",
+    "WO-142",
+    "WO-143",
+    "WO-144",
+    "WO-145",
+    "WO-146",
+    "WO-147",
+    "WO-148",
+    "WO-149",
+    null,
+    null,
+    null
+  ],
+  "negative_samples": 3,
+  "relations": [
+    {
+      "end_ms": 1767225602000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225598000,
+      "work_order": "BROAD-000"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-000",
+      "开始时间": 1767225599995,
+      "结束时间": 1767225600005
+    },
+    {
+      "end_ms": 1767225602100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225598100,
+      "work_order": "BROAD-001"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-001",
+      "开始时间": 1767225600095,
+      "结束时间": 1767225600105
+    },
+    {
+      "end_ms": 1767225602200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225598200,
+      "work_order": "BROAD-002"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-002",
+      "开始时间": 1767225600195,
+      "结束时间": 1767225600205
+    },
+    {
+      "end_ms": 1767225602300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225598300,
+      "work_order": "BROAD-003"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-003",
+      "开始时间": 1767225600295,
+      "结束时间": 1767225600305
+    },
+    {
+      "end_ms": 1767225602400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225598400,
+      "work_order": "BROAD-004"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-004",
+      "开始时间": 1767225600395,
+      "结束时间": 1767225600405
+    },
+    {
+      "end_ms": 1767225602500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225598500,
+      "work_order": "BROAD-005"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-005",
+      "开始时间": 1767225600495,
+      "结束时间": 1767225600505
+    },
+    {
+      "end_ms": 1767225602600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225598600,
+      "work_order": "BROAD-006"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-006",
+      "开始时间": 1767225600595,
+      "结束时间": 1767225600605
+    },
+    {
+      "end_ms": 1767225602700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225598700,
+      "work_order": "BROAD-007"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-007",
+      "开始时间": 1767225600695,
+      "结束时间": 1767225600705
+    },
+    {
+      "end_ms": 1767225602800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225598800,
+      "work_order": "BROAD-008"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-008",
+      "开始时间": 1767225600795,
+      "结束时间": 1767225600805
+    },
+    {
+      "end_ms": 1767225602900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225598900,
+      "work_order": "BROAD-009"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-009",
+      "开始时间": 1767225600895,
+      "结束时间": 1767225600905
+    },
+    {
+      "end_ms": 1767225603000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225599000,
+      "work_order": "BROAD-010"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-010",
+      "开始时间": 1767225600995,
+      "结束时间": 1767225601005
+    },
+    {
+      "end_ms": 1767225603100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225599100,
+      "work_order": "BROAD-011"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-011",
+      "开始时间": 1767225601095,
+      "结束时间": 1767225601105
+    },
+    {
+      "end_ms": 1767225603200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225599200,
+      "work_order": "BROAD-012"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-012",
+      "开始时间": 1767225601195,
+      "结束时间": 1767225601205
+    },
+    {
+      "end_ms": 1767225603300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225599300,
+      "work_order": "BROAD-013"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-013",
+      "开始时间": 1767225601295,
+      "结束时间": 1767225601305
+    },
+    {
+      "end_ms": 1767225603400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225599400,
+      "work_order": "BROAD-014"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-014",
+      "开始时间": 1767225601395,
+      "结束时间": 1767225601405
+    },
+    {
+      "end_ms": 1767225603500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225599500,
+      "work_order": "BROAD-015"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-015",
+      "开始时间": 1767225601495,
+      "结束时间": 1767225601505
+    },
+    {
+      "end_ms": 1767225603600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225599600,
+      "work_order": "BROAD-016"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-016",
+      "开始时间": 1767225601595,
+      "结束时间": 1767225601605
+    },
+    {
+      "end_ms": 1767225603700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225599700,
+      "work_order": "BROAD-017"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-017",
+      "开始时间": 1767225601695,
+      "结束时间": 1767225601705
+    },
+    {
+      "end_ms": 1767225603800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225599800,
+      "work_order": "BROAD-018"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-018",
+      "开始时间": 1767225601795,
+      "结束时间": 1767225601805
+    },
+    {
+      "end_ms": 1767225603900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225599900,
+      "work_order": "BROAD-019"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-019",
+      "开始时间": 1767225601895,
+      "结束时间": 1767225601905
+    },
+    {
+      "end_ms": 1767225604000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225600000,
+      "work_order": "BROAD-020"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-020",
+      "开始时间": 1767225601995,
+      "结束时间": 1767225602005
+    },
+    {
+      "end_ms": 1767225604100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225600100,
+      "work_order": "BROAD-021"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-021",
+      "开始时间": 1767225602095,
+      "结束时间": 1767225602105
+    },
+    {
+      "end_ms": 1767225604200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225600200,
+      "work_order": "BROAD-022"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-022",
+      "开始时间": 1767225602195,
+      "结束时间": 1767225602205
+    },
+    {
+      "end_ms": 1767225604300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225600300,
+      "work_order": "BROAD-023"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-023",
+      "开始时间": 1767225602295,
+      "结束时间": 1767225602305
+    },
+    {
+      "end_ms": 1767225604400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225600400,
+      "work_order": "BROAD-024"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-024",
+      "开始时间": 1767225602395,
+      "结束时间": 1767225602405
+    },
+    {
+      "end_ms": 1767225604500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225600500,
+      "work_order": "BROAD-025"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-025",
+      "开始时间": 1767225602495,
+      "结束时间": 1767225602505
+    },
+    {
+      "end_ms": 1767225604600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225600600,
+      "work_order": "BROAD-026"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-026",
+      "开始时间": 1767225602595,
+      "结束时间": 1767225602605
+    },
+    {
+      "end_ms": 1767225604700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225600700,
+      "work_order": "BROAD-027"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-027",
+      "开始时间": 1767225602695,
+      "结束时间": 1767225602705
+    },
+    {
+      "end_ms": 1767225604800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225600800,
+      "work_order": "BROAD-028"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-028",
+      "开始时间": 1767225602795,
+      "结束时间": 1767225602805
+    },
+    {
+      "end_ms": 1767225604900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225600900,
+      "work_order": "BROAD-029"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-029",
+      "开始时间": 1767225602895,
+      "结束时间": 1767225602905
+    },
+    {
+      "end_ms": 1767225605000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225601000,
+      "work_order": "BROAD-030"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-030",
+      "开始时间": 1767225602995,
+      "结束时间": 1767225603005
+    },
+    {
+      "end_ms": 1767225605100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225601100,
+      "work_order": "BROAD-031"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-031",
+      "开始时间": 1767225603095,
+      "结束时间": 1767225603105
+    },
+    {
+      "end_ms": 1767225605200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225601200,
+      "work_order": "BROAD-032"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-032",
+      "开始时间": 1767225603195,
+      "结束时间": 1767225603205
+    },
+    {
+      "end_ms": 1767225605300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225601300,
+      "work_order": "BROAD-033"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-033",
+      "开始时间": 1767225603295,
+      "结束时间": 1767225603305
+    },
+    {
+      "end_ms": 1767225605400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225601400,
+      "work_order": "BROAD-034"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-034",
+      "开始时间": 1767225603395,
+      "结束时间": 1767225603405
+    },
+    {
+      "end_ms": 1767225605500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225601500,
+      "work_order": "BROAD-035"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-035",
+      "开始时间": 1767225603495,
+      "结束时间": 1767225603505
+    },
+    {
+      "end_ms": 1767225605600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225601600,
+      "work_order": "BROAD-036"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-036",
+      "开始时间": 1767225603595,
+      "结束时间": 1767225603605
+    },
+    {
+      "end_ms": 1767225605700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225601700,
+      "work_order": "BROAD-037"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-037",
+      "开始时间": 1767225603695,
+      "结束时间": 1767225603705
+    },
+    {
+      "end_ms": 1767225605800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225601800,
+      "work_order": "BROAD-038"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-038",
+      "开始时间": 1767225603795,
+      "结束时间": 1767225603805
+    },
+    {
+      "end_ms": 1767225605900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225601900,
+      "work_order": "BROAD-039"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-039",
+      "开始时间": 1767225603895,
+      "结束时间": 1767225603905
+    },
+    {
+      "end_ms": 1767225606000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225602000,
+      "work_order": "BROAD-040"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-040",
+      "开始时间": 1767225603995,
+      "结束时间": 1767225604005
+    },
+    {
+      "end_ms": 1767225606100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225602100,
+      "work_order": "BROAD-041"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-041",
+      "开始时间": 1767225604095,
+      "结束时间": 1767225604105
+    },
+    {
+      "end_ms": 1767225606200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225602200,
+      "work_order": "BROAD-042"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-042",
+      "开始时间": 1767225604195,
+      "结束时间": 1767225604205
+    },
+    {
+      "end_ms": 1767225606300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225602300,
+      "work_order": "BROAD-043"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-043",
+      "开始时间": 1767225604295,
+      "结束时间": 1767225604305
+    },
+    {
+      "end_ms": 1767225606400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225602400,
+      "work_order": "BROAD-044"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-044",
+      "开始时间": 1767225604395,
+      "结束时间": 1767225604405
+    },
+    {
+      "end_ms": 1767225606500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225602500,
+      "work_order": "BROAD-045"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-045",
+      "开始时间": 1767225604495,
+      "结束时间": 1767225604505
+    },
+    {
+      "end_ms": 1767225606600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225602600,
+      "work_order": "BROAD-046"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-046",
+      "开始时间": 1767225604595,
+      "结束时间": 1767225604605
+    },
+    {
+      "end_ms": 1767225606700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225602700,
+      "work_order": "BROAD-047"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-047",
+      "开始时间": 1767225604695,
+      "结束时间": 1767225604705
+    },
+    {
+      "end_ms": 1767225606800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225602800,
+      "work_order": "BROAD-048"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-048",
+      "开始时间": 1767225604795,
+      "结束时间": 1767225604805
+    },
+    {
+      "end_ms": 1767225606900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225602900,
+      "work_order": "BROAD-049"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-049",
+      "开始时间": 1767225604895,
+      "结束时间": 1767225604905
+    },
+    {
+      "end_ms": 1767225607000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225603000,
+      "work_order": "BROAD-050"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-050",
+      "开始时间": 1767225604995,
+      "结束时间": 1767225605005
+    },
+    {
+      "end_ms": 1767225607100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225603100,
+      "work_order": "BROAD-051"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-051",
+      "开始时间": 1767225605095,
+      "结束时间": 1767225605105
+    },
+    {
+      "end_ms": 1767225607200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225603200,
+      "work_order": "BROAD-052"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-052",
+      "开始时间": 1767225605195,
+      "结束时间": 1767225605205
+    },
+    {
+      "end_ms": 1767225607300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225603300,
+      "work_order": "BROAD-053"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-053",
+      "开始时间": 1767225605295,
+      "结束时间": 1767225605305
+    },
+    {
+      "end_ms": 1767225607400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225603400,
+      "work_order": "BROAD-054"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-054",
+      "开始时间": 1767225605395,
+      "结束时间": 1767225605405
+    },
+    {
+      "end_ms": 1767225607500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225603500,
+      "work_order": "BROAD-055"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-055",
+      "开始时间": 1767225605495,
+      "结束时间": 1767225605505
+    },
+    {
+      "end_ms": 1767225607600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225603600,
+      "work_order": "BROAD-056"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-056",
+      "开始时间": 1767225605595,
+      "结束时间": 1767225605605
+    },
+    {
+      "end_ms": 1767225607700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225603700,
+      "work_order": "BROAD-057"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-057",
+      "开始时间": 1767225605695,
+      "结束时间": 1767225605705
+    },
+    {
+      "end_ms": 1767225607800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225603800,
+      "work_order": "BROAD-058"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-058",
+      "开始时间": 1767225605795,
+      "结束时间": 1767225605805
+    },
+    {
+      "end_ms": 1767225607900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225603900,
+      "work_order": "BROAD-059"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-059",
+      "开始时间": 1767225605895,
+      "结束时间": 1767225605905
+    },
+    {
+      "end_ms": 1767225608000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225604000,
+      "work_order": "BROAD-060"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-060",
+      "开始时间": 1767225605995,
+      "结束时间": 1767225606005
+    },
+    {
+      "end_ms": 1767225608100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225604100,
+      "work_order": "BROAD-061"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-061",
+      "开始时间": 1767225606095,
+      "结束时间": 1767225606105
+    },
+    {
+      "end_ms": 1767225608200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225604200,
+      "work_order": "BROAD-062"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-062",
+      "开始时间": 1767225606195,
+      "结束时间": 1767225606205
+    },
+    {
+      "end_ms": 1767225608300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225604300,
+      "work_order": "BROAD-063"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-063",
+      "开始时间": 1767225606295,
+      "结束时间": 1767225606305
+    },
+    {
+      "end_ms": 1767225608400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225604400,
+      "work_order": "BROAD-064"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-064",
+      "开始时间": 1767225606395,
+      "结束时间": 1767225606405
+    },
+    {
+      "end_ms": 1767225608500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225604500,
+      "work_order": "BROAD-065"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-065",
+      "开始时间": 1767225606495,
+      "结束时间": 1767225606505
+    },
+    {
+      "end_ms": 1767225608600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225604600,
+      "work_order": "BROAD-066"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-066",
+      "开始时间": 1767225606595,
+      "结束时间": 1767225606605
+    },
+    {
+      "end_ms": 1767225608700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225604700,
+      "work_order": "BROAD-067"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-067",
+      "开始时间": 1767225606695,
+      "结束时间": 1767225606705
+    },
+    {
+      "end_ms": 1767225608800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225604800,
+      "work_order": "BROAD-068"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-068",
+      "开始时间": 1767225606795,
+      "结束时间": 1767225606805
+    },
+    {
+      "end_ms": 1767225608900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225604900,
+      "work_order": "BROAD-069"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-069",
+      "开始时间": 1767225606895,
+      "结束时间": 1767225606905
+    },
+    {
+      "end_ms": 1767225609000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225605000,
+      "work_order": "BROAD-070"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-070",
+      "开始时间": 1767225606995,
+      "结束时间": 1767225607005
+    },
+    {
+      "end_ms": 1767225609100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225605100,
+      "work_order": "BROAD-071"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-071",
+      "开始时间": 1767225607095,
+      "结束时间": 1767225607105
+    },
+    {
+      "end_ms": 1767225609200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225605200,
+      "work_order": "BROAD-072"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-072",
+      "开始时间": 1767225607195,
+      "结束时间": 1767225607205
+    },
+    {
+      "end_ms": 1767225609300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225605300,
+      "work_order": "BROAD-073"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-073",
+      "开始时间": 1767225607295,
+      "结束时间": 1767225607305
+    },
+    {
+      "end_ms": 1767225609400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225605400,
+      "work_order": "BROAD-074"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-074",
+      "开始时间": 1767225607395,
+      "结束时间": 1767225607405
+    },
+    {
+      "end_ms": 1767225609500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225605500,
+      "work_order": "BROAD-075"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-075",
+      "开始时间": 1767225607495,
+      "结束时间": 1767225607505
+    },
+    {
+      "end_ms": 1767225609600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225605600,
+      "work_order": "BROAD-076"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-076",
+      "开始时间": 1767225607595,
+      "结束时间": 1767225607605
+    },
+    {
+      "end_ms": 1767225609700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225605700,
+      "work_order": "BROAD-077"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-077",
+      "开始时间": 1767225607695,
+      "结束时间": 1767225607705
+    },
+    {
+      "end_ms": 1767225609800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225605800,
+      "work_order": "BROAD-078"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-078",
+      "开始时间": 1767225607795,
+      "结束时间": 1767225607805
+    },
+    {
+      "end_ms": 1767225609900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225605900,
+      "work_order": "BROAD-079"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-079",
+      "开始时间": 1767225607895,
+      "结束时间": 1767225607905
+    },
+    {
+      "end_ms": 1767225610000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225606000,
+      "work_order": "BROAD-080"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-080",
+      "开始时间": 1767225607995,
+      "结束时间": 1767225608005
+    },
+    {
+      "end_ms": 1767225610100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225606100,
+      "work_order": "BROAD-081"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-081",
+      "开始时间": 1767225608095,
+      "结束时间": 1767225608105
+    },
+    {
+      "end_ms": 1767225610200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225606200,
+      "work_order": "BROAD-082"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-082",
+      "开始时间": 1767225608195,
+      "结束时间": 1767225608205
+    },
+    {
+      "end_ms": 1767225610300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225606300,
+      "work_order": "BROAD-083"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-083",
+      "开始时间": 1767225608295,
+      "结束时间": 1767225608305
+    },
+    {
+      "end_ms": 1767225610400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225606400,
+      "work_order": "BROAD-084"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-084",
+      "开始时间": 1767225608395,
+      "结束时间": 1767225608405
+    },
+    {
+      "end_ms": 1767225610500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225606500,
+      "work_order": "BROAD-085"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-085",
+      "开始时间": 1767225608495,
+      "结束时间": 1767225608505
+    },
+    {
+      "end_ms": 1767225610600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225606600,
+      "work_order": "BROAD-086"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-086",
+      "开始时间": 1767225608595,
+      "结束时间": 1767225608605
+    },
+    {
+      "end_ms": 1767225610700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225606700,
+      "work_order": "BROAD-087"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-087",
+      "开始时间": 1767225608695,
+      "结束时间": 1767225608705
+    },
+    {
+      "end_ms": 1767225610800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225606800,
+      "work_order": "BROAD-088"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-088",
+      "开始时间": 1767225608795,
+      "结束时间": 1767225608805
+    },
+    {
+      "end_ms": 1767225610900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225606900,
+      "work_order": "BROAD-089"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-089",
+      "开始时间": 1767225608895,
+      "结束时间": 1767225608905
+    },
+    {
+      "end_ms": 1767225611000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225607000,
+      "work_order": "BROAD-090"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-090",
+      "开始时间": 1767225608995,
+      "结束时间": 1767225609005
+    },
+    {
+      "end_ms": 1767225611100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225607100,
+      "work_order": "BROAD-091"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-091",
+      "开始时间": 1767225609095,
+      "结束时间": 1767225609105
+    },
+    {
+      "end_ms": 1767225611200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225607200,
+      "work_order": "BROAD-092"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-092",
+      "开始时间": 1767225609195,
+      "结束时间": 1767225609205
+    },
+    {
+      "end_ms": 1767225611300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225607300,
+      "work_order": "BROAD-093"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-093",
+      "开始时间": 1767225609295,
+      "结束时间": 1767225609305
+    },
+    {
+      "end_ms": 1767225611400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225607400,
+      "work_order": "BROAD-094"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-094",
+      "开始时间": 1767225609395,
+      "结束时间": 1767225609405
+    },
+    {
+      "end_ms": 1767225611500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225607500,
+      "work_order": "BROAD-095"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-095",
+      "开始时间": 1767225609495,
+      "结束时间": 1767225609505
+    },
+    {
+      "end_ms": 1767225611600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225607600,
+      "work_order": "BROAD-096"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-096",
+      "开始时间": 1767225609595,
+      "结束时间": 1767225609605
+    },
+    {
+      "end_ms": 1767225611700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225607700,
+      "work_order": "BROAD-097"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-097",
+      "开始时间": 1767225609695,
+      "结束时间": 1767225609705
+    },
+    {
+      "end_ms": 1767225611800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225607800,
+      "work_order": "BROAD-098"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-098",
+      "开始时间": 1767225609795,
+      "结束时间": 1767225609805
+    },
+    {
+      "end_ms": 1767225611900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225607900,
+      "work_order": "BROAD-099"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-099",
+      "开始时间": 1767225609895,
+      "结束时间": 1767225609905
+    },
+    {
+      "end_ms": 1767225612000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225608000,
+      "work_order": "BROAD-100"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-100",
+      "开始时间": 1767225609995,
+      "结束时间": 1767225610005
+    },
+    {
+      "end_ms": 1767225612100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225608100,
+      "work_order": "BROAD-101"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-101",
+      "开始时间": 1767225610095,
+      "结束时间": 1767225610105
+    },
+    {
+      "end_ms": 1767225612200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225608200,
+      "work_order": "BROAD-102"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-102",
+      "开始时间": 1767225610195,
+      "结束时间": 1767225610205
+    },
+    {
+      "end_ms": 1767225612300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225608300,
+      "work_order": "BROAD-103"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-103",
+      "开始时间": 1767225610295,
+      "结束时间": 1767225610305
+    },
+    {
+      "end_ms": 1767225612400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225608400,
+      "work_order": "BROAD-104"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-104",
+      "开始时间": 1767225610395,
+      "结束时间": 1767225610405
+    },
+    {
+      "end_ms": 1767225612500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225608500,
+      "work_order": "BROAD-105"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-105",
+      "开始时间": 1767225610495,
+      "结束时间": 1767225610505
+    },
+    {
+      "end_ms": 1767225612600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225608600,
+      "work_order": "BROAD-106"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-106",
+      "开始时间": 1767225610595,
+      "结束时间": 1767225610605
+    },
+    {
+      "end_ms": 1767225612700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225608700,
+      "work_order": "BROAD-107"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-107",
+      "开始时间": 1767225610695,
+      "结束时间": 1767225610705
+    },
+    {
+      "end_ms": 1767225612800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225608800,
+      "work_order": "BROAD-108"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-108",
+      "开始时间": 1767225610795,
+      "结束时间": 1767225610805
+    },
+    {
+      "end_ms": 1767225612900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225608900,
+      "work_order": "BROAD-109"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-109",
+      "开始时间": 1767225610895,
+      "结束时间": 1767225610905
+    },
+    {
+      "end_ms": 1767225613000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225609000,
+      "work_order": "BROAD-110"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-110",
+      "开始时间": 1767225610995,
+      "结束时间": 1767225611005
+    },
+    {
+      "end_ms": 1767225613100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225609100,
+      "work_order": "BROAD-111"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-111",
+      "开始时间": 1767225611095,
+      "结束时间": 1767225611105
+    },
+    {
+      "end_ms": 1767225613200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225609200,
+      "work_order": "BROAD-112"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-112",
+      "开始时间": 1767225611195,
+      "结束时间": 1767225611205
+    },
+    {
+      "end_ms": 1767225613300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225609300,
+      "work_order": "BROAD-113"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-113",
+      "开始时间": 1767225611295,
+      "结束时间": 1767225611305
+    },
+    {
+      "end_ms": 1767225613400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225609400,
+      "work_order": "BROAD-114"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-114",
+      "开始时间": 1767225611395,
+      "结束时间": 1767225611405
+    },
+    {
+      "end_ms": 1767225613500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225609500,
+      "work_order": "BROAD-115"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-115",
+      "开始时间": 1767225611495,
+      "结束时间": 1767225611505
+    },
+    {
+      "end_ms": 1767225613600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225609600,
+      "work_order": "BROAD-116"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-116",
+      "开始时间": 1767225611595,
+      "结束时间": 1767225611605
+    },
+    {
+      "end_ms": 1767225613700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225609700,
+      "work_order": "BROAD-117"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-117",
+      "开始时间": 1767225611695,
+      "结束时间": 1767225611705
+    },
+    {
+      "end_ms": 1767225613800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225609800,
+      "work_order": "BROAD-118"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-118",
+      "开始时间": 1767225611795,
+      "结束时间": 1767225611805
+    },
+    {
+      "end_ms": 1767225613900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225609900,
+      "work_order": "BROAD-119"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-119",
+      "开始时间": 1767225611895,
+      "结束时间": 1767225611905
+    },
+    {
+      "end_ms": 1767225614000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225610000,
+      "work_order": "BROAD-120"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-120",
+      "开始时间": 1767225611995,
+      "结束时间": 1767225612005
+    },
+    {
+      "end_ms": 1767225614100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225610100,
+      "work_order": "BROAD-121"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-121",
+      "开始时间": 1767225612095,
+      "结束时间": 1767225612105
+    },
+    {
+      "end_ms": 1767225614200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225610200,
+      "work_order": "BROAD-122"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-122",
+      "开始时间": 1767225612195,
+      "结束时间": 1767225612205
+    },
+    {
+      "end_ms": 1767225614300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225610300,
+      "work_order": "BROAD-123"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-123",
+      "开始时间": 1767225612295,
+      "结束时间": 1767225612305
+    },
+    {
+      "end_ms": 1767225614400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225610400,
+      "work_order": "BROAD-124"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-124",
+      "开始时间": 1767225612395,
+      "结束时间": 1767225612405
+    },
+    {
+      "end_ms": 1767225614500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225610500,
+      "work_order": "BROAD-125"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-125",
+      "开始时间": 1767225612495,
+      "结束时间": 1767225612505
+    },
+    {
+      "end_ms": 1767225614600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225610600,
+      "work_order": "BROAD-126"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-126",
+      "开始时间": 1767225612595,
+      "结束时间": 1767225612605
+    },
+    {
+      "end_ms": 1767225614700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225610700,
+      "work_order": "BROAD-127"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-127",
+      "开始时间": 1767225612695,
+      "结束时间": 1767225612705
+    },
+    {
+      "end_ms": 1767225614800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225610800,
+      "work_order": "BROAD-128"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-128",
+      "开始时间": 1767225612795,
+      "结束时间": 1767225612805
+    },
+    {
+      "end_ms": 1767225614900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225610900,
+      "work_order": "BROAD-129"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-129",
+      "开始时间": 1767225612895,
+      "结束时间": 1767225612905
+    },
+    {
+      "end_ms": 1767225615000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225611000,
+      "work_order": "BROAD-130"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-130",
+      "开始时间": 1767225612995,
+      "结束时间": 1767225613005
+    },
+    {
+      "end_ms": 1767225615100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225611100,
+      "work_order": "BROAD-131"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-131",
+      "开始时间": 1767225613095,
+      "结束时间": 1767225613105
+    },
+    {
+      "end_ms": 1767225615200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225611200,
+      "work_order": "BROAD-132"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-132",
+      "开始时间": 1767225613195,
+      "结束时间": 1767225613205
+    },
+    {
+      "end_ms": 1767225615300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225611300,
+      "work_order": "BROAD-133"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-133",
+      "开始时间": 1767225613295,
+      "结束时间": 1767225613305
+    },
+    {
+      "end_ms": 1767225615400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225611400,
+      "work_order": "BROAD-134"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-134",
+      "开始时间": 1767225613395,
+      "结束时间": 1767225613405
+    },
+    {
+      "end_ms": 1767225615500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225611500,
+      "work_order": "BROAD-135"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-135",
+      "开始时间": 1767225613495,
+      "结束时间": 1767225613505
+    },
+    {
+      "end_ms": 1767225615600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225611600,
+      "work_order": "BROAD-136"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-136",
+      "开始时间": 1767225613595,
+      "结束时间": 1767225613605
+    },
+    {
+      "end_ms": 1767225615700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225611700,
+      "work_order": "BROAD-137"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-137",
+      "开始时间": 1767225613695,
+      "结束时间": 1767225613705
+    },
+    {
+      "end_ms": 1767225615800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225611800,
+      "work_order": "BROAD-138"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-138",
+      "开始时间": 1767225613795,
+      "结束时间": 1767225613805
+    },
+    {
+      "end_ms": 1767225615900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225611900,
+      "work_order": "BROAD-139"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-139",
+      "开始时间": 1767225613895,
+      "结束时间": 1767225613905
+    },
+    {
+      "end_ms": 1767225616000,
+      "equipment_id": "CNC-01",
+      "start_ms": 1767225612000,
+      "work_order": "BROAD-140"
+    },
+    {
+      "device_id": "CNC-01",
+      "work_order": "WO-140",
+      "开始时间": 1767225613995,
+      "结束时间": 1767225614005
+    },
+    {
+      "end_ms": 1767225616100,
+      "equipment_id": "CNC-02",
+      "start_ms": 1767225612100,
+      "work_order": "BROAD-141"
+    },
+    {
+      "device_id": "CNC-02",
+      "work_order": "WO-141",
+      "开始时间": 1767225614095,
+      "结束时间": 1767225614105
+    },
+    {
+      "end_ms": 1767225616200,
+      "equipment_id": "CNC-03",
+      "start_ms": 1767225612200,
+      "work_order": "BROAD-142"
+    },
+    {
+      "device_id": "CNC-03",
+      "work_order": "WO-142",
+      "开始时间": 1767225614195,
+      "结束时间": 1767225614205
+    },
+    {
+      "end_ms": 1767225616300,
+      "equipment_id": "CNC-04",
+      "start_ms": 1767225612300,
+      "work_order": "BROAD-143"
+    },
+    {
+      "device_id": "CNC-04",
+      "work_order": "WO-143",
+      "开始时间": 1767225614295,
+      "结束时间": 1767225614305
+    },
+    {
+      "end_ms": 1767225616400,
+      "equipment_id": "CNC-05",
+      "start_ms": 1767225612400,
+      "work_order": "BROAD-144"
+    },
+    {
+      "device_id": "CNC-05",
+      "work_order": "WO-144",
+      "开始时间": 1767225614395,
+      "结束时间": 1767225614405
+    },
+    {
+      "end_ms": 1767225616500,
+      "equipment_id": "CNC-06",
+      "start_ms": 1767225612500,
+      "work_order": "BROAD-145"
+    },
+    {
+      "device_id": "CNC-06",
+      "work_order": "WO-145",
+      "开始时间": 1767225614495,
+      "结束时间": 1767225614505
+    },
+    {
+      "end_ms": 1767225616600,
+      "equipment_id": "CNC-07",
+      "start_ms": 1767225612600,
+      "work_order": "BROAD-146"
+    },
+    {
+      "device_id": "CNC-07",
+      "work_order": "WO-146",
+      "开始时间": 1767225614595,
+      "结束时间": 1767225614605
+    },
+    {
+      "end_ms": 1767225616700,
+      "equipment_id": "CNC-08",
+      "start_ms": 1767225612700,
+      "work_order": "BROAD-147"
+    },
+    {
+      "device_id": "CNC-08",
+      "work_order": "WO-147",
+      "开始时间": 1767225614695,
+      "结束时间": 1767225614705
+    },
+    {
+      "end_ms": 1767225616800,
+      "equipment_id": "CNC-09",
+      "start_ms": 1767225612800,
+      "work_order": "BROAD-148"
+    },
+    {
+      "device_id": "CNC-09",
+      "work_order": "WO-148",
+      "开始时间": 1767225614795,
+      "结束时间": 1767225614805
+    },
+    {
+      "end_ms": 1767225616900,
+      "equipment_id": "CNC-10",
+      "start_ms": 1767225612900,
+      "work_order": "BROAD-149"
+    },
+    {
+      "device_id": "CNC-10",
+      "work_order": "WO-149",
+      "开始时间": 1767225614895,
+      "结束时间": 1767225614905
+    },
+    {
+      "equipment_id": "CNC-01",
+      "start_ms": "bad",
+      "work_order": "INVALID"
+    }
+  ],
+  "sequence": [
+    {
+      "machine_id": "CN-01",
+      "ts": 1767225600000,
+      "测量值": 40.0
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.01,
+      "采集时间": 1767225600100
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.02,
+      "采集时间": 1767225600200
+    },
+    {
+      "ts": 1767225600300,
+      "机床编号": "CNC-04",
+      "测量值": 40.03
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.04,
+      "采集时间": 1767225600400
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.05,
+      "采集时间": 1767225600500
+    },
+    {
+      "machine_id": "CNC-07",
+      "ts": 1767225600600,
+      "测量值": 40.06
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.07,
+      "采集时间": 1767225600700
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.08,
+      "采集时间": 1767225600800
+    },
+    {
+      "ts": 1767225600900,
+      "机床编号": "CNC-10",
+      "测量值": 40.09
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.1,
+      "采集时间": 1767225601000
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.11,
+      "采集时间": 1767225601100
+    },
+    {
+      "machine_id": "CNC-03",
+      "ts": 1767225601200,
+      "测量值": 40.12
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.13,
+      "采集时间": 1767225601300
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.14,
+      "采集时间": 1767225601400
+    },
+    {
+      "ts": 1767225601500,
+      "机床编号": "CNC-06",
+      "测量值": 40.15
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.16,
+      "采集时间": 1767225601600
+    },
+    {
+      "机床编号": "CN-08",
+      "测量值": 40.17,
+      "采集时间": 1767225601700
+    },
+    {
+      "machine_id": "CNC-09",
+      "ts": 1767225601800,
+      "测量值": 40.18
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.19,
+      "采集时间": 1767225601900
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.2,
+      "采集时间": 1767225602000
+    },
+    {
+      "ts": 1767225602100,
+      "机床编号": "CNC-02",
+      "测量值": 40.21
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.22,
+      "采集时间": 1767225602200
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.23,
+      "采集时间": 1767225602300
+    },
+    {
+      "machine_id": "CNC-05",
+      "ts": 1767225602400,
+      "测量值": 40.24
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.25,
+      "采集时间": 1767225602500
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.26,
+      "采集时间": 1767225602600
+    },
+    {
+      "ts": 1767225602700,
+      "机床编号": "CNC-08",
+      "测量值": 40.27
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.28,
+      "采集时间": 1767225602800
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.29,
+      "采集时间": 1767225602900
+    },
+    {
+      "machine_id": "CNC-01",
+      "ts": 1767225603000,
+      "测量值": 40.3
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.31,
+      "采集时间": 1767225603100
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.32,
+      "采集时间": 1767225603200
+    },
+    {
+      "ts": 1767225603300,
+      "机床编号": "CNC-04",
+      "测量值": 40.33
+    },
+    {
+      "machine_id": "CN-05",
+      "测量值": 40.34,
+      "采集时间": 1767225603400
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.35,
+      "采集时间": 1767225603500
+    },
+    {
+      "machine_id": "CNC-07",
+      "ts": 1767225603600,
+      "测量值": 40.36
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.37,
+      "采集时间": 1767225603700
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.38,
+      "采集时间": 1767225603800
+    },
+    {
+      "ts": 1767225603900,
+      "机床编号": "CNC-10",
+      "测量值": 40.39
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.4,
+      "采集时间": 1767225604000
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.41,
+      "采集时间": 1767225604100
+    },
+    {
+      "machine_id": "CNC-03",
+      "ts": 1767225604200,
+      "测量值": 40.42
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.43,
+      "采集时间": 1767225604300
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.44,
+      "采集时间": 1767225604400
+    },
+    {
+      "ts": 1767225604500,
+      "机床编号": "CNC-06",
+      "测量值": 40.45
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.46,
+      "采集时间": 1767225604600
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.47,
+      "采集时间": 1767225604700
+    },
+    {
+      "machine_id": "CNC-09",
+      "ts": 1767225604800,
+      "测量值": 40.48
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.49,
+      "采集时间": 1767225604900
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.5,
+      "采集时间": 1767225605000
+    },
+    {
+      "ts": 1767225605100,
+      "机床编号": "CN-02",
+      "测量值": 40.51
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.52,
+      "采集时间": 1767225605200
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.53,
+      "采集时间": 1767225605300
+    },
+    {
+      "machine_id": "CNC-05",
+      "ts": 1767225605400,
+      "测量值": 40.54
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.55,
+      "采集时间": 1767225605500
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.56,
+      "采集时间": 1767225605600
+    },
+    {
+      "ts": 1767225605700,
+      "机床编号": "CNC-08",
+      "测量值": 40.57
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.58,
+      "采集时间": 1767225605800
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.59,
+      "采集时间": 1767225605900
+    },
+    {
+      "machine_id": "CNC-01",
+      "ts": 1767225606000,
+      "测量值": 40.6
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.61,
+      "采集时间": 1767225606100
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.62,
+      "采集时间": 1767225606200
+    },
+    {
+      "ts": 1767225606300,
+      "机床编号": "CNC-04",
+      "测量值": 40.63
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.64,
+      "采集时间": 1767225606400
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.65,
+      "采集时间": 1767225606500
+    },
+    {
+      "machine_id": "CNC-07",
+      "ts": 1767225606600,
+      "测量值": 40.66
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.67,
+      "采集时间": 1767225606700
+    },
+    {
+      "machine_id": "CN-09",
+      "测量值": 40.68,
+      "采集时间": 1767225606800
+    },
+    {
+      "ts": 1767225606900,
+      "机床编号": "CNC-10",
+      "测量值": 40.69
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.7,
+      "采集时间": 1767225607000
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.71,
+      "采集时间": 1767225607100
+    },
+    {
+      "machine_id": "CNC-03",
+      "ts": 1767225607200,
+      "测量值": 40.72
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.73,
+      "采集时间": 1767225607300
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.74,
+      "采集时间": 1767225607400
+    },
+    {
+      "ts": 1767225607500,
+      "机床编号": "CNC-06",
+      "测量值": 40.75
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.76,
+      "采集时间": 1767225607600
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.77,
+      "采集时间": 1767225607700
+    },
+    {
+      "machine_id": "CNC-09",
+      "ts": 1767225607800,
+      "测量值": 40.78
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.79,
+      "采集时间": 1767225607900
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 40.8,
+      "采集时间": 1767225608000
+    },
+    {
+      "ts": 1767225608100,
+      "机床编号": "CNC-02",
+      "测量值": 40.81
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.82,
+      "采集时间": 1767225608200
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 40.83,
+      "采集时间": 1767225608300
+    },
+    {
+      "machine_id": "CNC-05",
+      "ts": 1767225608400,
+      "测量值": 40.84
+    },
+    {
+      "机床编号": "CN-06",
+      "测量值": 40.85,
+      "采集时间": 1767225608500
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 40.86,
+      "采集时间": 1767225608600
+    },
+    {
+      "ts": 1767225608700,
+      "机床编号": "CNC-08",
+      "测量值": 40.87
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.88,
+      "采集时间": 1767225608800
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 40.89,
+      "采集时间": 1767225608900
+    },
+    {
+      "machine_id": "CNC-01",
+      "ts": 1767225609000,
+      "测量值": 40.9
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 40.91,
+      "采集时间": 1767225609100
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 40.92,
+      "采集时间": 1767225609200
+    },
+    {
+      "ts": 1767225609300,
+      "机床编号": "CNC-04",
+      "测量值": 40.93
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 40.94,
+      "采集时间": 1767225609400
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 40.95,
+      "采集时间": 1767225609500
+    },
+    {
+      "machine_id": "CNC-07",
+      "ts": 1767225609600,
+      "测量值": 40.96
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 40.97,
+      "采集时间": 1767225609700
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 40.98,
+      "采集时间": 1767225609800
+    },
+    {
+      "ts": 1767225609900,
+      "机床编号": "CNC-10",
+      "测量值": 40.99
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 41.0,
+      "采集时间": 1767225610000
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 41.01,
+      "采集时间": 1767225610100
+    },
+    {
+      "machine_id": "CN-03",
+      "ts": 1767225610200,
+      "测量值": 41.02
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 41.03,
+      "采集时间": 1767225610300
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 41.04,
+      "采集时间": 1767225610400
+    },
+    {
+      "ts": 1767225610500,
+      "机床编号": "CNC-06",
+      "测量值": 41.05
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 41.06,
+      "采集时间": 1767225610600
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 41.07,
+      "采集时间": 1767225610700
+    },
+    {
+      "machine_id": "CNC-09",
+      "ts": 1767225610800,
+      "测量值": 41.08
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 41.09,
+      "采集时间": 1767225610900
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 41.1,
+      "采集时间": 1767225611000
+    },
+    {
+      "ts": 1767225611100,
+      "机床编号": "CNC-02",
+      "测量值": 41.11
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 41.12,
+      "采集时间": 1767225611200
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 41.13,
+      "采集时间": 1767225611300
+    },
+    {
+      "machine_id": "CNC-05",
+      "ts": 1767225611400,
+      "测量值": 41.14
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 41.15,
+      "采集时间": 1767225611500
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 41.16,
+      "采集时间": 1767225611600
+    },
+    {
+      "ts": 1767225611700,
+      "机床编号": "CNC-08",
+      "测量值": 41.17
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 41.18,
+      "采集时间": 1767225611800
+    },
+    {
+      "机床编号": "CN-10",
+      "测量值": 41.19,
+      "采集时间": 1767225611900
+    },
+    {
+      "machine_id": "CNC-01",
+      "ts": 1767225612000,
+      "测量值": 41.2
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 41.21,
+      "采集时间": 1767225612100
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 41.22,
+      "采集时间": 1767225612200
+    },
+    {
+      "ts": 1767225612300,
+      "机床编号": "CNC-04",
+      "测量值": 41.23
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 41.24,
+      "采集时间": 1767225612400
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 41.25,
+      "采集时间": 1767225612500
+    },
+    {
+      "machine_id": "CNC-07",
+      "ts": 1767225612600,
+      "测量值": 41.26
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 41.27,
+      "采集时间": 1767225612700
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 41.28,
+      "采集时间": 1767225612800
+    },
+    {
+      "ts": 1767225612900,
+      "机床编号": "CNC-10",
+      "测量值": 41.29
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 41.3,
+      "采集时间": 1767225613000
+    },
+    {
+      "机床编号": "CNC-02",
+      "测量值": 41.31,
+      "采集时间": 1767225613100
+    },
+    {
+      "machine_id": "CNC-03",
+      "ts": 1767225613200,
+      "测量值": 41.32
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 41.33,
+      "采集时间": 1767225613300
+    },
+    {
+      "machine_id": "CNC-05",
+      "测量值": 41.34,
+      "采集时间": 1767225613400
+    },
+    {
+      "ts": 1767225613500,
+      "机床编号": "CNC-06",
+      "测量值": 41.35
+    },
+    {
+      "machine_id": "CN-07",
+      "测量值": 41.36,
+      "采集时间": 1767225613600
+    },
+    {
+      "机床编号": "CNC-08",
+      "测量值": 41.37,
+      "采集时间": 1767225613700
+    },
+    {
+      "machine_id": "CNC-09",
+      "ts": 1767225613800,
+      "测量值": 41.38
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 41.39,
+      "采集时间": 1767225613900
+    },
+    {
+      "machine_id": "CNC-01",
+      "测量值": 41.4,
+      "采集时间": 1767225614000
+    },
+    {
+      "ts": 1767225614100,
+      "机床编号": "CNC-02",
+      "测量值": 41.41
+    },
+    {
+      "machine_id": "CNC-03",
+      "测量值": 41.42,
+      "采集时间": 1767225614200
+    },
+    {
+      "机床编号": "CNC-04",
+      "测量值": 41.43,
+      "采集时间": 1767225614300
+    },
+    {
+      "machine_id": "CNC-05",
+      "ts": 1767225614400,
+      "测量值": 41.44
+    },
+    {
+      "机床编号": "CNC-06",
+      "测量值": 41.45,
+      "采集时间": 1767225614500
+    },
+    {
+      "machine_id": "CNC-07",
+      "测量值": 41.46,
+      "采集时间": 1767225614600
+    },
+    {
+      "ts": 1767225614700,
+      "机床编号": "CNC-08",
+      "测量值": 41.47
+    },
+    {
+      "machine_id": "CNC-09",
+      "测量值": 41.48,
+      "采集时间": 1767225614800
+    },
+    {
+      "机床编号": "CNC-10",
+      "测量值": 41.49,
+      "采集时间": 1767225614900
+    },
+    {
+      "equipment_id": "CNC-01",
+      "timestamp_ms": "invalid",
+      "value": 1
+    },
+    {
+      "equipment_id": "UNKNOWN",
+      "timestamp_ms": 1767225600000,
+      "value": 2
+    },
+    {
+      "timestamp_ms": 1767225600000,
+      "value": 3
+    }
+  ],
+  "tolerance_ms": 50,
+  "version": 1
+}

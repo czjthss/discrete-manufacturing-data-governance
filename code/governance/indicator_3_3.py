@@ -6,6 +6,7 @@ import csv
 import hashlib
 import io
 import json
+from pathlib import Path
 from typing import Any
 
 from .common import pct, wilson_interval
@@ -18,6 +19,8 @@ MAX_RECORDS = 500_000
 MAX_COLUMNS = 2_048
 JSON_WRAPPERS = ("records", "data", "rows", "items")
 _JSON_DECODER = json.JSONDecoder()
+BENCHMARK_DATA_PATH = Path(__file__).with_name("benchmark_data") / "indicator_3_3_labeled.json"
+BENCHMARK_DATA_SHA256 = "9bf14e23241ecc6c1d02f5cebe117ce9e22da0e2a1658785a2973079557fa44a"
 
 
 def _normalize_input_bom(text: str) -> str:
@@ -341,88 +344,23 @@ def parse_records(text: str, declared_format: str = "auto") -> dict[str, Any]:
 
 
 def benchmark() -> dict[str, Any]:
-    fixtures: list[tuple[str, str, int, set[str]]] = []
-    delimiters = {
-        "csv": ",",
-        "tsv": "\t",
-        "semicolon": ";",
-        "pipe": "|",
-    }
-    for data_format, delimiter in delimiters.items():
-        for index in range(20):
-            text = (
-                f"timestamp_ms{delimiter}equipment_id{delimiter}value{delimiter}note\n"
-                f"{1000 + index}{delimiter}CNC-{index % 7 + 1:02d}{delimiter}"
-                f"{42 + index / 10:.1f}{delimiter}batch-{index}"
-            )
-            fixtures.append(
-                (
-                    data_format,
-                    text,
-                    1,
-                    {"timestamp_ms", "equipment_id", "value", "note"},
-                )
-            )
-    for index in range(20):
-        wrapper = ("records", "data", "rows", "items")[index % 4]
-        text = json.dumps(
-            {
-                wrapper: [
-                    {
-                        "timestamp_ms": 2000 + index,
-                        "equipment_id": f"CNC-{index % 5 + 1:02d}",
-                        "value": 50 + index / 10,
-                    }
-                ]
-            },
-            ensure_ascii=False,
-        )
-        fixtures.append(
-            (
-                "json",
-                text,
-                1,
-                {"timestamp_ms", "equipment_id", "value"},
-            )
-        )
-    for index in range(20):
-        text = "\n".join(
-            json.dumps(
-                {
-                    "timestamp_ms": 3000 + index * 2 + offset,
-                    "equipment_id": f"CNC-{index % 4 + 1:02d}",
-                    "value": 60 + offset,
-                }
-            )
-            for offset in range(2)
-        )
-        fixtures.append(
-            (
-                "jsonl",
-                text,
-                2,
-                {"timestamp_ms", "equipment_id", "value"},
-            )
-        )
-    invalid_fixtures = [
-        "",
-        "plain unstructured text",
-        "{broken json",
-        "[1,2,3]",
-        '{"records":[1,2]}',
-        "id,value\n1,2,3",
-        "{}\n[]",
-        "[sensor]\ninvalid",
-    ]
+    dataset_bytes = BENCHMARK_DATA_PATH.read_bytes()
+    dataset_sha256 = hashlib.sha256(dataset_bytes).hexdigest()
+    if dataset_sha256 != BENCHMARK_DATA_SHA256:
+        raise ValueError("3.3 标注数据与固定版本哈希不一致")
+    dataset = json.loads(dataset_bytes)
+    fixtures = dataset["valid"]
+    invalid_fixtures = dataset["invalid"]
     correct = 0
     failures: list[str] = []
-    for expected, text, expected_rows, expected_columns in fixtures:
+    for fixture in fixtures:
+        expected = fixture["expected_format"]
         try:
-            result = parse_records(text)
+            result = parse_records(fixture["text"])
             matched = (
                 result["format"] == expected
-                and len(result["records"]) == expected_rows
-                and set(result["columns"]) == expected_columns
+                and len(result["records"]) == fixture["expected_rows"]
+                and result["columns"] == fixture["expected_columns"]
             )
             correct += int(matched)
             if not matched:
@@ -439,9 +377,7 @@ def benchmark() -> dict[str, Any]:
     correct_total = correct + rejected
     accuracy = pct(correct_total, total)
     ci_low, ci_high = wilson_interval(correct_total, total)
-    fingerprint = hashlib.sha256(
-        "\n---\n".join(text for _, text, _, _ in fixtures).encode("utf-8")
-    ).hexdigest()
+    fingerprint = dataset_sha256
     return {
         "indicator": ID,
         "title": TITLE,
@@ -454,9 +390,14 @@ def benchmark() -> dict[str, Any]:
             "correctly_parsed": correct_total,
             "parsing_accuracy_percent": accuracy,
             "accuracy_wilson_95_percent": [ci_low, ci_high],
+            "accuracy_interval_scope": (
+                "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率"
+            ),
             "unique_fixture_fingerprint_sha256": fingerprint,
+            "labeled_dataset_id": dataset["dataset_id"],
+            "labeled_dataset_version": dataset["version"],
             "failure_count": len(failures),
             "formats": ["CSV", "TSV", "分号表格", "管道表格", "JSON", "JSONL"],
         },
-        "method": "格式嗅探、结构解析、字段集合提取和可重复标注样例评测。",
+        "method": "格式嗅探、结构解析、字段集合提取和版本化标注数据集评测。",
     }

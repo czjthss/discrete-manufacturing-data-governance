@@ -1,0 +1,1285 @@
+{
+  "dataset_id": "indicator-3.3-labeled-v2",
+  "invalid": [
+    "",
+    "plain unstructured text",
+    "{broken json",
+    "[1,2,3]",
+    "{\"records\":[1,2]}",
+    "id,value\n1,2,3",
+    "{}\n[]",
+    "[sensor]\ninvalid"
+  ],
+  "valid": [
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1000,CNC-01,42.0,batch-0"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "equipment_id,value,timestamp_ms,note\nCNC-02,42.1,1001,batch-1"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value\n1002,CNC-03,42.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1003,CNC-04,42.3,\"batch,3 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1004,CNC-05,42.4,batch-4\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1005,CNC-06,42.5,batch-5"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "equipment_id,value,timestamp_ms,note\nCNC-07,42.6,1006,batch-6"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value\n1007,CNC-01,42.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1008,CNC-02,42.8,\"batch,8 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1009,CNC-03,42.9,batch-9\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1010,CNC-04,43.0,batch-10"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "equipment_id,value,timestamp_ms,note\nCNC-05,43.1,1011,batch-11"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value\n1012,CNC-06,43.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1013,CNC-07,43.3,\"batch,13 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1014,CNC-01,43.4,batch-14\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1015,CNC-02,43.5,batch-15"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "equipment_id,value,timestamp_ms,note\nCNC-03,43.6,1016,batch-16"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value\n1017,CNC-04,43.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1018,CNC-05,43.8,\"batch,18 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "csv",
+      "expected_rows": 1,
+      "text": "timestamp_ms,equipment_id,value,note\n1019,CNC-06,43.9,batch-19\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1000\tCNC-01\t42.0\tbatch-0"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "equipment_id\tvalue\ttimestamp_ms\tnote\nCNC-02\t42.1\t1001\tbatch-1"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\n1002\tCNC-03\t42.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1003\tCNC-04\t42.3\t\"batch\t3 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1004\tCNC-05\t42.4\tbatch-4\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1005\tCNC-06\t42.5\tbatch-5"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "equipment_id\tvalue\ttimestamp_ms\tnote\nCNC-07\t42.6\t1006\tbatch-6"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\n1007\tCNC-01\t42.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1008\tCNC-02\t42.8\t\"batch\t8 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1009\tCNC-03\t42.9\tbatch-9\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1010\tCNC-04\t43.0\tbatch-10"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "equipment_id\tvalue\ttimestamp_ms\tnote\nCNC-05\t43.1\t1011\tbatch-11"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\n1012\tCNC-06\t43.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1013\tCNC-07\t43.3\t\"batch\t13 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1014\tCNC-01\t43.4\tbatch-14\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1015\tCNC-02\t43.5\tbatch-15"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "equipment_id\tvalue\ttimestamp_ms\tnote\nCNC-03\t43.6\t1016\tbatch-16"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\n1017\tCNC-04\t43.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1018\tCNC-05\t43.8\t\"batch\t18 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "tsv",
+      "expected_rows": 1,
+      "text": "timestamp_ms\tequipment_id\tvalue\tnote\n1019\tCNC-06\t43.9\tbatch-19\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1000;CNC-01;42.0;batch-0"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "equipment_id;value;timestamp_ms;note\nCNC-02;42.1;1001;batch-1"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value\n1002;CNC-03;42.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1003;CNC-04;42.3;\"batch;3 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1004;CNC-05;42.4;batch-4\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1005;CNC-06;42.5;batch-5"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "equipment_id;value;timestamp_ms;note\nCNC-07;42.6;1006;batch-6"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value\n1007;CNC-01;42.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1008;CNC-02;42.8;\"batch;8 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1009;CNC-03;42.9;batch-9\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1010;CNC-04;43.0;batch-10"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "equipment_id;value;timestamp_ms;note\nCNC-05;43.1;1011;batch-11"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value\n1012;CNC-06;43.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1013;CNC-07;43.3;\"batch;13 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1014;CNC-01;43.4;batch-14\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1015;CNC-02;43.5;batch-15"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "equipment_id;value;timestamp_ms;note\nCNC-03;43.6;1016;batch-16"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value\n1017;CNC-04;43.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1018;CNC-05;43.8;\"batch;18 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "semicolon",
+      "expected_rows": 1,
+      "text": "timestamp_ms;equipment_id;value;note\n1019;CNC-06;43.9;batch-19\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1000|CNC-01|42.0|batch-0"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "equipment_id|value|timestamp_ms|note\nCNC-02|42.1|1001|batch-1"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value\n1002|CNC-03|42.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1003|CNC-04|42.3|\"batch|3 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1004|CNC-05|42.4|batch-4\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1005|CNC-06|42.5|batch-5"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "equipment_id|value|timestamp_ms|note\nCNC-07|42.6|1006|batch-6"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value\n1007|CNC-01|42.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1008|CNC-02|42.8|\"batch|8 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1009|CNC-03|42.9|batch-9\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1010|CNC-04|43.0|batch-10"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "equipment_id|value|timestamp_ms|note\nCNC-05|43.1|1011|batch-11"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value\n1012|CNC-06|43.2"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1013|CNC-07|43.3|\"batch|13 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1014|CNC-01|43.4|batch-14\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1015|CNC-02|43.5|batch-15"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "equipment_id|value|timestamp_ms|note\nCNC-03|43.6|1016|batch-16"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value\n1017|CNC-04|43.7"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1018|CNC-05|43.8|\"batch|18 \"\"quoted\"\"\""
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "pipe",
+      "expected_rows": 1,
+      "text": "timestamp_ms|equipment_id|value|note\n1019|CNC-06|43.9|batch-19\n\n"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"records\":[{\"timestamp_ms\":2000,\"equipment_id\":\"CNC-01\",\"value\":50.0}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"data\":[{\"value\":50.1,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":2001}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"rows\":[{\"timestamp_ms\":2002,\"equipment_id\":\"CNC-03\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"items\":[{\"timestamp_ms\":2003,\"equipment_id\":\"CNC-04\",\"value\":50.3,\"note\":\"escaped \\\"quote\\\" and \\n newline\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\n  \"records\": [\n    {\n      \"timestamp_ms\": 2004,\n      \"equipment_id\": \"CNC-05\",\n      \"value\": 50.4\n    }\n  ]\n}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"data\":[{\"timestamp_ms\":2005,\"equipment_id\":\"CNC-01\",\"value\":50.5}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"rows\":[{\"value\":50.6,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":2006}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"items\":[{\"timestamp_ms\":2007,\"equipment_id\":\"CNC-03\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"records\":[{\"timestamp_ms\":2008,\"equipment_id\":\"CNC-04\",\"value\":50.8,\"note\":\"escaped \\\"quote\\\" and \\n newline\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\n  \"data\": [\n    {\n      \"timestamp_ms\": 2009,\n      \"equipment_id\": \"CNC-05\",\n      \"value\": 50.9\n    }\n  ]\n}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"rows\":[{\"timestamp_ms\":2010,\"equipment_id\":\"CNC-01\",\"value\":51.0}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"items\":[{\"value\":51.1,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":2011}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"records\":[{\"timestamp_ms\":2012,\"equipment_id\":\"CNC-03\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"data\":[{\"timestamp_ms\":2013,\"equipment_id\":\"CNC-04\",\"value\":51.3,\"note\":\"escaped \\\"quote\\\" and \\n newline\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\n  \"rows\": [\n    {\n      \"timestamp_ms\": 2014,\n      \"equipment_id\": \"CNC-05\",\n      \"value\": 51.4\n    }\n  ]\n}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"items\":[{\"timestamp_ms\":2015,\"equipment_id\":\"CNC-01\",\"value\":51.5}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"records\":[{\"value\":51.6,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":2016}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"data\":[{\"timestamp_ms\":2017,\"equipment_id\":\"CNC-03\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\"rows\":[{\"timestamp_ms\":2018,\"equipment_id\":\"CNC-04\",\"value\":51.8,\"note\":\"escaped \\\"quote\\\" and \\n newline\"}]}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "json",
+      "expected_rows": 1,
+      "text": "{\n  \"items\": [\n    {\n      \"timestamp_ms\": 2019,\n      \"equipment_id\": \"CNC-05\",\n      \"value\": 51.9\n    }\n  ]\n}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3000,\"equipment_id\":\"CNC-01\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-01\",\"timestamp_ms\":3001}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3002,\"equipment_id\":\"CNC-02\"}\n{\"value\":61,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":3003}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3004,\"equipment_id\":\"CNC-03\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-03\",\"timestamp_ms\":3005,\"note\":\"line with \\\"escaped\\\" text\"}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3006,\"equipment_id\":\"CNC-04\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-04\",\"timestamp_ms\":3007}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3008,\"equipment_id\":\"CNC-01\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-01\",\"timestamp_ms\":3009}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3010,\"equipment_id\":\"CNC-02\"}\n{\"value\":61,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":3011}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3012,\"equipment_id\":\"CNC-03\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-03\",\"timestamp_ms\":3013,\"note\":\"line with \\\"escaped\\\" text\"}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3014,\"equipment_id\":\"CNC-04\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-04\",\"timestamp_ms\":3015}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3016,\"equipment_id\":\"CNC-01\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-01\",\"timestamp_ms\":3017}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3018,\"equipment_id\":\"CNC-02\"}\n{\"value\":61,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":3019}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3020,\"equipment_id\":\"CNC-03\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-03\",\"timestamp_ms\":3021,\"note\":\"line with \\\"escaped\\\" text\"}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3022,\"equipment_id\":\"CNC-04\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-04\",\"timestamp_ms\":3023}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3024,\"equipment_id\":\"CNC-01\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-01\",\"timestamp_ms\":3025}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3026,\"equipment_id\":\"CNC-02\"}\n{\"value\":61,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":3027}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3028,\"equipment_id\":\"CNC-03\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-03\",\"timestamp_ms\":3029,\"note\":\"line with \\\"escaped\\\" text\"}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3030,\"equipment_id\":\"CNC-04\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-04\",\"timestamp_ms\":3031}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3032,\"equipment_id\":\"CNC-01\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-01\",\"timestamp_ms\":3033}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3034,\"equipment_id\":\"CNC-02\"}\n{\"value\":61,\"equipment_id\":\"CNC-02\",\"timestamp_ms\":3035}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "note",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3036,\"equipment_id\":\"CNC-03\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-03\",\"timestamp_ms\":3037,\"note\":\"line with \\\"escaped\\\" text\"}"
+    },
+    {
+      "expected_columns": [
+        "equipment_id",
+        "timestamp_ms",
+        "value"
+      ],
+      "expected_format": "jsonl",
+      "expected_rows": 2,
+      "text": "{\"timestamp_ms\":3038,\"equipment_id\":\"CNC-04\",\"value\":60}\n{\"value\":61,\"equipment_id\":\"CNC-04\",\"timestamp_ms\":3039}"
+    }
+  ],
+  "version": 2
+}
