@@ -1,0 +1,468 @@
+{
+  "run_id": "indicator-tests-20260822T125134178450Z-f7e6a86a88",
+  "generated_at": "2026-08-22T12:51:39.072836+00:00",
+  "selected_indicators": [
+    "3.1",
+    "3.2",
+    "3.3",
+    "3.4",
+    "3.5",
+    "3.6",
+    "3.7",
+    "3.8",
+    "3.9"
+  ],
+  "passed": true,
+  "environment": {
+    "python": "3.14.4",
+    "implementation": "CPython",
+    "platform": "macOS-15.6-arm64-arm-64bit-Mach-O",
+    "processor": "arm"
+  },
+  "source": {
+    "algorithm_manifest_sha256": "7218e9a631084de9b122e5b6ff0f56ce65a6f54ee5adbed0948ed90bd4faed6e",
+    "git_commit": "02206caf08a6b12e164d98d7225d58b812bb7be2",
+    "git_dirty": false,
+    "git_status_scope": "tracked_files_only",
+    "source_tree_sha256": "336440bc3828b2bb95f6db19645e87f9f4dad7a3c59096d9df88366d74f9a0d3",
+    "source_file_count": 42,
+    "source_file_sha256": {
+      "reger_bos_code_paths/__init__.py": "b0d5f71492ccb9d1ddfbcf0314cb5fe32f5c25b58c7ad43eda8625294aef2f9a",
+      "reger_bos_code_paths/backend/__init__.py": "0e613d51c35731722c7b5377168c0298936caa645d4e61546bd7a28ee9033ffd",
+      "reger_bos_code_paths/backend/myapp/__init__.py": "52866104c4675bf2dae3c0e30202e213bd748873e55d85f74fe149abc5dcaff9",
+      "reger_bos_code_paths/backend/myapp/benchmark_loss.py": "368572ab4287b53867995926b7ea51da5136ac104e7877c0f7c450b15c381ddb",
+      "reger_bos_code_paths/backend/myapp/reger_codec.py": "329fe6f3542af97cb76f556e9addfc3a25ba895a85bd8dc38f97515d388a196f",
+      "reger_bos_code_paths/cpp/src/reger_codec.cpp": "9140456a1fc0c14132f257d0cc6c782aa6b6040d7c85a3227caf5871cae575dc",
+      "reger_bos_code_paths/cpp/src/reger_codec.hpp": "841b4887a7b51aea05f51a5ce94560d2e8faed34f5022df10c0b173b931a4a0e",
+      "reger_bos_code_paths/cpp/src/ts2diff_bos_java.cpp": "b5511ecdc2d6d79af47c6ccc37b3332c9c77791b7c9d32e3fd0a6138b7ea976c",
+      "reger_bos_code_paths/cpp/src/ts2diff_bos_java.hpp": "470214b482ba173b1325dd5af4131a37ed77156fed547a03848edce669ccd85e",
+      "reger_bos_code_paths/cpp/src/ts2diff_bos_native.cpp": "346d82be01c498ad855df5a4d9c703eaf05a15a7121d10fbadba23b62544d533",
+      "reger_bos_code_paths/cpp/src/ts2diff_bos_native.hpp": "8e23f5be52cbc66fede6ca877edd4d3795a311142bf44f18d9f7281e8ffa23b8",
+      "code/algorithm_manifest.json": "7218e9a631084de9b122e5b6ff0f56ce65a6f54ee5adbed0948ed90bd4faed6e",
+      "code/governance/__init__.py": "45079c64def0bd570f9dfc82e2370ee4d1244813a2db68de0dfdb4098f8b1276",
+      "code/governance/benchmark_data/indicator_3_3_labeled.json": "9bf14e23241ecc6c1d02f5cebe117ce9e22da0e2a1658785a2973079557fa44a",
+      "code/governance/benchmark_data/indicator_3_4_labeled.json": "e5f7719a2a0c1ae01a0dc549b793e05aaa764f0bf6eaa8236f81b9a6f9587b6d",
+      "code/governance/common.py": "2c87012c4ba3d1f6f85a6111097764df906e1fbe69f0607bae5fc4aa11552e7c",
+      "code/governance/indicator_3_1.py": "673f7212260fb3299b2a2de677cc28e5f7c035a7c070c243b7c485023796e5b9",
+      "code/governance/indicator_3_2.py": "49aae95c0df4458e2414edd9eda79215c6c1fe97f8c9d74c3b40d165669b62e0",
+      "code/governance/indicator_3_3.py": "1aaa93593756f7896d7d486276eb9b63fd9f850931e4d7b2b6f52f2fa80c1fd7",
+      "code/governance/indicator_3_4.py": "c70ee952119b68c109943c48ddcf39f2331947b0ac7053464d78948f2ce98980",
+      "code/governance/indicator_3_5.py": "a7209286877d0a1ecb84dd9b7b65743178a38e4dfc22b61827e2bcdcce94d67c",
+      "code/governance/indicator_3_6.py": "2c6841d9e9a02a13c07758cae083de73186a13d838313d314db7e88396675062",
+      "code/governance/indicator_3_7.py": "f21a48bbb13c0c004df603e53be4acbd9e65ea6a811f94ebd24a721078961795",
+      "code/governance/indicator_3_8.py": "2a9c6ada1df78a77112b890d6d028696618dea6e41146eba540d873813d18379",
+      "code/governance/indicator_3_9.py": "a64e55085358982afefbca7a8477fabd2ac5720500b7cfb735627d0aeb2b95be",
+      "code/governance/integration_registry.py": "bf678deaf58bde055c0cd3c972d5e479c77a230c9ff81bd836ea387957b70770",
+      "code/governance/pipeline.py": "4e4118cc108e4aa00567a6f6d42ca9e08b2d13f8d9bc76bc3a531dbe6a638442",
+      "code/integrations/__init__.py": "5f7afc84c9c15f40fa26712c714949a749088c7a4e390c60a3aa07ea19226a36",
+      "code/integrations/group_research/__init__.py": "f18ec271c58010655c752926f368030e7c7e8b4f1be6771216e6fa39780d3ec2",
+      "code/integrations/group_research/adapter.py": "6df9ae79ea47d674987ef95e6ec57e569b61fd441b9866e6adbcf089914de4de",
+      "code/run_indicator_tests.py": "1130d4f3abe0dba80baa96d8a125ecc9c5bd5f5d2bef04fc7b911fb4f5a64fb4",
+      "code/tests/individual/README.md": "b0264d18e3ce745186b08b4909988db6252a42a2d780378410f11b02c5af2aa2",
+      "code/tests/individual/_support.py": "300eeaf41aa94dde7e8b3c39ef0a1a06fdeb5992a18fb088c1608b470293ee0e",
+      "code/tests/individual/test_indicator_3_1.py": "5bc1482b4d65c2130e8357ec9f83f4aa1541a071fbf67d084febef5a3eedfca7",
+      "code/tests/individual/test_indicator_3_2.py": "cb28b56b8e8c462b6438aefebbea5207061fc073254e528b2a6d8572f45857b8",
+      "code/tests/individual/test_indicator_3_3.py": "86b4e650b85119f9ab759b7c463cf539a724c4237a4625d55cff5c4813780d4b",
+      "code/tests/individual/test_indicator_3_4.py": "0ea5a2ce4732c059fa6095ff6d97f061818711d3861be7b9fcc0814e73d8bac9",
+      "code/tests/individual/test_indicator_3_5.py": "6c87b868bcc937544b4e4a6510ca6db462740f3510c60e7e93c53f668077dd10",
+      "code/tests/individual/test_indicator_3_6.py": "49214d1be75e1176bf9304e5bac4a47cd4bd32582772e1d70fb774f0343032a8",
+      "code/tests/individual/test_indicator_3_7.py": "6ff182573e50b6aa62d23b81faddfade2c6b2be8f3c4cd6b4d916071858cbc49",
+      "code/tests/individual/test_indicator_3_8.py": "22c3f5a6f6aa4db95880c5a164a75dce346844089dc2464f86614139839eeb80",
+      "code/tests/individual/test_indicator_3_9.py": "560fa9e77fa63388ca1d29d6f5861732ad20d3afbd8414ef43260b7ee6dae8b4"
+    }
+  },
+  "tests": [
+    {
+      "indicator": "3.1",
+      "test_file": "code/tests/individual/test_indicator_3_1.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.150649
+    },
+    {
+      "indicator": "3.2",
+      "test_file": "code/tests/individual/test_indicator_3_2.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 1.284168
+    },
+    {
+      "indicator": "3.3",
+      "test_file": "code/tests/individual/test_indicator_3_3.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.235564
+    },
+    {
+      "indicator": "3.4",
+      "test_file": "code/tests/individual/test_indicator_3_4.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.209353
+    },
+    {
+      "indicator": "3.5",
+      "test_file": "code/tests/individual/test_indicator_3_5.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.646076
+    },
+    {
+      "indicator": "3.6",
+      "test_file": "code/tests/individual/test_indicator_3_6.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.117916
+    },
+    {
+      "indicator": "3.7",
+      "test_file": "code/tests/individual/test_indicator_3_7.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.135855
+    },
+    {
+      "indicator": "3.8",
+      "test_file": "code/tests/individual/test_indicator_3_8.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.112168
+    },
+    {
+      "indicator": "3.9",
+      "test_file": "code/tests/individual/test_indicator_3_9.py",
+      "passed": true,
+      "return_code": 0,
+      "elapsed_seconds": 0.139239
+    }
+  ],
+  "benchmarks": {
+    "3.1": {
+      "indicator": "3.1",
+      "title": "序列、关系数据存储与压缩",
+      "target": "支持序列数据和关系数据的存储与压缩",
+      "passed": true,
+      "metrics": {
+        "sequence_records": 2000,
+        "relation_records": 3,
+        "sequence_round_trip": true,
+        "relation_round_trip": true,
+        "relation_backup_round_trip": true,
+        "sequence_gzip_ratio": 12.21
+      },
+      "run_id": "storage-20260822T125134329438Z-c1a5ec8679",
+      "artifacts": [
+        "/Users/chenzijie/Documents/Project/python/2030/code/data/storage/runs/storage-20260822T125134329438Z-c1a5ec8679/benchmark.sequence.json.gz",
+        "/Users/chenzijie/Documents/Project/python/2030/code/data/storage/runs/storage-20260822T125134329438Z-c1a5ec8679/relations.sqlite3",
+        "/Users/chenzijie/Documents/Project/python/2030/code/data/storage/runs/storage-20260822T125134329438Z-c1a5ec8679/relations.sqlite3.gz"
+      ],
+      "method": "序列数据采用 JSON+Gzip 持久化；关系数据采用 SQLite，并生成压缩备份。"
+    },
+    "3.2": {
+      "indicator": "3.2",
+      "title": "工业时序数据压缩",
+      "target": "工业时序数据压缩比达到 9:1",
+      "passed": true,
+      "metrics": {
+        "datasets": 5,
+        "samples_per_dataset": 12000,
+        "raw_bytes_float64": 96000,
+        "compressed_bytes_median": 7649,
+        "compression_ratio": 12.5,
+        "minimum_compression_ratio": 12.32,
+        "zlib_float64_baseline_ratio": 1.23,
+        "max_absolute_error": 0.08,
+        "configured_error_bound": 0.08,
+        "median_round_trip_ms": 5.848,
+        "research_group_algorithms": {
+          "REGER-Int64": {
+            "provider": "课题组最新成果",
+            "samples": 2000,
+            "reconstructed_samples": 2000,
+            "sample_count_matches": true,
+            "compressed_bytes": 4476,
+            "compression_ratio": 3.57,
+            "round_trip_ok": true,
+            "precision_mode": "exact_int64",
+            "allowed_absolute_error": 0.0,
+            "max_absolute_error": 0.0
+          },
+          "REGER-Float64": {
+            "provider": "课题组最新成果",
+            "samples": 2000,
+            "reconstructed_samples": 2000,
+            "sample_count_matches": true,
+            "compressed_bytes": 11234,
+            "compression_ratio": 1.42,
+            "round_trip_ok": true,
+            "precision_mode": "exact_float64",
+            "allowed_absolute_error": null,
+            "max_absolute_error": 0.0
+          },
+          "BOS-Int64": {
+            "provider": "课题组最新成果",
+            "samples": 2000,
+            "reconstructed_samples": 2000,
+            "sample_count_matches": true,
+            "compressed_bytes": 5065,
+            "compression_ratio": 3.16,
+            "round_trip_ok": true,
+            "precision_mode": "exact_int64",
+            "allowed_absolute_error": 0.0,
+            "max_absolute_error": 0.0
+          },
+          "TS_2DIFF+BOS-Int64": {
+            "provider": "课题组最新成果",
+            "samples": 2000,
+            "reconstructed_samples": 2000,
+            "sample_count_matches": true,
+            "compressed_bytes": 4861,
+            "compression_ratio": 3.29,
+            "round_trip_ok": true,
+            "precision_mode": "exact_int64",
+            "allowed_absolute_error": 0.0,
+            "max_absolute_error": 0.0
+          },
+          "TS_2DIFF+BOS-Float": {
+            "provider": "课题组最新成果",
+            "samples": 2000,
+            "reconstructed_samples": 2000,
+            "sample_count_matches": true,
+            "compressed_bytes": 4866,
+            "compression_ratio": 3.29,
+            "round_trip_ok": true,
+            "precision_mode": "absolute_error_bound",
+            "allowed_absolute_error": 5e-07,
+            "max_absolute_error": 0.0
+          }
+        }
+      },
+      "method": "采用有界误差 PLA，并对课题组最新 REGER、BOS、TS_2DIFF+BOS 实现执行独立往返与压缩率测量。",
+      "reference": "Gorilla/SZ 类时序压缩中的预测编码与误差约束思想；首版为可替换算法接口。"
+    },
+    "3.3": {
+      "indicator": "3.3",
+      "title": "序列、关系数据智能解析",
+      "target": "序列、关系数据解析准确率不低于 95%",
+      "passed": true,
+      "metrics": {
+        "fixtures": 128,
+        "valid_fixtures": 120,
+        "invalid_fixtures": 8,
+        "correctly_parsed": 128,
+        "parsing_accuracy_percent": 100.0,
+        "accuracy_wilson_95_percent": [
+          97.09,
+          100.0
+        ],
+        "accuracy_interval_scope": "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率",
+        "unique_fixture_fingerprint_sha256": "9bf14e23241ecc6c1d02f5cebe117ce9e22da0e2a1658785a2973079557fa44a",
+        "labeled_dataset_id": "indicator-3.3-labeled-v2",
+        "labeled_dataset_version": 2,
+        "failure_count": 0,
+        "formats": [
+          "CSV",
+          "TSV",
+          "分号表格",
+          "管道表格",
+          "JSON",
+          "JSONL"
+        ]
+      },
+      "method": "格式嗅探、结构解析、字段集合提取和版本化标注数据集评测。"
+    },
+    "3.4": {
+      "indicator": "3.4",
+      "title": "异构数据语义时序对齐",
+      "target": "序列、关系数据对齐准确率不低于 90%",
+      "passed": true,
+      "metrics": {
+        "samples": 153,
+        "correct_alignments": 153,
+        "alignment_accuracy_percent": 100.0,
+        "accuracy_wilson_95_percent": [
+          97.55,
+          100.0
+        ],
+        "accuracy_interval_scope": "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率",
+        "negative_samples": 3,
+        "fuzzy_entity_samples": 9,
+        "time_tolerance_ms": 50,
+        "labeled_dataset_id": "indicator-3.4-labeled-v1",
+        "labeled_dataset_version": 1,
+        "labeled_dataset_sha256": "e5f7719a2a0c1ae01a0dc549b793e05aaa764f0bf6eaa8236f81b9a6f9587b6d"
+      },
+      "method": "字段别名归一、设备实体约束、受控模糊匹配，并按距离、时间窗宽度和中心距离排序。"
+    },
+    "3.5": {
+      "indicator": "3.5",
+      "title": "1.1kHz 时序采集",
+      "target": "时序数据采集频率达到 1.1kHz",
+      "passed": true,
+      "metrics": {
+        "samples": 120000,
+        "repeats": 7,
+        "warmup_runs": 1,
+        "batch_size": 1000,
+        "clock": "time.perf_counter_ns",
+        "median_elapsed_seconds": 0.061401,
+        "ingestion_samples_per_second": 1954368.24,
+        "minimum_samples_per_second": 1868308.86,
+        "maximum_samples_per_second": 2151397.08,
+        "throughput_coefficient_of_variation": 0.054357,
+        "run_samples_per_second": [
+          2096545.94,
+          1885815.18,
+          1954368.24,
+          1868308.86,
+          2151397.08,
+          1989189.29,
+          1913339.01
+        ],
+        "equivalent_frequency_khz": 1954.37,
+        "target_samples_per_second": 1100,
+        "lost_samples": 0
+      },
+      "method": "锁保护批量写入环形缓冲区；预热后在同一进程重复测量并披露每次、最低、中位、最高吞吐和变异系数。该结果衡量软件接收能力，不替代现场采集卡端到端测试。"
+    },
+    "3.6": {
+      "indicator": "3.6",
+      "title": "数据质量稳控",
+      "target": "完整性、一致性、时效性、有效性等质量指标均不低于 95%",
+      "passed": true,
+      "metrics": {
+        "completeness": 99.96,
+        "consistency": 99.92,
+        "timeliness": 99.94,
+        "validity": 99.92,
+        "overall_average": 99.94,
+        "minimum_dimension": 99.92,
+        "records": 5000,
+        "reference_time_ms": 1767225634544.5454,
+        "max_age_ms": 900000,
+        "labeled_anomalies": 6
+      },
+      "method": "逐记录检查必填字段、类型/范围、同设备时间单调性，并相对显式评测时刻计算数据年龄。",
+      "notice": "本模块输出质量评估结果、运行环境与可复核指标，供项目复验与验收材料整理使用。"
+    },
+    "3.7": {
+      "indicator": "3.7",
+      "title": "序列、关系数据融合",
+      "target": "序列、关系数据可进行融合",
+      "passed": true,
+      "metrics": {
+        "sequence_rows": 5000,
+        "relation_rows": 3,
+        "fused_rows": 5000,
+        "matched_rows": 3000,
+        "elapsed_seconds": 0.018973,
+        "rows_per_second": 263530.08
+      },
+      "preview": [
+        {
+          "timestamp_ms": 1767225600000.0,
+          "equipment_id": "CNC-01",
+          "value": 49.993572,
+          "quality": "good",
+          "aligned": true,
+          "alignment_distance_ms": 0.0,
+          "alignment_reason": "时间窗命中",
+          "entity_match": "exact",
+          "invalid_relation_count": 0,
+          "relation_work_order": "WO-001",
+          "relation_equipment_id": "CNC-01",
+          "relation_start_ms": 1767225600000,
+          "relation_end_ms": 1767225601100,
+          "relation_product": "SHAFT-A",
+          "relation_process": "精加工"
+        },
+        {
+          "timestamp_ms": 1767225600000.9092,
+          "equipment_id": "CNC-01",
+          "value": 50.061268,
+          "quality": "good",
+          "aligned": true,
+          "alignment_distance_ms": 0.0,
+          "alignment_reason": "时间窗命中",
+          "entity_match": "exact",
+          "invalid_relation_count": 0,
+          "relation_work_order": "WO-001",
+          "relation_equipment_id": "CNC-01",
+          "relation_start_ms": 1767225600000,
+          "relation_end_ms": 1767225601100,
+          "relation_product": "SHAFT-A",
+          "relation_process": "精加工"
+        },
+        {
+          "timestamp_ms": 1767225600001.818,
+          "equipment_id": "CNC-01",
+          "value": 50.129979,
+          "quality": "good",
+          "aligned": true,
+          "alignment_distance_ms": 0.0,
+          "alignment_reason": "时间窗命中",
+          "entity_match": "exact",
+          "invalid_relation_count": 0,
+          "relation_work_order": "WO-001",
+          "relation_equipment_id": "CNC-01",
+          "relation_start_ms": 1767225600000,
+          "relation_end_ms": 1767225601100,
+          "relation_product": "SHAFT-A",
+          "relation_process": "精加工"
+        }
+      ],
+      "method": "按设备实体和有效时间窗进行按需左融合，保留未命中序列记录和对齐证据。"
+    },
+    "3.8": {
+      "indicator": "3.8",
+      "title": "工业异构数据规范化测试框架",
+      "target": "搭建工业异构数据规范化测试框架",
+      "passed": true,
+      "metrics": {
+        "registered_adapters": 8,
+        "tested_formats": 8,
+        "passed_formats": [
+          "csv",
+          "tsv",
+          "semicolon",
+          "pipe",
+          "json",
+          "jsonl",
+          "xml",
+          "ini"
+        ],
+        "failed_formats": {},
+        "invalid_fixtures": 5,
+        "rejected_invalid_fixtures": 5
+      },
+      "method": "适配器注册表将异构输入统一为 records+columns 中间表示，并按标注值校验结果及拒绝异常输入。"
+    },
+    "3.9": {
+      "indicator": "3.9",
+      "title": "工业数据质量综合测评",
+      "target": "支持 5 个以上维度的工业数据质量综合测评",
+      "passed": true,
+      "metrics": {
+        "dimension_count": 7,
+        "dimensions": {
+          "completeness": 100.0,
+          "consistency": 100.0,
+          "timeliness": 100.0,
+          "validity": 100.0,
+          "uniqueness": 99.98,
+          "referential_integrity": 99.98,
+          "stability": 99.98
+        },
+        "overall_score": 99.99,
+        "minimum_dimension": 99.98,
+        "labeled_anomalies": 3,
+        "referential_checks": 5000,
+        "master_data_fields": [
+          "equipment_id",
+          "work_order"
+        ]
+      },
+      "method": "综合测评完整性、一致性、时效性、有效性、唯一性、主数据参照完整性和分设备稳定性 7 个维度。"
+    }
+  }
+}
