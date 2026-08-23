@@ -29,7 +29,6 @@ def delivery_files() -> list[Path]:
         Path("code/integrations/research_methods/__init__.py"),
         Path("code/integrations/research_methods/adapter.py"),
         Path("code/tests/test_indicator_runner.py"),
-        Path("code/tools/build_benchmark_fixtures.py"),
         Path("code/tools/build_delivery_package.py"),
         Path("code/tools/build_test_guide_docx.py"),
         Path("code/docs/课题三指标3.1-3.9算法测试大纲与运行说明.md"),
@@ -43,6 +42,20 @@ def delivery_files() -> list[Path]:
             for value in spec.get(field, []):
                 relative_paths.add(Path("code") / value)
         relative_paths.add(Path("code") / spec["test_file"])
+
+    benchmark_manifest_path = (
+        REPOSITORY_ROOT
+        / "code/governance/benchmark_data/public/benchmark_manifest.json"
+    )
+    benchmark_manifest = json.loads(
+        benchmark_manifest_path.read_text(encoding="utf-8")
+    )
+    relative_paths.add(benchmark_manifest_path.relative_to(REPOSITORY_ROOT))
+    for dataset in benchmark_manifest["datasets"].values():
+        for entry in dataset["files"]:
+            relative_paths.add(
+                Path("code/governance/benchmark_data/public") / entry["path"]
+            )
 
     resolved_files = []
     for relative_path in sorted(relative_paths, key=str):

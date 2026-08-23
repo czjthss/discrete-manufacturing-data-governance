@@ -1,0 +1,21 @@
+{
+  "report": "deliverables/指标3.1-3.9测试结果.json",
+  "report_sha256": "dfaaa9dd414204074295d12c516b42c678f4d12b8b46ab0a5d5bd767d09951a2",
+  "figures": [
+    {
+      "path": "deliverables/result_figures/indicator_panels_1_3.png",
+      "sha256": "583aa3a7476a0c78e248ad58af940dd5e10c222e9d87047e022648528a07f884",
+      "bytes": 190911
+    },
+    {
+      "path": "deliverables/result_figures/indicator_panels_4_6.png",
+      "sha256": "c28498b1a7e74c20afd3fd3aebc3ca91f83dbe84623e4acc15197cd521efaca6",
+      "bytes": 123357
+    },
+    {
+      "path": "deliverables/result_figures/indicator_panels_7_9.png",
+      "sha256": "97a034bcc1c392a51469a78ea6da447227a1821d53b41cd856e48fad92247878",
+      "bytes": 164209
+    }
+  ]
+}

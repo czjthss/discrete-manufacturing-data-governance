@@ -20,7 +20,7 @@
 
 ## 已启用适配器
 
-- `group_research/adapter.py`：课题组最新 REGER、BOS 与 TS_2DIFF+BOS 成果的统一接口。
+- `group_research/adapter.py`：已有成果 REGER、BOS 与 TS_2DIFF+BOS 的统一接口。
 - `research_methods/adapter.py`：压缩态查询、Schema Matching 和窗口质量计算的项目自有实现。
 
 注册表会解析每个 active 入口，并在适配器提供 `healthcheck()` 时执行功能检查。配置可运行与运行时可用是两个独立状态。

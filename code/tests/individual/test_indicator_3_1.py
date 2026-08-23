@@ -9,6 +9,7 @@ from pathlib import Path
 
 from _support import assert_benchmark_contract
 from governance.indicator_3_1 import SequenceRelationStore, benchmark
+from governance.public_benchmarks import load_metropt_rows, load_secom_records
 
 
 class Indicator31Tests(unittest.TestCase):
@@ -23,10 +24,38 @@ class Indicator31Tests(unittest.TestCase):
         self.assertTrue(metrics["relation_round_trip"])
         self.assertTrue(metrics["relation_backup_round_trip"])
         self.assertGreater(metrics["sequence_gzip_ratio"], 1.0)
+        self.assertEqual(
+            set(metrics["dataset_results"]),
+            {"metropt3", "forda", "secom", "holoclean_hospital"},
+        )
+        for dataset, result in metrics["dataset_results"].items():
+            with self.subTest(dataset=dataset):
+                self.assertTrue(result["round_trip"])
+                self.assertIsNot(result["backup_round_trip"], False)
+                self.assertGreater(result["compression_ratio"], 1.0)
+                self.assertGreater(result["raw_bytes"], result["stored_bytes"])
+        reported_paths = [
+            *self.result["artifacts"],
+            metrics["dataset_results"]["metropt3"]["path"],
+            metrics["dataset_results"]["forda"]["path"],
+        ]
+        for reported_path in reported_paths:
+            with self.subTest(reported_path=reported_path):
+                self.assertFalse(Path(reported_path).is_absolute())
 
     def test_sequence_and_relation_round_trip(self) -> None:
-        sequence = [{"timestamp_ms": 1, "equipment_id": "CNC-01", "value": 42.5}]
-        relations = [{'sensor"name': "temperature", "work_order": "WO-001"}]
+        metro = load_metropt_rows()[0]
+        wafer = load_secom_records()[0]
+        sequence = [{
+            "timestamp_ms": metro["timestamp_ms"],
+            "equipment_id": metro["equipment_id"],
+            "value": metro["Motor_current"],
+        }]
+        relations = [{
+            "wafer_id": wafer["wafer_id"],
+            "label": wafer["label"],
+            "timestamp": wafer["timestamp"],
+        }]
         with tempfile.TemporaryDirectory() as directory:
             store = SequenceRelationStore(Path(directory))
             sequence_result = store.store_sequence("sensor", sequence)
@@ -34,7 +63,7 @@ class Indicator31Tests(unittest.TestCase):
             self.assertEqual(store.read_sequence("sensor"), sequence)
             self.assertEqual(
                 store.read_relations("orders"),
-                [{'sensor"name': "temperature", "work_order": "WO-001"}],
+                [{key: str(value) for key, value in relations[0].items()}],
             )
             backup = Path(relation_result["compressed_backup"])
             self.assertEqual(gzip.decompress(backup.read_bytes()), store.database_path.read_bytes())

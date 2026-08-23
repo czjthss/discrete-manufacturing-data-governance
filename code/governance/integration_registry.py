@@ -229,6 +229,9 @@ class IntegrationRegistry:
 
     def resolve(self, algorithm_id: str) -> Callable[..., Any] | type:
         """Resolve an active entrypoint only when the implementation is available."""
+        if algorithm_id == "builtin.error-bounded-pla":
+            module = importlib.import_module("governance.indicator_3_2")
+            return getattr(module, "PiecewiseLinearCodec")
         if algorithm_id not in self.algorithms:
             raise KeyError(f"未知算法: {algorithm_id}")
         algorithm = self.algorithms[algorithm_id]
@@ -532,15 +535,15 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             interface_contract="store_sequence/read_sequence/store_relations",
         ),
         AlgorithmSpec(
-            id="builtin.error-bounded-pla",
-            name="有界误差 PLA 压缩",
+            id="builtin.full-dataset-timeseries-codec",
+            name="完整数据时序压缩",
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
             provider="本项目",
             implementation_kind="builtin",
-            method="分段线性预测、误差界约束与 zlib 二次压缩",
-            entrypoint="governance.indicator_3_2:PiecewiseLinearCodec",
+            method="模拟量误差有界量化差分、数字量无损编码与 zlib 熵压缩",
+            entrypoint="governance.indicator_3_2:QuantizedDeltaCodec",
             reference_ids=("compress-iotdb-pvldb-2025", "apache-tsfile"),
             interface_contract="compress(values, tolerance)/decompress(payload)",
         ),
@@ -550,7 +553,7 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
-            provider="课题组最新成果",
+            provider="已有成果",
             implementation_kind="builtin",
             method="分块重排、残差建模、分段位宽编码与原始顺序恢复",
             entrypoint="integrations.group_research.adapter:RegerIntCodec",
@@ -563,7 +566,7 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
-            provider="课题组最新成果",
+            provider="已有成果",
             implementation_kind="builtin",
             method="浮点位模式映射、分块重排和残差编码",
             entrypoint="integrations.group_research.adapter:RegerFloatCodec",
@@ -576,7 +579,7 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
-            provider="课题组最新成果",
+            provider="已有成果",
             implementation_kind="builtin",
             method="分块差分、ZigZag 变换、变长整数编码和块级压缩",
             entrypoint="integrations.group_research.adapter:BosIntCodec",
@@ -589,7 +592,7 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
-            provider="课题组最新成果",
+            provider="已有成果",
             implementation_kind="builtin",
             method="在二阶差分与 BOS 候选编码间按载荷大小自适应选择",
             entrypoint="integrations.group_research.adapter:Ts2DiffBosIntCodec",
@@ -602,7 +605,7 @@ def _algorithm_catalog() -> tuple[AlgorithmSpec, ...]:
             capability="compression",
             indicator_ids=("3.2",),
             status="active",
-            provider="课题组最新成果",
+            provider="已有成果",
             implementation_kind="builtin",
             method="十进制定点映射与 TS_2DIFF/BOS 自适应编码",
             entrypoint="integrations.group_research.adapter:Ts2DiffBosFloatCodec",

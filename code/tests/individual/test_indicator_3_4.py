@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import json
 import unittest
-from unittest.mock import patch
 
-from _support import CODE_ROOT, assert_benchmark_contract
+from _support import assert_benchmark_contract
 from governance.indicator_3_4 import align_records, benchmark
+from governance.public_benchmarks import load_metropt_failures, metropt_alignment_sequence
 
 
 class Indicator34Tests(unittest.TestCase):
@@ -20,33 +19,30 @@ class Indicator34Tests(unittest.TestCase):
         metrics = self.result["metrics"]
         self.assertGreaterEqual(metrics["alignment_accuracy_percent"], 90.0)
         self.assertEqual(metrics["correct_alignments"], metrics["samples"])
-        self.assertGreater(metrics["fuzzy_entity_samples"], 0)
+        self.assertTrue(metrics["full_dataset"])
+        self.assertEqual(metrics["samples"], 1_516_948)
+        self.assertGreater(metrics["positive_samples"], 0)
         self.assertGreater(metrics["negative_samples"], 0)
-        self.assertEqual(metrics["labeled_dataset_id"], "indicator-3.4-labeled-v1")
-        self.assertIn("不用于推断", metrics["accuracy_interval_scope"])
 
-    def test_labeled_dataset_hash_is_enforced(self) -> None:
-        with (
-            patch("governance.indicator_3_4.BENCHMARK_DATA_SHA256", "0" * 64),
-            self.assertRaisesRegex(ValueError, "哈希不一致"),
-        ):
-            benchmark()
-
-    def test_versioned_labeled_dataset_meets_accuracy_target(self) -> None:
-        dataset = json.loads(
-            (CODE_ROOT / "governance" / "benchmark_data" / "indicator_3_4_labeled.json")
-            .read_text(encoding="utf-8")
-        )
-        results = align_records(
-            dataset["sequence"],
-            dataset["relations"],
-            tolerance_ms=dataset["tolerance_ms"],
-        )
+    def test_metropt_maintenance_windows_are_independent_truth(self) -> None:
+        sequence = metropt_alignment_sequence()
+        relations = list(load_metropt_failures())
+        results = align_records(sequence, relations, tolerance_ms=0)
         predicted = [
             row["relation"].get("work_order") if row["relation"] else None
             for row in results
         ]
-        expected = dataset["expected_work_orders"]
+        expected = [
+            next(
+                (
+                    relation["work_order"]
+                    for relation in relations
+                    if relation["start_ms"] <= row["timestamp_ms"] <= relation["end_ms"]
+                ),
+                None,
+            )
+            for row in sequence
+        ]
         correct = sum(actual == label for actual, label in zip(predicted, expected))
         self.assertEqual(len(predicted), len(expected))
         self.assertGreaterEqual(100.0 * correct / len(expected), 90.0)

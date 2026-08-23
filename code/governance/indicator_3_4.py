@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import math
 import re
-import hashlib
-import json
 from difflib import SequenceMatcher
-from pathlib import Path
 from typing import Any
 
 from .common import pct, wilson_interval
+from .public_benchmarks import (
+    benchmark_manifest,
+    benchmark_provenance,
+    iter_metropt_full_sequence_batches,
+    load_metropt_failures,
+)
 
 
 ID = "3.4"
@@ -29,10 +32,6 @@ ALIAS_TO_CANONICAL = {
     for canonical, aliases in ALIASES.items()
     for alias in aliases
 }
-BENCHMARK_DATA_PATH = Path(__file__).with_name("benchmark_data") / "indicator_3_4_labeled.json"
-BENCHMARK_DATA_SHA256 = "e5f7719a2a0c1ae01a0dc549b793e05aaa764f0bf6eaa8236f81b9a6f9587b6d"
-
-
 def canonical_key(key: str) -> str:
     lowered = str(key).strip().lower()
     return ALIAS_TO_CANONICAL.get(lowered, lowered)
@@ -187,42 +186,72 @@ def align_records(
 
 
 def benchmark() -> dict[str, Any]:
-    dataset_bytes = BENCHMARK_DATA_PATH.read_bytes()
-    dataset_sha256 = hashlib.sha256(dataset_bytes).hexdigest()
-    if dataset_sha256 != BENCHMARK_DATA_SHA256:
-        raise ValueError("3.4 标注数据与固定版本哈希不一致")
-    dataset = json.loads(dataset_bytes)
-    sequence = dataset["sequence"]
-    relations = dataset["relations"]
-    expected = dataset["expected_work_orders"]
-    tolerance_ms = dataset["tolerance_ms"]
-    results = align_records(sequence, relations, tolerance_ms=tolerance_ms)
-    predicted = [
-        result["relation"].get("work_order") if result["relation"] else None
-        for result in results
-    ]
-    correct = sum(actual == label for actual, label in zip(predicted, expected))
-    accuracy = pct(correct, len(expected))
-    ci_low, ci_high = wilson_interval(correct, len(expected))
+    relations = list(load_metropt_failures())
+    tolerance_ms = 0
+    total = 0
+    correct = 0
+    positive = 0
+    negative = 0
+    fuzzy = 0
+    for sequence in iter_metropt_full_sequence_batches():
+        expected = []
+        for sample in sequence:
+            timestamp = sample["timestamp_ms"]
+            matches = [
+                relation["work_order"]
+                for relation in relations
+                if relation["start_ms"] <= timestamp <= relation["end_ms"]
+            ]
+            if len(matches) > 1:
+                raise ValueError("MetroPT-3 维护真值时间窗发生重叠")
+            expected.append(matches[0] if matches else None)
+        results = align_records(sequence, relations, tolerance_ms=tolerance_ms)
+        predicted = [
+            result["relation"].get("work_order") if result["relation"] else None
+            for result in results
+        ]
+        total += len(sequence)
+        correct += sum(actual == label for actual, label in zip(predicted, expected))
+        positive += sum(label is not None for label in expected)
+        negative += sum(label is None for label in expected)
+        fuzzy += sum(row["entity_match"] == "fuzzy" for row in results)
+    expected_records = int(
+        benchmark_manifest()["datasets"]["metropt3"]["full_archive"]["records"]
+    )
+    if total != expected_records:
+        raise ValueError("MetroPT-3 全量对齐记录数与公开清单不一致")
+    accuracy = pct(correct, total)
+    ci_low, ci_high = wilson_interval(correct, total)
     return {
         "indicator": ID,
         "title": TITLE,
         "target": MILESTONE_TARGET,
         "passed": accuracy >= 90.0,
         "metrics": {
-            "samples": len(expected),
+            "samples": total,
+            "expected_samples": expected_records,
+            "full_dataset": True,
             "correct_alignments": correct,
             "alignment_accuracy_percent": accuracy,
             "accuracy_wilson_95_percent": [ci_low, ci_high],
             "accuracy_interval_scope": (
-                "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率"
+                "MetroPT-3 完整公开归档全部记录的描述性区间"
             ),
-            "negative_samples": dataset["negative_samples"],
-            "fuzzy_entity_samples": sum(row["entity_match"] == "fuzzy" for row in results),
+            "positive_samples": positive,
+            "negative_samples": negative,
+            "fuzzy_entity_samples": fuzzy,
             "time_tolerance_ms": tolerance_ms,
-            "labeled_dataset_id": dataset["dataset_id"],
-            "labeled_dataset_version": dataset["version"],
-            "labeled_dataset_sha256": dataset_sha256,
+            "maintenance_windows": len(relations),
+            "labeling_protocol": "timestamp inside the externally published closed maintenance interval",
+            "dataset_results": {
+                "metropt3": {
+                    "samples": total,
+                    "full_dataset": True,
+                    "accuracy_percent": accuracy,
+                    "wilson_95_percent": [ci_low, ci_high],
+                }
+            },
         },
-        "method": "字段别名归一、设备实体约束、受控模糊匹配，并按距离、时间窗宽度和中心距离排序。",
+        "benchmark_provenance": benchmark_provenance(("metropt3",)),
+        "method": "流式读取 MetroPT-3 官方完整归档的全部 1,516,948 行，以 UCI 发布的四个故障时间区间作为关系真值，对每条真实传感器时间戳执行设备实体与闭区间对齐；所有区间外记录作为负例，验收不使用时间容差，只报告全数据总体结果。",
     }

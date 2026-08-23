@@ -75,3 +75,45 @@
 5. 对 3.1–3.9 的影响、基准数据、硬件环境和回归结果。
 
 不应在未确认许可证兼容性时直接复制 GPL/AGPL 代码到系统主体。模型代码、权重和大型依赖应放在 `integrations/` 的独立子目录，通过稳定接口调用。
+
+## 公开基准与标准套件
+
+以下资源实际进入 3.1–3.9 验收路径。固定文件指纹和选样协议见 `governance/benchmark_data/public/benchmark_manifest.json`。
+
+### MetroPT-3
+
+- UCI 数据页：https://archive.ics.uci.edu/dataset/791/metropt+3+dataset
+- DOI：`10.24432/C5VW3R`
+- 数据论文：Veloso et al., *The MetroPT dataset for predictive maintenance*, Scientific Data 2022, DOI `10.1038/s41597-022-01877-3`
+- 选择理由：真实运营地铁空气生产单元的工业多变量时序，公开故障时间窗可同时支持压缩、对齐和融合验证。
+
+### SECOM
+
+- UCI 数据页：https://archive.ics.uci.edu/dataset/179/secom
+- DOI：`10.24432/C54305`
+- 选择理由：广泛使用的真实半导体制造过程数据，包含 590 个传感器字段和自然缺失值，适合关系存储及质量维度验证。
+
+### NASA IMS Bearings
+
+- NASA 数据页：https://data.nasa.gov/dataset/ims-bearings
+- 选择理由：公开的真实轴承振动实验数据，原生 20 kHz 采样，适合验证高频文件回放和软件接收能力。
+
+### HoloClean Hospital
+
+- 论文：Rekatsinas et al., *HoloClean: Holistic Data Repairs with Probabilistic Inference*, PVLDB 2017
+- 论文：https://www.vldb.org/pvldb/vol10/p1190-rekatsinas.pdf
+- 仓库：https://github.com/HoloClean/holoclean
+- 固定 commit：`d4f5929a8e4d92d4f41eb058c04c96cdcb0af767`
+- 选择理由：数据清洗研究常用的真实关系数据基准，提供全单元格清洁真值，可独立核对关系数据错误而无需自行注入异常。
+
+### JSONTestSuite
+
+- 仓库：https://github.com/nst/JSONTestSuite
+- 固定 commit：`1ef36fa01286573e846ac449e8683f8833c5b26a`
+- 选择理由：RFC 8259 解析器广泛使用的符合性测试套件，文件名直接区分必须接受和必须拒绝的输入；行为未规定的 `i_` 用例不参与得分。
+
+### W3C XML Conformance Test Suite
+
+- 官方页面：https://www.w3.org/XML/Test/
+- 固定版本：20130923
+- 选择理由：W3C XML Core Working Group 发布的标准符合性套件，覆盖有效文档和非良构文档；测试仅选取不读取外部实体的二元用例以匹配安全解析策略。

@@ -1,0 +1,139 @@
+{
+  "dataset": {
+    "name": "UCR FordA",
+    "split": "TEST",
+    "series": 1320,
+    "points_per_series": 500,
+    "total_points": 660000,
+    "class_counts": {
+      "-1": 681,
+      "1": 639
+    },
+    "metadata": {
+      "problemname": "FordA",
+      "timestamps": "false",
+      "missing": "false",
+      "univariate": "true",
+      "equallength": "true",
+      "serieslength": "500",
+      "classlabel": "true -1 1"
+    },
+    "source": "https://zenodo.org/records/11191164",
+    "doi": "10.5281/zenodo.11191164",
+    "md5": "a781b68879d0d64c40d2d9ae1240a5d8",
+    "sha256": "7b63a092ed190cb9a056941377d315cc7c806aad585426a0c04dacec01ecfc71"
+  },
+  "parsing": {
+    "parsed_series": 1320,
+    "expected_series": 1320,
+    "parsed_points": 660000,
+    "structural_accuracy_percent": 100.0
+  },
+  "compression": {
+    "codec": "PiecewiseLinearCodec",
+    "tolerance": 0.08,
+    "minimum_ratio": 1.013,
+    "median_ratio": 1.649,
+    "maximum_ratio": 2.417,
+    "maximum_absolute_error": 0.08,
+    "all_series_count": 1320,
+    "formal_industrial_benchmark_minimum_ratio": 9.498,
+    "formal_target_ratio": 9.0
+  },
+  "storage": {
+    "sequence_records": 5000,
+    "relation_records": 10,
+    "sequence_raw_bytes": 339818,
+    "sequence_stored_bytes": 41278,
+    "sequence_gzip_ratio": 8.23,
+    "relation_backup_bytes": 328,
+    "sequence_round_trip": true,
+    "relation_round_trip": true
+  },
+  "alignment_and_fusion": {
+    "sequence_records": 1000,
+    "relation_records": 2,
+    "aligned_records": 1000,
+    "alignment_percent": 100.0,
+    "fused_records": 1000,
+    "preview": [
+      {
+        "equipment_id": "FordA-0001",
+        "timestamp_ms": 1,
+        "value": -0.14040239,
+        "aligned": true,
+        "alignment_distance_ms": 0.0,
+        "alignment_reason": "时间窗命中",
+        "entity_match": "exact",
+        "invalid_relation_count": 0,
+        "relation_equipment_id": "FordA-0001",
+        "relation_start_ms": 1,
+        "relation_end_ms": 500,
+        "relation_split": "TEST",
+        "relation_class_label": -1
+      },
+      {
+        "equipment_id": "FordA-0001",
+        "timestamp_ms": 2,
+        "value": 0.17164128,
+        "aligned": true,
+        "alignment_distance_ms": 0.0,
+        "alignment_reason": "时间窗命中",
+        "entity_match": "exact",
+        "invalid_relation_count": 0,
+        "relation_equipment_id": "FordA-0001",
+        "relation_start_ms": 1,
+        "relation_end_ms": 500,
+        "relation_split": "TEST",
+        "relation_class_label": -1
+      },
+      {
+        "equipment_id": "FordA-0001",
+        "timestamp_ms": 3,
+        "value": 0.30204415,
+        "aligned": true,
+        "alignment_distance_ms": 0.0,
+        "alignment_reason": "时间窗命中",
+        "entity_match": "exact",
+        "invalid_relation_count": 0,
+        "relation_equipment_id": "FordA-0001",
+        "relation_start_ms": 1,
+        "relation_end_ms": 500,
+        "relation_split": "TEST",
+        "relation_class_label": -1
+      }
+    ]
+  },
+  "quality": {
+    "dimensions": {
+      "completeness": 95.46,
+      "consistency": 100.0,
+      "timeliness": 100.0,
+      "validity": 100.0,
+      "uniqueness": 100.0,
+      "referential_integrity": 100.0,
+      "truth_cell_accuracy": 97.32,
+      "traceability": 100.0
+    },
+    "minimum_dimension": 95.46,
+    "sequence_records": 63823,
+    "relation_records": 1567,
+    "truth_cells": 19000
+  },
+  "formal_evidence": {
+    "throughput_runs": [
+      22052141.25,
+      22578913.19,
+      18931550.61,
+      15456603.77,
+      17457035.07,
+      22021505.38,
+      22372317.75
+    ],
+    "throughput_minimum": 15456603.77,
+    "throughput_target": 1100,
+    "normalization_adapters": 8,
+    "normalization_format_families": 3
+  },
+  "scope": "FordA 用于公开数据处理链展示；9:1 压缩比和软件吞吐数值取自正式工业测试报告，不将不同数据分布的结果混作同一基准。"
+}

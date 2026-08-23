@@ -5,7 +5,6 @@ import json
 import math
 import os
 import platform
-import random
 import shutil
 import tempfile
 import threading
@@ -246,45 +245,6 @@ def bounded_zlib_decompress(payload: bytes, max_output_bytes: int) -> bytes:
     if decompressor.unused_data:
         raise ValueError("压缩载荷包含尾随数据")
     return output
-
-
-def synthetic_sequence(
-    count: int = 5000,
-    frequency_hz: int = 1100,
-    seed: int = 2030,
-) -> list[dict[str, Any]]:
-    generator = random.Random(seed)
-    base_ms = 1_767_225_600_000
-    interval_ms = 1000.0 / frequency_hz
-    rows: list[dict[str, Any]] = []
-    for index in range(count):
-        slow = 50.0 + 6.0 * math.sin(index / 180.0)
-        ripple = 0.35 * math.sin(index / 11.0)
-        noise = generator.uniform(-0.015, 0.015)
-        rows.append(
-            {
-                "timestamp_ms": round(base_ms + index * interval_ms, 6),
-                "equipment_id": f"CNC-{1 + (index // 1000) % 3:02d}",
-                "value": round(slow + ripple + noise, 6),
-                "quality": "good",
-            }
-        )
-    return rows
-
-
-def synthetic_relations() -> list[dict[str, Any]]:
-    base_ms = 1_767_225_600_000
-    return [
-        {
-            "work_order": f"WO-{index + 1:03d}",
-            "equipment_id": f"CNC-{index + 1:02d}",
-            "start_ms": base_ms + index * 900,
-            "end_ms": base_ms + (index + 1) * 1100,
-            "product": f"SHAFT-{chr(65 + index)}",
-            "process": "精加工",
-        }
-        for index in range(3)
-    ]
 
 
 def flatten_records(value: Any) -> list[dict[str, Any]]:

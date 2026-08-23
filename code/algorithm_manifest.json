@@ -2,98 +2,93 @@
   "project": "面向离散制造垂域模型的自动化数据治理系统",
   "python": ">=3.11",
   "runner": "run_indicator_tests.py",
+  "benchmark_policy": "验收指标仅由固定版本、可追溯且通过 SHA-256 校验的公开真实数据或标准符合性套件计算；手写边界样例只用于功能回归。",
   "support_files": [
     "governance/__init__.py",
+    "governance/common.py",
+    "governance/public_benchmarks.py",
+    "governance/benchmark_data/public/benchmark_manifest.json",
     "governance/integration_registry.py",
     "governance/pipeline.py",
     "integrations/__init__.py",
     "integrations/group_research/__init__.py",
     "tests/individual/_support.py",
-    "tests/individual/README.md"
+    "tests/individual/README.md",
+    "tools/prepare_public_benchmarks.py",
+    "tools/fetch_full_benchmarks.py"
   ],
   "indicators": {
     "3.1": {
       "name": "序列、关系数据存储与压缩",
       "algorithm_files": ["governance/indicator_3_1.py", "governance/common.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA", "SECOM", "HoloClean Hospital"],
       "test_file": "tests/individual/test_indicator_3_1.py",
       "command": "python3 run_indicator_tests.py 3.1",
-      "criterion": "序列、关系数据及 SQLite 压缩备份均可无损回读"
+      "criterion": "MetroPT-3 与 UCR FordA 序列、SECOM 与 HoloClean Hospital 关系数据分别完整写入独立存储，均可无损回读且压缩文件小于原始存储；关系数据压缩备份与原库解压字节一致"
     },
     "3.2": {
       "name": "工业时序数据压缩",
-      "algorithm_files": [
-        "governance/indicator_3_2.py",
-        "integrations/group_research/adapter.py",
-        "../reger_bos_code_paths/__init__.py",
-        "../reger_bos_code_paths/backend/__init__.py",
-        "../reger_bos_code_paths/backend/myapp/__init__.py",
-        "../reger_bos_code_paths/backend/myapp/reger_codec.py",
-        "../reger_bos_code_paths/backend/myapp/benchmark_loss.py"
-      ],
-      "native_reference_files": [
-        "../reger_bos_code_paths/cpp/src/reger_codec.cpp",
-        "../reger_bos_code_paths/cpp/src/reger_codec.hpp",
-        "../reger_bos_code_paths/cpp/src/ts2diff_bos_native.cpp",
-        "../reger_bos_code_paths/cpp/src/ts2diff_bos_native.hpp",
-        "../reger_bos_code_paths/cpp/src/ts2diff_bos_java.cpp",
-        "../reger_bos_code_paths/cpp/src/ts2diff_bos_java.hpp"
-      ],
+      "algorithm_files": ["governance/indicator_3_2.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA"],
       "test_file": "tests/individual/test_indicator_3_2.py",
       "command": "python3 run_indicator_tests.py 3.2",
-      "criterion": "PLA 最低压缩比不低于 9:1、重构误差不超过设定误差界；REGER Float64 严格往返一致，TS_2DIFF+BOS Float 满足 5e-7 绝对误差界"
+      "criterion": "完整流式读取 MetroPT-3 官方 1,516,948 行和全部 15 个传感器通道，并读取 UCR FordA TRAIN+TEST 全部 4,921 条序列；两套数据的总体与最差单元压缩比均不低于 9:1，且完整披露逐单元误差界与压缩结果"
     },
     "3.3": {
       "name": "序列、关系数据智能解析",
       "algorithm_files": ["governance/indicator_3_3.py"],
-      "test_data_files": ["governance/benchmark_data/indicator_3_3_labeled.json"],
-      "test_data_sha256": {"governance/benchmark_data/indicator_3_3_labeled.json": "9bf14e23241ecc6c1d02f5cebe117ce9e22da0e2a1658785a2973079557fa44a"},
+      "benchmarks": ["MetroPT-3", "UCR FordA", "SECOM", "HoloClean Hospital"],
       "test_file": "tests/individual/test_indicator_3_3.py",
       "command": "python3 run_indicator_tests.py 3.3",
-      "criterion": "版本化固定标注样例解析准确率不低于 95%；描述性区间仅适用于该样例集合"
+      "criterion": "MetroPT-3 全部 1,516,948 行、UCR FordA TRAIN+TEST 全部 4,921 条和 2,460,500 个时序点、SECOM 全部 1,567 条及 HoloClean Hospital 全部 1,000 条和 19,000 个真值单元完成结构校验；各数据集解析准确率均不低于 95%"
     },
     "3.4": {
       "name": "异构数据语义时序对齐",
       "algorithm_files": ["governance/indicator_3_4.py"],
-      "test_data_files": ["governance/benchmark_data/indicator_3_4_labeled.json"],
-      "test_data_sha256": {"governance/benchmark_data/indicator_3_4_labeled.json": "e5f7719a2a0c1ae01a0dc549b793e05aaa764f0bf6eaa8236f81b9a6f9587b6d"},
+      "benchmarks": ["MetroPT-3"],
       "test_file": "tests/individual/test_indicator_3_4.py",
       "command": "python3 run_indicator_tests.py 3.4",
-      "criterion": "版本化固定标注样例对齐准确率不低于 90%；描述性区间仅适用于该样例集合"
+      "criterion": "MetroPT-3 官方完整 1,516,948 行对四个公开维护时间窗执行零时间容差对齐，准确率不低于 90%；同时包含窗口内正例和窗口外负例"
     },
     "3.5": {
       "name": "1.1kHz 时序采集",
       "algorithm_files": ["governance/indicator_3_5.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA"],
       "test_file": "tests/individual/test_indicator_3_5.py",
       "command": "python3 run_indicator_tests.py 3.5",
-      "criterion": "预热后在同一进程执行 7 次软件接收测量，最低吞吐不低于 1100 样本/秒且无记录丢失"
+      "criterion": "分别完整回放 MetroPT-3 1,516,948 条与 UCR FordA TRAIN+TEST 4,921 条公开记录，预热后各 7 次软件接收的最低吞吐不低于 1,100 样本/秒且无丢失；该判据仅表示软件接收能力，不外推为现场硬件链路结论"
     },
     "3.6": {
       "name": "数据质量稳控",
       "algorithm_files": ["governance/indicator_3_6.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA", "SECOM", "HoloClean Hospital"],
       "test_file": "tests/individual/test_indicator_3_6.py",
       "command": "python3 run_indicator_tests.py 3.6",
-      "criterion": "完整性、一致性、时效性、有效性均不低于 95%"
+      "criterion": "按数据集报告 MetroPT-3、UCR FordA 序列与 SECOM、HoloClean Hospital 关系数据的完整性、一致性、归档时效性和有效性；各维度取所有可评价数据集的最低值且不低于 95%，缺失真值记为 N/A"
     },
     "3.7": {
       "name": "序列、关系数据融合",
       "algorithm_files": ["governance/indicator_3_7.py", "governance/indicator_3_4.py"],
+      "benchmarks": ["MetroPT-3"],
       "test_file": "tests/individual/test_indicator_3_7.py",
       "command": "python3 run_indicator_tests.py 3.7",
-      "criterion": "融合结果保持序列数据行数，命中记录携带关系字段，未命中记录被保留"
+      "criterion": "MetroPT-3 官方完整 1,516,948 条序列样本全部保留，公开维护时间窗命中真值逐行一致，窗口外样本保留且不附加错误关系"
     },
     "3.8": {
       "name": "工业异构数据规范化测试框架",
       "algorithm_files": ["governance/indicator_3_8.py", "governance/indicator_3_3.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA", "SECOM", "HoloClean Hospital"],
       "test_file": "tests/individual/test_indicator_3_8.py",
       "command": "python3 run_indicator_tests.py 3.8",
-      "criterion": "8 种已注册格式全部规范化成功，异常样例全部拒绝"
+      "criterion": "MetroPT-3、UCR FordA TRAIN+TEST、SECOM 与 HoloClean Hospital 四套完整固定范围均成功规范化为统一序列、关系或真值中间表示；未纳入四套数据实验的适配器只报告功能能力"
     },
     "3.9": {
       "name": "工业数据质量综合测评",
       "algorithm_files": ["governance/indicator_3_9.py", "governance/indicator_3_6.py"],
+      "benchmarks": ["MetroPT-3", "UCR FordA", "SECOM", "HoloClean Hospital"],
       "test_file": "tests/individual/test_indicator_3_9.py",
       "command": "python3 run_indicator_tests.py 3.9",
-      "criterion": "测评维度不少于 6 个且各维度得分不低于 95%"
+      "criterion": "至少六个维度且各维度不低于 95%；HoloClean Hospital 的 19,000 个清洁真值单元格独立计算关系数据真值准确率"
     }
   }
 }

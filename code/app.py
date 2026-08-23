@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import heapq
 import json
 import mimetypes
 import re
+import threading
+import time
 import traceback
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -28,6 +31,11 @@ from governance.pipeline import govern_records, validate_rules
 
 STATIC_DIR = ROOT / "static"
 MAX_REQUEST_BYTES = 12 * 1024 * 1024
+_BENCHMARK_CONDITION = threading.Condition()
+_BENCHMARK_RUNNING = False
+_BENCHMARK_CACHE: list[dict[str, Any]] | None = None
+_BENCHMARK_CACHE_TIME = 0.0
+_BENCHMARK_CACHE_SECONDS = 5.0
 
 
 def indicator_catalog() -> list[dict[str, Any]]:
@@ -91,9 +99,40 @@ def run_indicator(indicator_id: str) -> dict[str, Any]:
     return result
 
 
+def _run_all_indicators() -> list[dict[str, Any]]:
+    global _BENCHMARK_RUNNING, _BENCHMARK_CACHE, _BENCHMARK_CACHE_TIME
+    with _BENCHMARK_CONDITION:
+        cache_age = time.monotonic() - _BENCHMARK_CACHE_TIME
+        if _BENCHMARK_CACHE is not None and cache_age <= _BENCHMARK_CACHE_SECONDS:
+            return copy.deepcopy(_BENCHMARK_CACHE)
+        if _BENCHMARK_RUNNING:
+            while _BENCHMARK_RUNNING:
+                _BENCHMARK_CONDITION.wait()
+            if _BENCHMARK_CACHE is None:
+                raise RuntimeError("并发指标测试未生成结果")
+            return copy.deepcopy(_BENCHMARK_CACHE)
+        _BENCHMARK_RUNNING = True
+        _BENCHMARK_CACHE = None
+
+    try:
+        results = [run_indicator(indicator_id) for indicator_id in INDICATORS]
+    except BaseException:
+        with _BENCHMARK_CONDITION:
+            _BENCHMARK_RUNNING = False
+            _BENCHMARK_CACHE = None
+            _BENCHMARK_CONDITION.notify_all()
+        raise
+    with _BENCHMARK_CONDITION:
+        _BENCHMARK_CACHE = copy.deepcopy(results)
+        _BENCHMARK_CACHE_TIME = time.monotonic()
+        _BENCHMARK_RUNNING = False
+        _BENCHMARK_CONDITION.notify_all()
+    return results
+
+
 def run_all() -> dict[str, Any]:
     run_id = new_run_id("selftest")
-    results = [run_indicator(indicator_id) for indicator_id in INDICATORS]
+    results = _run_all_indicators()
     report = {
         "run_id": run_id,
         "system": "面向离散制造垂域模型的自动化数据治理系统",

@@ -1,0 +1,31 @@
+{
+  "source_report": "deliverables/指标3.1-3.9测试结果.json",
+  "source_report_sha256": "783fdbb3b54dfae0b2c66224c843a52e2c44b6e2ac8b9304ad09fb0cfc5fdbf4",
+  "source_git_commit": "97b7d19ee16822418946e37a114c33901046ef3e",
+  "figures": [
+    {
+      "file": "assessment_result_1_evidence_board.png",
+      "sha256": "c27c021107dd2d6741661af8f7a52380b88d3e2f9925d1c58352515530242643",
+      "bytes": 346400,
+      "mode": "RGB",
+      "width": 2400,
+      "height": 1350,
+      "dpi": [
+        150.01239999999999,
+        150.01239999999999
+      ]
+    },
+    {
+      "file": "assessment_result_2_capability_map.png",
+      "sha256": "26ed3fcb0af8698cd88606dd1a0196a931f2fb8fb35b1549e6eaa48e4fcdd852",
+      "bytes": 307126,
+      "mode": "RGB",
+      "width": 2400,
+      "height": 1350,
+      "dpi": [
+        150.01239999999999,
+        150.01239999999999
+      ]
+    }
+  ]
+}

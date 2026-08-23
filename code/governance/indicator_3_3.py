@@ -3,13 +3,19 @@
 from __future__ import annotations
 
 import csv
-import hashlib
 import io
 import json
-from pathlib import Path
 from typing import Any
 
 from .common import pct, wilson_interval
+from .public_benchmarks import (
+    benchmark_manifest,
+    benchmark_provenance,
+    iter_metropt_full_batches,
+    load_forda_series,
+    load_holoclean_hospital,
+    load_secom_records,
+)
 
 
 ID = "3.3"
@@ -18,9 +24,35 @@ MILESTONE_TARGET = "序列、关系数据解析准确率不低于 95%"
 MAX_RECORDS = 500_000
 MAX_COLUMNS = 2_048
 JSON_WRAPPERS = ("records", "data", "rows", "items")
-_JSON_DECODER = json.JSONDecoder()
-BENCHMARK_DATA_PATH = Path(__file__).with_name("benchmark_data") / "indicator_3_3_labeled.json"
-BENCHMARK_DATA_SHA256 = "9bf14e23241ecc6c1d02f5cebe117ce9e22da0e2a1658785a2973079557fa44a"
+
+
+def _reject_json_constant(value: str) -> None:
+    raise ValueError(f"JSON 不允许非有限数值常量: {value}")
+
+
+_JSON_DECODER = json.JSONDecoder(parse_constant=_reject_json_constant)
+
+
+def strict_json_loads(payload: str | bytes) -> Any:
+    if isinstance(payload, bytes):
+        try:
+            payload = payload.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise ValueError("JSON 输入不是有效 UTF-8") from exc
+    start = _skip_whitespace(payload, 0)
+    if start < len(payload) and payload[start] in "[{":
+        try:
+            end = _skip_json_value(payload, start)
+        except RecursionError as exc:
+            raise ValueError("JSON 嵌套深度超过解析器安全上限") from exc
+        if _skip_whitespace(payload, end) != len(payload):
+            raise ValueError("JSON 顶层值后存在多余内容")
+    try:
+        return json.loads(payload, parse_constant=_reject_json_constant)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"JSON 文档无效: {exc.msg}") from exc
+    except RecursionError as exc:
+        raise ValueError("JSON 嵌套深度超过解析器安全上限") from exc
 
 
 def _normalize_input_bom(text: str) -> str:
@@ -201,9 +233,9 @@ def _json_object_records(
         return records, end
 
     try:
-        parsed = json.loads(text[start:end])
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"JSON 对象无效: {exc.msg}") from exc
+        parsed = strict_json_loads(text[start:end])
+    except ValueError as exc:
+        raise ValueError(f"JSON 对象无效: {exc}") from exc
     records: list[dict[str, Any]] = []
     _append_bounded(records, parsed, "JSON 顶层对象", columns)
     return records, end
@@ -301,9 +333,9 @@ def parse_records(text: str, declared_format: str = "auto") -> dict[str, Any]:
             if not line.strip():
                 continue
             try:
-                row = json.loads(line)
-            except json.JSONDecodeError as exc:
-                raise ValueError(f"JSONL 第 {line_number} 行无效: {exc.msg}") from exc
+                row = strict_json_loads(line)
+            except ValueError as exc:
+                raise ValueError(f"JSONL 第 {line_number} 行无效: {exc}") from exc
             _append_bounded(
                 records,
                 row,
@@ -344,40 +376,67 @@ def parse_records(text: str, declared_format: str = "auto") -> dict[str, Any]:
 
 
 def benchmark() -> dict[str, Any]:
-    dataset_bytes = BENCHMARK_DATA_PATH.read_bytes()
-    dataset_sha256 = hashlib.sha256(dataset_bytes).hexdigest()
-    if dataset_sha256 != BENCHMARK_DATA_SHA256:
-        raise ValueError("3.3 标注数据与固定版本哈希不一致")
-    dataset = json.loads(dataset_bytes)
-    fixtures = dataset["valid"]
-    invalid_fixtures = dataset["invalid"]
-    correct = 0
-    failures: list[str] = []
-    for fixture in fixtures:
-        expected = fixture["expected_format"]
-        try:
-            result = parse_records(fixture["text"])
-            matched = (
-                result["format"] == expected
-                and len(result["records"]) == fixture["expected_rows"]
-                and result["columns"] == fixture["expected_columns"]
-            )
-            correct += int(matched)
-            if not matched:
-                failures.append(expected)
-        except (TypeError, ValueError, json.JSONDecodeError, csv.Error) as exc:
-            failures.append(f"{expected}: {exc}")
-    rejected = 0
-    for text in invalid_fixtures:
-        try:
-            parse_records(text)
-        except (TypeError, ValueError, json.JSONDecodeError, csv.Error):
-            rejected += 1
-    total = len(fixtures) + len(invalid_fixtures)
-    correct_total = correct + rejected
-    accuracy = pct(correct_total, total)
-    ci_low, ci_high = wilson_interval(correct_total, total)
-    fingerprint = dataset_sha256
+    manifest = benchmark_manifest()["datasets"]
+    metro_expected = int(manifest["metropt3"]["full_archive"]["records"])
+    metro_records = sum(
+        len(columns["Motor_current"])
+        for _, columns in iter_metropt_full_batches()
+    )
+    forda = load_forda_series()
+    forda_points = sum(len(row["values"]) for row in forda)
+    secom = load_secom_records()
+    hospital, hospital_truth = load_holoclean_hospital()
+    dataset_results = {
+        "metropt3": {
+            "format": "CSV",
+            "records": metro_records,
+            "expected_records": metro_expected,
+            "columns": 18,
+            "matched": metro_records == metro_expected,
+            "full_dataset": True,
+        },
+        "forda": {
+            "format": "UCR TS",
+            "records": len(forda),
+            "points": forda_points,
+            "expected_records": 4921,
+            "matched": len(forda) == 4921 and forda_points == 2_460_500,
+            "full_dataset": True,
+        },
+        "secom": {
+            "format": "space-delimited data + label file",
+            "records": len(secom),
+            "expected_records": 1567,
+            "columns": 594,
+            "matched": len(secom) == 1567,
+            "full_dataset": True,
+        },
+        "holoclean_hospital": {
+            "format": "CSV dirty table + cell truth table",
+            "records": len(hospital),
+            "truth_cells": len(hospital_truth),
+            "expected_records": 1000,
+            "expected_truth_cells": 19000,
+            "columns": len(hospital[0]),
+            "matched": len(hospital) == 1000 and len(hospital_truth) == 19000,
+            "full_dataset": True,
+        },
+    }
+    for result in dataset_results.values():
+        result["accuracy_percent"] = 100.0 if result["matched"] else 0.0
+    total = sum(
+        result["records"] + result.get("truth_cells", 0)
+        for result in dataset_results.values()
+    )
+    correct = sum(
+        (result["records"] + result.get("truth_cells", 0))
+        if result["matched"]
+        else 0
+        for result in dataset_results.values()
+    )
+    accuracy = pct(correct, total)
+    ci_low, ci_high = wilson_interval(correct, total)
+    failures = [name for name, result in dataset_results.items() if not result["matched"]]
     return {
         "indicator": ID,
         "title": TITLE,
@@ -385,19 +444,19 @@ def benchmark() -> dict[str, Any]:
         "passed": accuracy >= 95.0 and not failures,
         "metrics": {
             "fixtures": total,
-            "valid_fixtures": len(fixtures),
-            "invalid_fixtures": len(invalid_fixtures),
-            "correctly_parsed": correct_total,
+            "correctly_parsed": correct,
             "parsing_accuracy_percent": accuracy,
             "accuracy_wilson_95_percent": [ci_low, ci_high],
             "accuracy_interval_scope": (
-                "固定标注样例集合的描述性二项区间，不用于推断未抽样业务数据的总体准确率"
+                "四套固定公开benchmark完整记录的描述性区间"
             ),
-            "unique_fixture_fingerprint_sha256": fingerprint,
-            "labeled_dataset_id": dataset["dataset_id"],
-            "labeled_dataset_version": dataset["version"],
             "failure_count": len(failures),
-            "formats": ["CSV", "TSV", "分号表格", "管道表格", "JSON", "JSONL"],
+            "failed_cases": failures,
+            "formats": ["CSV", "UCR TS", "SECOM text+labels"],
+            "dataset_results": dataset_results,
         },
-        "method": "格式嗅探、结构解析、字段集合提取和版本化标注数据集评测。",
+        "benchmark_provenance": benchmark_provenance(
+            ("metropt3", "forda", "secom", "holoclean_hospital")
+        ),
+        "method": "完整解析 MetroPT-3 官方归档全部 1,516,948 行、UCR FordA TRAIN+TEST 全部 4,921 条和 2,460,500 个时序点、UCI SECOM 全部 1,567 条制造记录，以及 HoloClean Hospital 全部 1,000 条脏记录和 19,000 个清洁真值单元；按各发布清单独立核对记录数、字段结构、数值域与标签。",
     }

@@ -25,12 +25,13 @@ INK = "172B3A"
 MUTED = "5F6B76"
 TABLE_FILL = "E8EEF5"
 CODE_FILL = "F2F4F7"
+BODY_FONT = "Noto Sans CJK SC"
 
 
 def set_run_font(run, *, size: float | None = None, bold: bool | None = None,
                  color: str | None = None, monospace: bool = False) -> None:
-    western = "Menlo" if monospace else "Arial Unicode MS"
-    east_asia = "Arial Unicode MS"
+    western = "Menlo" if monospace else BODY_FONT
+    east_asia = BODY_FONT
     run.font.name = western
     run._element.get_or_add_rPr().get_or_add_rFonts().set(qn("w:ascii"), western)
     run._element.rPr.rFonts.set(qn("w:hAnsi"), western)
@@ -124,58 +125,30 @@ def configure_table(table, widths: list[int]) -> None:
 
 def create_numbering(document: Document, *, numbered: bool) -> int:
     numbering = document.part.numbering_part.element
-    abstract_ids = [
-        int(node.get(qn("w:abstractNumId")))
-        for node in numbering.findall(qn("w:abstractNum"))
-    ]
     num_ids = [int(node.get(qn("w:numId"))) for node in numbering.findall(qn("w:num"))]
-    abstract_id = max(abstract_ids, default=-1) + 1
     num_id = max(num_ids, default=0) + 1
-
-    abstract = OxmlElement("w:abstractNum")
-    abstract.set(qn("w:abstractNumId"), str(abstract_id))
-    multi_level = OxmlElement("w:multiLevelType")
-    multi_level.set(qn("w:val"), "singleLevel")
-    abstract.append(multi_level)
-    level = OxmlElement("w:lvl")
-    level.set(qn("w:ilvl"), "0")
-    start = OxmlElement("w:start")
-    start.set(qn("w:val"), "1")
-    level.append(start)
-    number_format = OxmlElement("w:numFmt")
-    number_format.set(qn("w:val"), "decimal" if numbered else "bullet")
-    level.append(number_format)
-    level_text = OxmlElement("w:lvlText")
-    level_text.set(qn("w:val"), "%1." if numbered else "•")
-    level.append(level_text)
-    justification = OxmlElement("w:lvlJc")
-    justification.set(qn("w:val"), "left")
-    level.append(justification)
-    paragraph_properties = OxmlElement("w:pPr")
-    tabs = OxmlElement("w:tabs")
-    tab = OxmlElement("w:tab")
-    tab.set(qn("w:val"), "num")
-    tab.set(qn("w:pos"), "540")
-    tabs.append(tab)
-    paragraph_properties.append(tabs)
-    indent = OxmlElement("w:ind")
-    indent.set(qn("w:left"), "540")
-    indent.set(qn("w:hanging"), "270")
-    paragraph_properties.append(indent)
-    level.append(paragraph_properties)
-    run_properties = OxmlElement("w:rPr")
-    color = OxmlElement("w:color")
-    color.set(qn("w:val"), BLUE)
-    run_properties.append(color)
-    level.append(run_properties)
-    abstract.append(level)
-    numbering.append(abstract)
+    style_name = "ListNumber" if numbered else "ListBullet"
+    abstract_id = None
+    for abstract in numbering.findall(qn("w:abstractNum")):
+        paragraph_style = abstract.find(f".//{qn('w:pStyle')}")
+        if paragraph_style is not None and paragraph_style.get(qn("w:val")) == style_name:
+            abstract_id = int(abstract.get(qn("w:abstractNumId")))
+            break
+    if abstract_id is None:
+        raise ValueError(f"Word 模板缺少编号样式: {style_name}")
 
     number = OxmlElement("w:num")
     number.set(qn("w:numId"), str(num_id))
     abstract_reference = OxmlElement("w:abstractNumId")
     abstract_reference.set(qn("w:val"), str(abstract_id))
     number.append(abstract_reference)
+    if numbered:
+        override = OxmlElement("w:lvlOverride")
+        override.set(qn("w:ilvl"), "0")
+        start_override = OxmlElement("w:startOverride")
+        start_override.set(qn("w:val"), "1")
+        override.append(start_override)
+        number.append(override)
     numbering.append(number)
     return num_id
 
@@ -276,20 +249,20 @@ def build_document() -> Document:
     section.footer_distance = Inches(0.492)
 
     normal = document.styles["Normal"]
-    normal.font.name = "Arial Unicode MS"
+    normal.font.name = BODY_FONT
     normal.font.size = Pt(11)
     normal.font.color.rgb = RGBColor.from_string(INK)
-    normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Arial Unicode MS")
+    normal._element.rPr.rFonts.set(qn("w:eastAsia"), BODY_FONT)
     normal.paragraph_format.space_before = Pt(0)
     normal.paragraph_format.space_after = Pt(5)
     normal.paragraph_format.line_spacing = 1.2
 
     title = document.styles["Title"]
-    title.font.name = "Arial Unicode MS"
+    title.font.name = BODY_FONT
     title.font.size = Pt(22)
     title.font.bold = True
     title.font.color.rgb = RGBColor.from_string(DARK_BLUE)
-    title._element.rPr.rFonts.set(qn("w:eastAsia"), "Arial Unicode MS")
+    title._element.rPr.rFonts.set(qn("w:eastAsia"), BODY_FONT)
     title.paragraph_format.space_before = Pt(0)
     title.paragraph_format.space_after = Pt(12)
     title.paragraph_format.line_spacing = 1.0
@@ -300,11 +273,11 @@ def build_document() -> Document:
         ("Heading 3", 12, DARK_BLUE, 10, 5),
     ):
         style = document.styles[name]
-        style.font.name = "Arial Unicode MS"
+        style.font.name = BODY_FONT
         style.font.size = Pt(size)
         style.font.bold = True
         style.font.color.rgb = RGBColor.from_string(color)
-        style._element.rPr.rFonts.set(qn("w:eastAsia"), "Arial Unicode MS")
+        style._element.rPr.rFonts.set(qn("w:eastAsia"), BODY_FONT)
         style.paragraph_format.space_before = Pt(before)
         style.paragraph_format.space_after = Pt(after)
         style.paragraph_format.line_spacing = 1.0
@@ -331,6 +304,7 @@ def build_document() -> Document:
     index = 0
     in_code = False
     code_lines: list[str] = []
+    previous_was_numbered = False
     while index < len(lines):
         line = lines[index]
         stripped = line.strip()
@@ -342,6 +316,7 @@ def build_document() -> Document:
             else:
                 in_code = True
             index += 1
+            previous_was_numbered = False
             continue
         if in_code:
             code_lines.append(line)
@@ -351,6 +326,7 @@ def build_document() -> Document:
             index += 1
             continue
         if stripped.startswith("|"):
+            previous_was_numbered = False
             table_lines = []
             while index < len(lines) and lines[index].strip().startswith("|"):
                 table_lines.append(lines[index].strip())
@@ -374,14 +350,20 @@ def build_document() -> Document:
             continue
         heading = re.match(r"^(#{1,3})\s+(.+)$", stripped)
         if heading:
+            previous_was_numbered = False
             add_heading(document, len(heading.group(1)), heading.group(2))
         elif stripped.startswith("- "):
+            previous_was_numbered = False
             add_bullet(document, stripped[2:], bullet_num_id)
         else:
             numbered = re.match(r"^(\d+\.)\s+(.+)$", stripped)
             if numbered:
+                if not previous_was_numbered:
+                    decimal_num_id = create_numbering(document, numbered=True)
                 add_numbered(document, numbered.group(2), decimal_num_id)
+                previous_was_numbered = True
             else:
+                previous_was_numbered = False
                 add_body_paragraph(document, stripped)
         index += 1
 

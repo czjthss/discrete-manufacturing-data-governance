@@ -11,9 +11,9 @@
 - 工作台支持规则配置、确定性修复、异常隔离、质量前后对比、血缘记录和报告下载。
 - 外部代码须确认许可证并固定 commit SHA 后才能启用；项目自有方法适配器与外部官方代码状态分别记录。
 
-## 课题组压缩成果
+## 已有成果
 
-`reger_bos_code_paths/` 保存课题组最新成果的 Python、C++ 和 Java 实现，系统通过 `code/integrations/group_research/adapter.py` 提供统一运行接口：
+`reger_bos_code_paths/` 保存已有成果的 Python、C++ 和 Java 实现，系统通过 `code/integrations/group_research/adapter.py` 提供统一运行接口：
 
 - REGER Int64：分块重排、残差建模和分段位宽编码。
 - REGER Float64：浮点位模式映射和无损恢复。
@@ -21,7 +21,7 @@
 - TS_2DIFF+BOS Int64：在二阶差分与 BOS 之间按载荷大小自适应选择。
 - TS_2DIFF+BOS Float：十进制定点映射与自适应压缩。
 
-指标 3.2 会对上述实现执行独立压缩、解压、往返一致性、压缩率和最大误差测量。注册表中的运行状态来自真实入口解析和健康检查。
+上述实现保留独立压缩、解压和往返一致性测试。指标 3.2 的验收结果由 MetroPT-3 官方完整数据上的统一时序压缩方法产生，不把不同数据范围的结果混入验收压缩比。
 
 ## 快速启动
 
@@ -47,7 +47,7 @@ PYTHONPATH=code python3 -c "from app import run_all; r=run_all(); print(r['passe
 | 指标 | 范围 | 文件 | 实现与口径 |
 |---|---|---|---|
 | 3.1 | 里程碑2核心 | `code/governance/indicator_3_1.py` | 序列/关系存储、原子压缩备份、往返回读 |
-| 3.2 | 里程碑2核心 | `code/governance/indicator_3_2.py` | 有界误差 PLA 及课题组 REGER/BOS/TS_2DIFF+BOS |
+| 3.2 | 里程碑2核心 | `code/governance/indicator_3_2.py` | 完整数据流式压缩；总体、最差块和最差通道均验证 9:1 |
 | 3.3 | 里程碑2核心 | `code/governance/indicator_3_3.py` | 六类格式、独立标注样例、异常拒绝、95% Wilson 区间 |
 | 3.4 | 里程碑2核心 | `code/governance/indicator_3_4.py` | 字段归一、实体匹配、精确时间窗优先，目标不低于 90% |
 | 3.5 | 里程碑2核心 | `code/governance/indicator_3_5.py` | 重复吞吐测量、最低速率和零丢失检查，目标 1.1kHz |

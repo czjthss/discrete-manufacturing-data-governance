@@ -19,7 +19,19 @@ class Indicator39Tests(unittest.TestCase):
         self.assertGreaterEqual(metrics["dimension_count"], 6)
         self.assertGreaterEqual(metrics["minimum_dimension"], 95.0)
         self.assertIn("referential_integrity", metrics["dimensions"])
+        self.assertIn("truth_cell_accuracy", metrics["dimensions"])
+        self.assertEqual(metrics["holoclean_truth_cells"], 19000)
+        self.assertEqual(metrics["holoclean_error_cells"], 509)
         self.assertGreater(metrics["referential_checks"], 0)
+        self.assertEqual(
+            set(metrics["dataset_results"]),
+            {"metropt3", "forda", "secom", "holoclean_hospital"},
+        )
+        for dataset, result in metrics["dataset_results"].items():
+            for dimension, value in result["dimensions"].items():
+                with self.subTest(dataset=dataset, dimension=dimension):
+                    if value is not None:
+                        self.assertGreaterEqual(value, 95.0)
 
     def test_master_data_violation_reduces_referential_integrity(self) -> None:
         records = [

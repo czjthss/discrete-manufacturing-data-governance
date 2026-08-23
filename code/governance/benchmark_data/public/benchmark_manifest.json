@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "policy": "Only public, externally published benchmark records contribute to acceptance metrics.",
+  "datasets": {
+    "metropt3": {
+      "title": "MetroPT-3 Dataset",
+      "publisher": "UCI Machine Learning Repository",
+      "doi": "10.24432/C5VW3R",
+      "license": "CC BY 4.0",
+      "landing_page": "https://archive.ics.uci.edu/dataset/791/metropt+3+dataset",
+      "source_archive_sha256": "aab991a970e58210de853bb8078ce0e63abb4d9412fdc5c79792dae3d8e1721a",
+      "full_archive": {
+        "url": "https://archive.ics.uci.edu/static/public/791/metropt+3+dataset.zip",
+        "cache_name": "metropt3-uci-791.zip",
+        "sha256": "aab991a970e58210de853bb8078ce0e63abb4d9412fdc5c79792dae3d8e1721a",
+        "records": 1516948,
+        "member": "MetroPT3(AirCompressor).csv",
+        "sensor_channels": 15
+      },
+      "selection": {
+        "compression_source_rows": [
+          [
+            0,
+            11999
+          ],
+          [
+            300000,
+            311999
+          ],
+          [
+            600000,
+            611999
+          ],
+          [
+            900000,
+            911999
+          ],
+          [
+            1200000,
+            1211999
+          ]
+        ],
+        "alignment_rule": "one source reading per minute within each published failure interval plus 30 minutes",
+        "alignment_records": 5167
+      },
+      "files": [
+        {
+          "path": "sources/metropt3_benchmark.csv",
+          "bytes": 9993557,
+          "sha256": "a106ede426bacd628a025fef6388f8a58e90d13191cd405ada1b121ebd9387d1",
+          "records": 63823
+        },
+        {
+          "path": "sources/metropt3_failures.csv",
+          "bytes": 369,
+          "sha256": "1325952d59d59c19e0626e9f5440dc44f38e3b19175eff446d6eaf0545bc197e",
+          "records": 4
+        }
+      ]
+    },
+    "secom": {
+      "title": "SECOM",
+      "publisher": "UCI Machine Learning Repository",
+      "doi": "10.24432/C54305",
+      "license": "CC BY 4.0",
+      "landing_page": "https://archive.ics.uci.edu/dataset/179/secom",
+      "source_archive_sha256": "eea568baf3c2229096d7d294cf0b096b5502bd96d92c0b80a65b84714059be8e",
+      "files": [
+        {
+          "path": "sources/secom.data",
+          "bytes": 5389983,
+          "sha256": "20f0e7ee434f7dcbae0eea9ffff009a2b57f42d6b0dc9a5bd4f00782c0a3374c",
+          "records": 1567
+        },
+        {
+          "path": "sources/secom_labels.data",
+          "bytes": 40638,
+          "sha256": "126884cf453705c9e61a903fe906f0665a3b45ce3639e621edc5c93c89627e03",
+          "records": 1567
+        },
+        {
+          "path": "sources/secom.names",
+          "bytes": 4223,
+          "sha256": "6d91b0b46cdee03064ee3e3112f937c1b3f7fcd9933575794ec07974e6f1ea59"
+        }
+      ]
+    },
+    "ims_bearings": {
+      "title": "IMS Bearings, second test, first measurement file",
+      "publisher": "NASA Prognostics Center of Excellence / University of Cincinnati IMS Center",
+      "license": "United States Government Work",
+      "landing_page": "https://data.nasa.gov/dataset/ims-bearings",
+      "native_sampling_hz": 20000,
+      "outer_archive_bytes": 1061902801,
+      "outer_archive_etag": "57b2e74587d73b5485fe0d55731e1331",
+      "outer_member": "IMS/2nd_test.rar",
+      "inner_member": "2nd_test/2004.02.12.10.32.39",
+      "files": [
+        {
+          "path": "sources/ims_2004.02.12.10.32.39.tsv",
+          "bytes": 557958,
+          "sha256": "bbbe024d55d76554a087bbbed3974e36505cd67da6cd066c341c6d35ecb68b7a",
+          "records": 20480
+        }
+      ]
+    },
+    "forda": {
+      "title": "UCR FordA",
+      "publisher": "UCR Time Series Classification Archive",
+      "doi": "10.5281/zenodo.11191164",
+      "landing_page": "https://zenodo.org/records/11191164",
+      "split": "TRAIN+TEST",
+      "series": 4921,
+      "points_per_series": 500,
+      "files": [
+        {
+          "path": "FordA_TRAIN.ts",
+          "bytes": 20093553,
+          "sha256": "f7693d8982d4088613d053e9205121867cb380ad2d0684100c06fad9b6459f5c",
+          "records": 3601
+        },
+        {
+          "path": "FordA_TEST.ts",
+          "bytes": 7364869,
+          "sha256": "7b63a092ed190cb9a056941377d315cc7c806aad585426a0c04dacec01ecfc71",
+          "records": 1320
+        }
+      ]
+    },
+    "holoclean_hospital": {
+      "title": "HoloClean Hospital dirty/clean benchmark",
+      "publisher": "HoloClean project",
+      "repository": "https://github.com/HoloClean/holoclean",
+      "commit": "d4f5929a8e4d92d4f41eb058c04c96cdcb0af767",
+      "license": "Apache-2.0",
+      "files": [
+        {
+          "path": "sources/hospital.csv",
+          "bytes": 288298,
+          "sha256": "bbb2f60e9e7bbda68b1115b3bbb9a0d70587a9d33384a2373e4d447789fd619a",
+          "records": 1000
+        },
+        {
+          "path": "sources/hospital_clean.csv",
+          "bytes": 559029,
+          "sha256": "5dc89f7701abae92af81308ae9cbeea584c39cba288fdffe3324397e15f8ca2c",
+          "records": 19000
+        }
+      ]
+    },
+    "json_test_suite": {
+      "title": "JSONTestSuite",
+      "repository": "https://github.com/nst/JSONTestSuite",
+      "commit": "1ef36fa01286573e846ac449e8683f8833c5b26a",
+      "license": "MIT",
+      "source_archive_sha256": "32ab2fb37cc26679dbd9164dbb7053bcef10134643d53cb0cef45de7680dcdcc",
+      "files": [
+        {
+          "path": "sources/json_test_suite.zip",
+          "bytes": 56712,
+          "sha256": "a39088279ed14bf8e9ed608e1a824cbfb7f695c95cca3b0b1bea67c9bbadde2d"
+        }
+      ]
+    },
+    "w3c_xml_conformance": {
+      "title": "XML W3C Conformance Test Suite 20130923",
+      "publisher": "W3C XML Core Working Group",
+      "landing_page": "https://www.w3.org/XML/Test/",
+      "source_archive_sha256": "f9510b3532926e1b4c2e54855b021e4b8a66ec98a5337dcf4ff07e8a41968deb",
+      "files": [
+        {
+          "path": "sources/w3c_xmlconf_xmltest.zip",
+          "bytes": 130685,
+          "sha256": "3dfc0a0ef1224b1f170d4881db2c1f9ce6f1aa15cea71b108ffc3a61138fb20c"
+        }
+      ]
+    }
+  }
+}

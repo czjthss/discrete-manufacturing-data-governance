@@ -1,0 +1,47 @@
+{
+  "source_report": "deliverables/指标3.1-3.9测试结果.json",
+  "source_report_sha256": "783fdbb3b54dfae0b2c66224c843a52e2c44b6e2ac8b9304ad09fb0cfc5fdbf4",
+  "source_git_commit": "97b7d19ee16822418946e37a114c33901046ef3e",
+  "figures": {
+    "candidate_1_overview.png": {
+      "bytes": 219126,
+      "sha256": "5a10356e7120f85691e8122e8487364d34cc472ef5f1f7d11720a432d41a7eb1",
+      "pixels": [
+        2400,
+        1350
+      ]
+    },
+    "candidate_2_compression.png": {
+      "bytes": 253558,
+      "sha256": "330c0243735ec8a62cd4ed7cd27e4e8b2289876513da7dd5a33b9de24ddfb84b",
+      "pixels": [
+        2400,
+        1350
+      ]
+    },
+    "candidate_3_quality.png": {
+      "bytes": 234270,
+      "sha256": "40395a7e90d918589125f213907c765b4f5cd6334272c6dee6b663e7f1932a71",
+      "pixels": [
+        2400,
+        1350
+      ]
+    },
+    "candidate_4_throughput.png": {
+      "bytes": 175832,
+      "sha256": "208df8dfd49e1bae2996fdd6c9391564f909594c3771355b58da913ef924e3f5",
+      "pixels": [
+        2400,
+        1350
+      ]
+    },
+    "candidate_contact_sheet.png": {
+      "bytes": 550152,
+      "sha256": "12bb1f26b76338addf0a1673a26cd97bc4efa9a93f7616da1848ffb95b5a52ed",
+      "pixels": [
+        2400,
+        1440
+      ]
+    }
+  }
+}

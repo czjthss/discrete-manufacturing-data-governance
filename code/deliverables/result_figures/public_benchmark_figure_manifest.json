@@ -1,0 +1,58 @@
+{
+  "dataset": {
+    "name": "UCR FordA",
+    "split": "TEST",
+    "series": 1320,
+    "points_per_series": 500,
+    "total_points": 660000,
+    "class_counts": {
+      "-1": 681,
+      "1": 639
+    },
+    "metadata": {
+      "problemname": "FordA",
+      "timestamps": "false",
+      "missing": "false",
+      "univariate": "true",
+      "equallength": "true",
+      "serieslength": "500",
+      "classlabel": "true -1 1"
+    },
+    "source": "https://zenodo.org/records/11191164",
+    "doi": "10.5281/zenodo.11191164",
+    "md5": "a781b68879d0d64c40d2d9ae1240a5d8",
+    "sha256": "7b63a092ed190cb9a056941377d315cc7c806aad585426a0c04dacec01ecfc71"
+  },
+  "benchmark_report": "FordA_benchmark_result.json",
+  "benchmark_report_sha256": "f7746329eba7af00836f45c8f21149f180414f50065bf7a846b3b922384b178f",
+  "figures": [
+    {
+      "file": "benchmark_result_1_forda_pipeline.png",
+      "sha256": "7f7a0bba5155a9f6d8f07d5612cdc3c8010e267cbbf66c26043ab6b2751a3026",
+      "bytes": 516500,
+      "mode": "RGB",
+      "size": [
+        2400,
+        1350
+      ],
+      "dpi": [
+        150.01239999999999,
+        150.01239999999999
+      ]
+    },
+    {
+      "file": "benchmark_result_2_forda_quality.png",
+      "sha256": "1e17162b9893c1728aafb017d91647f6489263f30148553971884e986db14adf",
+      "bytes": 445717,
+      "mode": "RGB",
+      "size": [
+        2400,
+        1350
+      ],
+      "dpi": [
+        150.01239999999999,
+        150.01239999999999
+      ]
+    }
+  ]
+}

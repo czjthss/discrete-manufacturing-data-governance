@@ -28,6 +28,8 @@ python3 tests/individual/test_indicator_3_2.py
 
 统一运行器默认在 `data/reports/indicator-tests/` 写入 JSON 报告，报告包括 Python 与操作系统信息、测试返回码、耗时和算法基准结果。使用 `--no-report` 可只执行测试，不写报告；使用 `--report-dir PATH` 可指定报告目录。
 
+验收指标只读取 `governance/benchmark_data/public/benchmark_manifest.json` 登记并经 SHA-256 校验的公开真实数据或标准符合性套件。测试文件中的小型手写输入用于非法值、边界条件和安全性回归，不参与指标得分。
+
 报告的 `source` 字段包含 Git 状态、逐文件 SHA-256 和组合源码哈希。固定交付包使用以下命令生成，包内 `PACKAGE_MANIFEST.json` 可用于逐文件校验：
 
 ```bash

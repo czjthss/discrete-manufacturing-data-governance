@@ -20,6 +20,18 @@ class Indicator36Tests(unittest.TestCase):
             with self.subTest(dimension=name):
                 self.assertGreaterEqual(metrics[name], 95.0)
         self.assertGreaterEqual(metrics["minimum_dimension"], 95.0)
+        self.assertEqual(metrics["sequence_records"], 1_521_869)
+        self.assertEqual(metrics["relation_records"], 2567)
+        self.assertEqual(metrics["relation_sensor_cells"], 924530)
+        self.assertEqual(
+            set(metrics["dataset_results"]),
+            {"metropt3", "forda", "secom", "holoclean_hospital"},
+        )
+        for dataset, result in metrics["dataset_results"].items():
+            for dimension, value in result["dimensions"].items():
+                with self.subTest(dataset=dataset, dimension=dimension):
+                    if value is not None:
+                        self.assertGreaterEqual(value, 95.0)
 
     def test_timeliness_uses_explicit_reference_time(self) -> None:
         records = [{"timestamp_ms": 1, "equipment_id": "CNC-01", "value": 42.0}]
