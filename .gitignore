@@ -14,6 +14,7 @@ env/
 .ruff_cache/
 
 code/data/
+code/deliverables/formal_runs/
 *.sqlite3
 *.sqlite3.gz
 *.sequence.json.gz

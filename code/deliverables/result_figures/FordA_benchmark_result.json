@@ -109,28 +109,28 @@
       "completeness": 95.46,
       "consistency": 100.0,
       "timeliness": 100.0,
-      "validity": 100.0,
+      "validity": 97.32,
       "uniqueness": 100.0,
       "referential_integrity": 100.0,
       "truth_cell_accuracy": 97.32,
       "traceability": 100.0
     },
     "minimum_dimension": 95.46,
-    "sequence_records": 63823,
-    "relation_records": 1567,
+    "sequence_records": 1521869,
+    "relation_records": 2567,
     "truth_cells": 19000
   },
   "formal_evidence": {
     "throughput_runs": [
-      22052141.25,
-      22578913.19,
-      18931550.61,
-      15456603.77,
-      17457035.07,
-      22021505.38,
-      22372317.75
+      21559693.32,
+      22275334.18,
+      22334375.69,
+      21690358.13,
+      22406374.5,
+      22457501.43,
+      21611010.59
     ],
-    "throughput_minimum": 15456603.77,
+    "throughput_minimum": 21559693.32,
     "throughput_target": 1100,
     "normalization_adapters": 8,
     "normalization_format_families": 3

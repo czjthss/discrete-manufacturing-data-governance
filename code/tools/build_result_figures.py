@@ -428,10 +428,17 @@ def quality_results(report: dict[str, object], report_sha256: str) -> Path:
 
 def throughput_results(report: dict[str, object], report_sha256: str) -> Path:
     metrics = metric(report, "3.5")
-    rates = np.array(metrics["run_samples_per_second"], dtype=float)
-    runs = np.arange(1, len(rates) + 1)
+    dataset_results = metrics["dataset_results"]
+    series = {
+        "MetroPT-3": np.array(
+            dataset_results["metropt3"]["run_samples_per_second"], dtype=float
+        ),
+        "UCR FordA": np.array(
+            dataset_results["forda"]["run_samples_per_second"], dtype=float
+        ),
+    }
+    runs = np.arange(1, int(metrics["repeats"]) + 1)
     target = float(metrics["target_samples_per_second"])
-    median = float(metrics["ingestion_samples_per_second"])
 
     fig = plt.figure(figsize=(16, 9))
     grid = fig.add_gridspec(
@@ -448,32 +455,62 @@ def throughput_results(report: dict[str, object], report_sha256: str) -> Path:
     note_ax = fig.add_subplot(grid[1, 0])
     note_ax.axis("off")
     fig.suptitle("3.5 1.1 kHz 时序数据软件接收能力实测", fontsize=26, fontweight="bold", color=INK)
-    ax.plot(runs, rates, color=BLUE, linewidth=2.5, marker="o", markersize=10, label="7 次实测")
-    ax.axhline(median, color=GREEN, linewidth=2, linestyle="--", label=f"中位数 {median / 1e6:.3f} M/s")
+    colors = {"MetroPT-3": BLUE, "UCR FordA": GREEN}
+    for dataset, rates in series.items():
+        median = float(np.median(rates))
+        ax.plot(
+            runs,
+            rates,
+            color=colors[dataset],
+            linewidth=2.5,
+            marker="o",
+            markersize=8,
+            label=f"{dataset}，中位数 {median / 1e6:.3f} M/s",
+        )
     ax.axhline(target, color=RED, linewidth=2.5, linestyle=":", label="指标目标 1.1 k/s")
     ax.set_yscale("log")
     ax.set_xlim(0.6, 7.4)
-    ax.set_ylim(700, 3_000_000)
+    ax.set_ylim(700, 30_000_000)
     ax.set_xticks(runs, [f"第 {run} 次" for run in runs])
-    ax.yaxis.set_major_locator(FixedLocator([1_000, 10_000, 100_000, 1_000_000, 3_000_000]))
+    ax.yaxis.set_major_locator(
+        FixedLocator([1_000, 10_000, 100_000, 1_000_000, 10_000_000, 30_000_000])
+    )
     ax.yaxis.set_major_formatter(
         FuncFormatter(lambda value, _: f"{value / 1e6:g} M/s" if value >= 1e6 else f"{value / 1e3:g} k/s")
     )
     ax.set_ylabel("软件接收吞吐（样本/秒，对数坐标）")
     ax.set_title(
-        f"1 次预热后重复 {metrics['repeats']} 次；每次 {metrics['samples']:,} 条，批大小 {metrics['batch_size']}",
+        f"两套完整时序数据各预热 1 次、重复 {metrics['repeats']} 次；批大小 {metrics['batch_size']}",
         loc="left",
     )
     ax.grid(which="major", axis="y", color=GRID, linewidth=0.9)
-    ax.legend(frameon=False, loc="lower right")
-    for run, rate in zip(runs, rates):
-        ax.annotate(f"{rate / 1e6:.3f} M/s", (run, rate), xytext=(0, 12), textcoords="offset points", ha="center", fontsize=10, color=INK)
+    ax.legend(frameon=False, loc="center right")
+    for dataset, rates in series.items():
+        for run, rate in zip(runs, rates):
+            offset = 10 if dataset == "MetroPT-3" else -17
+            ax.annotate(
+                f"{rate / 1e6:.2f}",
+                (run, rate),
+                xytext=(0, offset),
+                textcoords="offset points",
+                ha="center",
+                fontsize=8.5,
+                color=colors[dataset],
+            )
+    maximum = max(
+        float(result["maximum_samples_per_second"])
+        for result in dataset_results.values()
+    )
+    maximum_cv = max(
+        float(result["throughput_coefficient_of_variation"])
+        for result in dataset_results.values()
+    )
     note_ax.text(
         0,
         0.92,
         f"最低 {metrics['minimum_samples_per_second'] / 1e6:.3f} M/s  |  "
-        f"最高 {metrics['maximum_samples_per_second'] / 1e6:.3f} M/s  |  "
-        f"变异系数 {metrics['throughput_coefficient_of_variation'] * 100:.2f}%  |  "
+        f"最高 {maximum / 1e6:.3f} M/s  |  "
+        f"最大变异系数 {maximum_cv * 100:.2f}%  |  "
         f"丢失样本 {metrics['lost_samples']}",
         transform=note_ax.transAxes,
         color=MUTED,

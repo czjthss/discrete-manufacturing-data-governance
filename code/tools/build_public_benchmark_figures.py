@@ -247,8 +247,12 @@ def run_case_study() -> tuple[dict[str, Any], np.ndarray, np.ndarray, np.ndarray
             "truth_cells": m39["holoclean_truth_cells"],
         },
         "formal_evidence": {
-            "throughput_runs": m35["run_samples_per_second"],
-            "throughput_minimum": m35["minimum_samples_per_second"],
+            "throughput_runs": m35["dataset_results"]["forda"][
+                "run_samples_per_second"
+            ],
+            "throughput_minimum": m35["dataset_results"]["forda"][
+                "minimum_samples_per_second"
+            ],
             "throughput_target": m35["target_samples_per_second"],
             "normalization_adapters": m38["registered_adapters"],
             "normalization_format_families": m38["tested_format_families"],

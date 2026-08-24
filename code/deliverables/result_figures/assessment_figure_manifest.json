@@ -1,12 +1,12 @@
 {
   "source_report": "deliverables/指标3.1-3.9测试结果.json",
-  "source_report_sha256": "783fdbb3b54dfae0b2c66224c843a52e2c44b6e2ac8b9304ad09fb0cfc5fdbf4",
-  "source_git_commit": "97b7d19ee16822418946e37a114c33901046ef3e",
+  "source_report_sha256": "90d0536a75ddd0819e210dfe17224241f9f76e70dd65c3ff5fe84bf348b4c6a0",
+  "source_git_commit": "5128b5073c0aad458458a4728faaade2ac3cf50f",
   "figures": [
     {
       "file": "assessment_result_1_evidence_board.png",
-      "sha256": "c27c021107dd2d6741661af8f7a52380b88d3e2f9925d1c58352515530242643",
-      "bytes": 346400,
+      "sha256": "c8b8ba2b91acdb9fd534cdda1eecbb3388adc5b1d24f78eae3ffb6d0ad9fc80a",
+      "bytes": 353110,
       "mode": "RGB",
       "width": 2400,
       "height": 1350,
@@ -17,8 +17,8 @@
     },
     {
       "file": "assessment_result_2_capability_map.png",
-      "sha256": "26ed3fcb0af8698cd88606dd1a0196a931f2fb8fb35b1549e6eaa48e4fcdd852",
-      "bytes": 307126,
+      "sha256": "368ece19e51355f25236b4426dea4b4e25a80a367cfa4bc37c7c02be55d40b2c",
+      "bytes": 309868,
       "mode": "RGB",
       "width": 2400,
       "height": 1350,

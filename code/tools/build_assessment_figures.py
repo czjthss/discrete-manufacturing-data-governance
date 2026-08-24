@@ -122,7 +122,10 @@ def evidence_rows(report: dict[str, object]) -> list[dict[str, str]]:
         {
             "id": "②",
             "criterion": "支持关系数据的存储与压缩。",
-            "evidence": f"{m31['relation_records']} 条关系样例；SQLite 存储及压缩备份往返校验通过",
+            "evidence": (
+                f"{m31['dataset_results']['secom']['records'] + m31['dataset_results']['holoclean_hospital']['records']:,} "
+                "条完整关系记录；SQLite 存储及压缩备份往返校验通过"
+            ),
             "source": "3.1",
         },
         {
@@ -165,16 +168,16 @@ def evidence_rows(report: dict[str, object]) -> list[dict[str, str]]:
             "criterion": "搭建工业异构数据规范化测试框架。",
             "evidence": (
                 f"{m38['registered_adapters']} 个适配器；"
-                f"JSON {m38['json_conformance_cases']} 例、"
-                f"XML {m38['xml_conformance_cases']} 例；"
-                f"XML 准确率 {m38['xml_conformance_accuracy_percent']:.2f}%"
+                f"{m38['datasets_tested']} 个完整数据集、"
+                f"{m38['tested_format_families']} 类格式；"
+                f"规范化成功率 {m38['normalization_success_percent']:.2f}%"
             ),
             "source": "3.8",
         },
         {
             "id": "⑨",
             "criterion": "序列、关系数据完整性、一致性、时效性、有效性等质量指标≥95%。",
-            "evidence": f"四维最低 {m36['minimum_dimension']:.2f}%；八维综合最低 {m39['minimum_dimension']:.2f}%",
+            "evidence": f"四维最低 {m36['minimum_dimension']:.2f}%；八维最低 {m39['minimum_dimension']:.2f}%",
             "source": "3.6 / 3.9",
         },
     ]

@@ -370,6 +370,8 @@ def build_document() -> Document:
     document.core_properties.title = "课题三指标 3.1-3.9 算法测试大纲与运行说明"
     document.core_properties.subject = "算法文件、测试代码、通过判据与逐项运行说明"
     document.core_properties.author = "课题三项目组"
+    document.core_properties.comments = ""
+    document.core_properties.last_modified_by = "课题三项目组"
     return document
 
 

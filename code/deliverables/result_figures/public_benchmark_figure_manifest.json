@@ -24,11 +24,11 @@
     "sha256": "7b63a092ed190cb9a056941377d315cc7c806aad585426a0c04dacec01ecfc71"
   },
   "benchmark_report": "FordA_benchmark_result.json",
-  "benchmark_report_sha256": "f7746329eba7af00836f45c8f21149f180414f50065bf7a846b3b922384b178f",
+  "benchmark_report_sha256": "940ebc8fdd824af8d5375267311f00c2d93c6a00bd2dd34a3a5be8ece3e98af2",
   "figures": [
     {
       "file": "benchmark_result_1_forda_pipeline.png",
-      "sha256": "7f7a0bba5155a9f6d8f07d5612cdc3c8010e267cbbf66c26043ab6b2751a3026",
+      "sha256": "e42608c27219d073a563a889c6a6b1f91051a9c691bdf7ea596f7456f256baaa",
       "bytes": 516500,
       "mode": "RGB",
       "size": [
@@ -42,8 +42,8 @@
     },
     {
       "file": "benchmark_result_2_forda_quality.png",
-      "sha256": "1e17162b9893c1728aafb017d91647f6489263f30148553971884e986db14adf",
-      "bytes": 445717,
+      "sha256": "da0efd7baff194f28c697558118f434004649ab8e0cb83a0eef7fce37c95ca46",
+      "bytes": 445678,
       "mode": "RGB",
       "size": [
         2400,

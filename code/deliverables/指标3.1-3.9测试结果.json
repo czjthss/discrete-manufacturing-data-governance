@@ -1,6 +1,6 @@
 {
-  "run_id": "indicator-tests-20260823T111017152467Z-11fb7535f9",
-  "generated_at": "2026-08-23T11:17:08.937162+00:00",
+  "run_id": "indicator-tests-20260824T013153072905Z-125e3358fa",
+  "generated_at": "2026-08-24T01:38:44.947377+00:00",
   "selected_indicators": [
     "3.1",
     "3.2",
@@ -21,10 +21,10 @@
   },
   "source": {
     "algorithm_manifest_sha256": "32eea256ae3036ebb994f9d35211b4590f52efd56443cbfafe0faeaa89d87511",
-    "git_commit": "97b7d19ee16822418946e37a114c33901046ef3e",
+    "git_commit": "5128b5073c0aad458458a4728faaade2ac3cf50f",
     "git_dirty": true,
     "git_status_scope": "tracked_files_only",
-    "source_tree_sha256": "814cb7dde272b146513be73ef35b4cb7c7411ff82745b1ea895b78f434e17e86",
+    "source_tree_sha256": "a147868738bffd8f7827615bdb01b3f4a301aa8c835010a5065f6c8e8fd99102",
     "source_file_count": 32,
     "source_file_sha256": {
       "code/algorithm_manifest.json": "32eea256ae3036ebb994f9d35211b4590f52efd56443cbfafe0faeaa89d87511",
@@ -40,7 +40,7 @@
       "code/governance/indicator_3_7.py": "9303ed94556dd6bd83a436ac36189272271076bb390f5f0c845d90d06b56bcd3",
       "code/governance/indicator_3_8.py": "0ac40b68194b40998afb25564a7f71dc0f31ea304031ee007ca35e4b31d8ae5c",
       "code/governance/indicator_3_9.py": "a27b682f46b49d840037a1f3194b5ebba07e9cf8603a4dc128d490f5efa16c99",
-      "code/governance/integration_registry.py": "e796cf0a16132606be0d484386d2b1821888c71bc11ffd1809964dbda4009fea",
+      "code/governance/integration_registry.py": "dc4628c16ad798204f4d5ae8cc45cc9ca4cff90198ef39f19840664a6b0bc449",
       "code/governance/pipeline.py": "4e4118cc108e4aa00567a6f6d42ca9e08b2d13f8d9bc76bc3a531dbe6a638442",
       "code/governance/public_benchmarks.py": "575b680f79d995a69585f4c6aea4cfece13051c4b50b6051861e2b63136486f3",
       "code/integrations/__init__.py": "5f7afc84c9c15f40fa26712c714949a749088c7a4e390c60a3aa07ea19226a36",
@@ -67,63 +67,63 @@
       "test_file": "code/tests/individual/test_indicator_3_1.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 20.768502
+      "elapsed_seconds": 21.496199
     },
     {
       "indicator": "3.2",
       "test_file": "code/tests/individual/test_indicator_3_2.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 49.457472
+      "elapsed_seconds": 48.974332
     },
     {
       "indicator": "3.3",
       "test_file": "code/tests/individual/test_indicator_3_3.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 9.830135
+      "elapsed_seconds": 9.983403
     },
     {
       "indicator": "3.4",
       "test_file": "code/tests/individual/test_indicator_3_4.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 15.373138
+      "elapsed_seconds": 14.870191
     },
     {
       "indicator": "3.5",
       "test_file": "code/tests/individual/test_indicator_3_5.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 66.665108
+      "elapsed_seconds": 64.60888
     },
     {
       "indicator": "3.6",
       "test_file": "code/tests/individual/test_indicator_3_6.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 11.605319
+      "elapsed_seconds": 11.623862
     },
     {
       "indicator": "3.7",
       "test_file": "code/tests/individual/test_indicator_3_7.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 16.141768
+      "elapsed_seconds": 15.871041
     },
     {
       "indicator": "3.8",
       "test_file": "code/tests/individual/test_indicator_3_8.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 9.319479
+      "elapsed_seconds": 9.327786
     },
     {
       "indicator": "3.9",
       "test_file": "code/tests/individual/test_indicator_3_9.py",
       "passed": true,
       "return_code": 0,
-      "elapsed_seconds": 11.775691
+      "elapsed_seconds": 12.118972
     }
   ],
   "benchmarks": {
@@ -148,7 +148,7 @@
             "raw_bytes": 218300507,
             "stored_bytes": 28066586,
             "compression_ratio": 7.78,
-            "path": "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/metropt3/metropt3.sequence.csv.gz"
+            "path": "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/metropt3/metropt3.sequence.csv.gz"
           },
           "forda": {
             "data_type": "sequence",
@@ -158,7 +158,7 @@
             "raw_bytes": 27458422,
             "stored_bytes": 11568120,
             "compression_ratio": 2.37,
-            "path": "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/forda/forda.sequence.ts.gz"
+            "path": "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/forda/forda.sequence.ts.gz"
           },
           "secom": {
             "data_type": "relation",
@@ -180,14 +180,14 @@
           }
         }
       },
-      "run_id": "storage-20260823T111037921345Z-3b529733c6",
+      "run_id": "storage-20260824T013214569476Z-638ba5b3be",
       "artifacts": [
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/metropt3/metropt3.sequence.csv.gz",
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/forda/forda.sequence.ts.gz",
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/secom/relations.sqlite3",
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/secom/relations.sqlite3.gz",
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/holoclean_hospital/relations.sqlite3",
-        "data/storage/runs/storage-20260823T111037921345Z-3b529733c6/holoclean_hospital/relations.sqlite3.gz"
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/metropt3/metropt3.sequence.csv.gz",
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/forda/forda.sequence.ts.gz",
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/secom/relations.sqlite3",
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/secom/relations.sqlite3.gz",
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/holoclean_hospital/relations.sqlite3",
+        "data/storage/runs/storage-20260824T013214569476Z-638ba5b3be/holoclean_hospital/relations.sqlite3.gz"
       ],
       "benchmark_provenance": [
         {
@@ -893,8 +893,8 @@
         },
         "all_error_bounds_met": true,
         "all_binary_round_trips_met": true,
-        "codec_elapsed_seconds": 33.423,
-        "wall_elapsed_seconds": 47.156,
+        "codec_elapsed_seconds": 34.581,
+        "wall_elapsed_seconds": 48.349,
         "processed_sensor_values": 22754220,
         "dataset_results": {
           "metropt3": {
@@ -45564,7 +45564,7 @@
         "warmup_runs": 1,
         "batch_size": 1024,
         "clock": "time.perf_counter_ns",
-        "minimum_samples_per_second": 20493492.97,
+        "minimum_samples_per_second": 20190896.09,
         "target_samples_per_second": 1100,
         "lost_samples": 0,
         "dataset_results": {
@@ -45574,21 +45574,21 @@
             "repeats": 7,
             "warmup_runs": 1,
             "batch_size": 1024,
-            "median_elapsed_seconds": 0.071995,
-            "ingestion_samples_per_second": 21070285.23,
-            "minimum_samples_per_second": 20886619.91,
-            "maximum_samples_per_second": 21380056.53,
-            "throughput_coefficient_of_variation": 0.009734,
+            "median_elapsed_seconds": 0.071675,
+            "ingestion_samples_per_second": 21164130.42,
+            "minimum_samples_per_second": 20190896.09,
+            "maximum_samples_per_second": 21927114.23,
+            "throughput_coefficient_of_variation": 0.026473,
             "run_samples_per_second": [
-              21011826.28,
-              21070285.23,
-              20886619.91,
-              21352197.86,
-              21374967.02,
-              21025090.78,
-              21380056.53
+              21927114.23,
+              21105498.85,
+              20190896.09,
+              21687516.47,
+              21164130.42,
+              21526956.07,
+              21103899.2
             ],
-            "equivalent_frequency_khz": 21070.29,
+            "equivalent_frequency_khz": 21164.13,
             "target_samples_per_second": 1100,
             "lost_samples": 0,
             "software_throughput_passed": true,
@@ -45600,21 +45600,21 @@
             "repeats": 7,
             "warmup_runs": 1,
             "batch_size": 1024,
-            "median_elapsed_seconds": 0.000227,
-            "ingestion_samples_per_second": 21674499.32,
-            "minimum_samples_per_second": 20493492.97,
-            "maximum_samples_per_second": 22427717.21,
-            "throughput_coefficient_of_variation": 0.026682,
+            "median_elapsed_seconds": 0.000221,
+            "ingestion_samples_per_second": 22275334.18,
+            "minimum_samples_per_second": 21559693.32,
+            "maximum_samples_per_second": 22457501.43,
+            "throughput_coefficient_of_variation": 0.018397,
             "run_samples_per_second": [
-              22427717.21,
-              20493492.97,
-              21674499.32,
-              21762299.61,
-              21642660.8,
-              21567536.06,
-              21846836.85
+              21559693.32,
+              22275334.18,
+              22334375.69,
+              21690358.13,
+              22406374.5,
+              22457501.43,
+              21611010.59
             ],
-            "equivalent_frequency_khz": 21674.5,
+            "equivalent_frequency_khz": 22275.33,
             "target_samples_per_second": 1100,
             "lost_samples": 0,
             "software_throughput_passed": true,
@@ -45902,8 +45902,8 @@
         "fusion_accuracy_percent": 100.0,
         "source_rows_preserved": 1516948,
         "source_preservation_percent": 100.0,
-        "elapsed_seconds": 15.644038,
-        "rows_per_second": 96966.52,
+        "elapsed_seconds": 15.6871,
+        "rows_per_second": 96700.34,
         "dataset_results": {
           "metropt3": {
             "fused_rows": 1516948,

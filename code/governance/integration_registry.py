@@ -485,7 +485,7 @@ def _reference_catalog() -> tuple[ResearchReference, ...]:
             concepts=("工业时序列式存储", "GORILLA", "LZ4", "设备/时间索引"),
             code_license="Apache-2.0",
             license_status="confirmed",
-            notes="计划增加可选 TsFile 适配器，首版仍保持纯标准库可运行。",
+            notes="保留可选 TsFile 适配接口；当前核心路径使用 Python 标准库。",
         ),
         ResearchReference(
             id="tsquality-vldb-2023",

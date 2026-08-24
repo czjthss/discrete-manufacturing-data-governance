@@ -9,8 +9,8 @@
 | `indicator_panels_7_9.png` | 指标⑦-⑨ | MetroPT-3 全量总体融合、四套数据规范化、四套数据的可评价质量维度 |
 | `candidate_1_overview.png` | 项目汇报、成果材料首图 | 9 项全部通过，压缩、解析、对齐、吞吐和质量核心数值 |
 | `candidate_2_compression.png` | 技术成果、压缩算法说明 | MetroPT-3 官方完整数据总体、最差块、最差通道及全部 15 个通道结果 |
-| `candidate_3_quality.png` | 验收说明、质量评测 | 3.3/3.4 固定标注样例结果与描述性 Wilson 区间，3.6/3.9 多维质量得分 |
-| `candidate_4_throughput.png` | 性能说明、技术附件 | 预热后 7 次软件接收吞吐原始结果，对数坐标展示 1.1 kHz 目标 |
+| `candidate_3_quality.png` | 验收说明、质量评测 | 四套完整数据的解析、对齐和多维质量结果 |
+| `candidate_4_throughput.png` | 性能说明、技术附件 | MetroPT-3 与 FordA 各 7 次软件接收吞吐，对数坐标展示 1.1 kHz 目标 |
 | `candidate_contact_sheet.png` | 选图预览 | 4 张候选图的缩略总览 |
 | `assessment_result_1_evidence_board.png` | 项目汇报、考核材料 | 逐项展示 9 条考核指标、状态、实测证据和对应模块 |
 | `assessment_result_2_capability_map.png` | 答辩、技术路线说明 | 展示治理能力闭环及 9 条考核指标映射 |
